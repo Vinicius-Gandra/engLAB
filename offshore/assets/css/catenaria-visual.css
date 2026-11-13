@@ -1,0 +1,68 @@
+/* Etapa 02 · cabeçalho e visualização da linha */
+.hero.cv-hero{display:block;min-height:0;padding:28px 30px 26px}
+.cv-hero h1{margin:6px 0 10px;font-size:clamp(1.9rem,3.2vw,2.7rem);letter-spacing:-.045em;line-height:1.05}
+.cv-hero p.lead{max-width:70ch;margin:0;color:var(--muted);font-size:.92rem;line-height:1.6}
+.cv-flow{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0;padding:0;list-style:none}
+.cv-flow li{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 5px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.74rem;font-weight:650}
+.cv-flow li i{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font:700 .6rem "JetBrains Mono",monospace;font-style:normal;color:#fff}
+@media(min-width:1200px){.kpis{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
+
+.cv-card{padding:0!important;overflow:hidden}
+.cv-card .cv-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px 24px;padding:22px 22px 16px}
+.cv-card .cv-head h2{margin:4px 0 6px}
+.cv-card .cv-head p{margin:0;color:var(--muted);font-size:.84rem}
+.cv-tabs{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--bg2)}
+.cv-tabs button{padding:7px 13px;border:0;border-radius:7px;background:none;color:var(--muted);font-size:.76rem;font-weight:700;cursor:pointer}
+.cv-tabs button:hover{color:var(--text)}
+.cv-tabs button[aria-pressed="true"]{background:var(--panel);color:var(--text);box-shadow:0 1px 0 var(--line),0 4px 12px rgba(0,0,0,.08)}
+.cv-stage{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+#cv-svg{display:block;width:100%;height:auto;cursor:crosshair}
+.cv-foot{display:flex;flex-wrap:wrap;gap:8px 20px;padding:13px 22px 16px;color:var(--soft);font-size:.74rem}
+.cv-foot span{display:inline-flex;align-items:center;gap:8px}
+.cv-foot i{display:inline-block;width:18px;height:4px;border-radius:2px}
+.cv-tip{position:absolute;top:0;left:0;z-index:3;min-width:200px;padding:10px 12px;border:1px solid var(--line2);border-radius:10px;background:var(--panel);box-shadow:0 14px 34px rgba(0,0,0,.18);pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+.cv-tip.on{opacity:1;transform:none}
+.cv-tip b{display:flex;align-items:center;gap:7px;margin-bottom:7px;font-size:.8rem;color:var(--text)}
+.cv-tip b i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.cv-tip dl{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px;margin:0}
+.cv-tip dt{color:var(--soft);font-size:.62rem}.cv-tip dd{margin:0;color:var(--text);font:600 .76rem "JetBrains Mono",monospace}
+
+:is(#cv-svg,.rp-fig) .cv-grid{stroke:var(--text);stroke-opacity:.08;stroke-dasharray:2 8}
+:is(#cv-svg,.rp-fig) .cv-ax{fill:var(--muted);font:600 10.5px "JetBrains Mono",ui-monospace,monospace}
+:is(#cv-svg,.rp-fig) .cv-ax.strong{fill:var(--text)}
+:is(#cv-svg,.rp-fig) .cv-ax2{fill:var(--soft);font:500 10px "JetBrains Mono",ui-monospace,monospace}
+:is(#cv-svg,.rp-fig) .cv-cap{fill:var(--muted);font:700 9.5px Inter,sans-serif;letter-spacing:.14em}
+:is(#cv-svg,.rp-fig) .cv-tick{stroke:var(--muted)}
+:is(#cv-svg,.rp-fig) .cv-clay{stroke:var(--text);stroke-opacity:.07;fill:none}
+:is(#cv-svg,.rp-fig) .cv-wave{fill:none;stroke:var(--teal);stroke-width:2}
+:is(#cv-svg,.rp-fig) .cv-bed{stroke:var(--sediment);stroke-width:3}
+:is(#cv-svg,.rp-fig) .cv-band{fill:var(--sediment)}
+:is(#cv-svg,.rp-fig) .cv-plain{fill:var(--bg2)}
+:is(#cv-svg,.rp-fig) .cv-band2{fill:var(--text);fill-opacity:.025}:is(#cv-svg,.rp-fig) .cv-band2.odd{fill-opacity:.05}
+:is(#cv-svg,.rp-fig) .cv-axis{stroke:var(--muted);stroke-width:1.2}
+:is(#cv-svg,.rp-fig) .cv-chain{fill:none;stroke:var(--teal);stroke-linecap:round;stroke-linejoin:round}
+:is(#cv-svg,.rp-fig) .cv-chain-l{fill:none;stroke:var(--bg2);stroke-dasharray:2.5 3.5;opacity:.7}
+:is(#cv-svg,.rp-fig) .cv-poly{fill:none;stroke:var(--blue);stroke-linecap:round;stroke-linejoin:round}
+:is(#cv-svg,.rp-fig) .cv-poly-l{fill:none;stroke:#fff;opacity:.45;stroke-dasharray:6 6}
+:is(#cv-svg,.rp-fig) .cv-buried{fill:none;stroke:var(--orange);stroke-linecap:round;stroke-linejoin:round}
+:is(#cv-svg,.rp-fig) .cv-buried-l{fill:none;stroke:var(--bg2);stroke-dasharray:3 4;opacity:.6}
+:is(#cv-svg,.rp-fig) .cv-tline{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+:is(#cv-svg,.rp-fig) .cv-boot{stroke:var(--orange);stroke-width:2.2}
+:is(#cv-svg,.rp-fig) .cv-mod{fill:#9fb3bd}:is(#cv-svg,.rp-fig) .cv-acc{fill:#dfe7ea;stroke:#2c3f48;stroke-width:.6}:is(#cv-svg,.rp-fig) .cv-win{fill:#1c3442}
+:is(#cv-svg,.rp-fig) .cv-mast{stroke:#8fa5ae;stroke-width:1.6}
+:is(#cv-svg,.rp-fig) .cv-flare{fill:#ffb35c;filter:drop-shadow(0 0 4px #ff9d3c)}
+:is(#cv-svg,.rp-fig) .cv-fair{fill:var(--teal);stroke:var(--panel);stroke-width:1.5}
+:is(#cv-svg,.rp-fig) .cv-pile{stroke:#2c3f48;stroke-width:.7}
+:is(#cv-svg,.rp-fig) .cv-fin{fill:var(--orange);stroke:color-mix(in srgb,var(--orange) 60%,#000);stroke-width:.6}
+:is(#cv-svg,.rp-fig) .cv-shank{stroke:#8fa5ae}
+:is(#cv-svg,.rp-fig) .cv-dot{stroke:var(--panel);stroke-width:2.5}:is(#cv-svg,.rp-fig) .cv-dot.acc{fill:var(--orange)}:is(#cv-svg,.rp-fig) .cv-dot.teal{fill:var(--teal)}
+:is(#cv-svg,.rp-fig) .cv-ref{stroke:var(--soft);stroke-dasharray:3 4}
+:is(#cv-svg,.rp-fig) .cv-arc{fill:none;stroke-width:1.5}:is(#cv-svg,.rp-fig) .cv-arc.acc{stroke:var(--orange)}:is(#cv-svg,.rp-fig) .cv-arc.teal{stroke:var(--teal)}
+:is(#cv-svg,.rp-fig) .cv-ang{font:700 12px "JetBrains Mono",monospace}:is(#cv-svg,.rp-fig) .cv-ang.acc{fill:var(--orange)}:is(#cv-svg,.rp-fig) .cv-ang.teal{fill:var(--teal)}
+:is(#cv-svg,.rp-fig) .cv-dim{stroke:var(--muted);stroke-width:1.1;fill:none}
+:is(#cv-svg,.rp-fig) .cv-lead{stroke-width:1;fill:none;opacity:.8}
+:is(#cv-svg,.rp-fig) .cv-tag{fill:var(--panel);stroke:var(--line2);filter:drop-shadow(0 4px 10px rgba(0,0,0,.12))}
+:is(#cv-svg,.rp-fig) .cv-tag-t{fill:var(--text);font:700 11px Inter,sans-serif}
+:is(#cv-svg,.rp-fig) .cv-tag-s{fill:var(--muted);font:600 10px "JetBrains Mono",ui-monospace,monospace}
+:is(#cv-svg,.rp-fig) .cv-cur{stroke:var(--text);stroke-opacity:.35;stroke-dasharray:3 4}
+:is(#cv-svg,.rp-fig) .cv-cur-dot{fill:var(--panel);stroke:var(--text);stroke-width:2.5}

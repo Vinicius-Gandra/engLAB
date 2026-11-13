@@ -5,7 +5,7 @@
   <script src="/assets/js/anti-quadro.js"></script>
   <script src="/assets/js/endereco.js?v=20261111-1"></script>
   <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
-  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+  <script src="/assets/js/idioma.js?v=20261113-1"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#09131f"><meta name="color-scheme" content="dark light">
@@ -16,29 +16,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/offshore.css?v=20261112-5">
-  <link rel="stylesheet" href="assets/css/conta.css?v=20261110-1">
+  <link rel="stylesheet" href="assets/css/offshore.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/conta.css?v=20261113-1">
   <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
   <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
   <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
 </head>
-<body data-page="etapa" data-etapa="carga-lateral">
+<body data-page="carga-lateral" data-etapa="carga-lateral">
   <a class="skip" href="#main">Pular para o conteúdo</a>
   <header class="s-appbar">
-    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
-    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
-    <span class="s-header-divider" aria-hidden="true"></span>
-    <div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Carga lateral</strong></div>
-    <div class="s-actions" aria-label="Ações">
-      <button type="button" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
-    </div>
-  </header>
+<a aria-label="EngenhaLab — todos os laboratórios" class="s-brand" href="../">VG<b>.</b></a>
+<a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+<span aria-hidden="true" class="s-header-divider"></span>
+<div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Carga lateral na estaca</strong></div>
+<div aria-label="Ações" class="s-actions">
+<button aria-label="Alternar tema claro/escuro" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" type="button"><span aria-hidden="true" class="s-theme-sun">☼</span><span aria-hidden="true" class="s-theme-moon">☾</span></button>
+</div>
+</header>
   <nav class="s-areas" aria-label="Etapas do laboratório offshore"><a class="s-area" data-flow-link href="./"><span class="s-area-number">00</span> Visão geral</a><a class="s-area" data-flow-link href="01-lancamento.html"><span class="s-area-number">01</span> Lançamento e cravação</a><a class="s-area" data-flow-link href="02-catenaria.html"><span class="s-area-number">02</span> Catenária</a><a class="s-area" data-flow-link href="03-capacidade-axial.html"><span class="s-area-number">03</span> Capacidade axial</a><a class="s-area" data-flow-link href="04-carga-lateral.html" aria-current="page"><span class="s-area-number">04</span> Carga lateral</a><a class="s-area" data-flow-link href="05-estaca-3d.html"><span class="s-area-number">05</span> Torpedo 3D</a></nav>
-  <main class="container ef" id="main" aria-busy="true"><header class="ef-topo"><span class="ef-sobre">Laboratório offshore</span><h1>Carga lateral</h1><p class="ef-msg" id="ef-msg" role="status">Carregando…</p></header></main>
+<main class="container" id="main">
+<section class="page-head"><div><span class="eyebrow">04 / CARGA LATERAL</span><h1>Carga lateral na estaca</h1><p>Deslocamento, reação do solo e momento ao longo do trecho enterrado.</p><div class="head-links"><span>Argila · carga estática</span><a data-flow-link="" href="02-catenaria.html">Ver a catenária ↗</a></div></div><div aria-hidden="true" class="head-aside">⌇</div></section>
+<section class="grid cols-2"><div class="panel"><span class="eyebrow">ESTACA E SOLO</span><h2>Estaca e solo</h2><form class="form-grid" id="lateral-form"><div class="dc-proj"><div class="dc-cab"><span class="dc-tit">Dados do projeto</span><a class="dc-link" href="01-lancamento.html">Alterar em Lançamento e cravação →</a></div><dl class="dc-lista"><div><dt>Torpedo</dt><dd>—</dd></div><div><dt>Diâmetro externo</dt><dd>— m</dd></div><div><dt>Comprimento enterrado</dt><dd>— m</dd></div><div><dt>Su₀</dt><dd>— kPa</dd></div><div><dt>Gradiente k</dt><dd>— kPa/m</dd></div><div><dt>γ′</dt><dd>— kN/m³</dd></div></dl></div><label class="dc-oculto">Diâmetro externo D <small>m · torpedo selecionado</small><input disabled="" inputmode="decimal" name="D" readonly="" tabindex="-1"/></label><label>Espessura da parede <small>m</small><input disabled="" inputmode="decimal" name="thickness"/></label><label class="dc-oculto">Comprimento enterrado <small>m</small><input disabled="" inputmode="decimal" name="length" readonly="" tabindex="-1"/></label><label>Módulo E <small>GPa</small><input disabled="" inputmode="decimal" name="E"/></label><label>Força horizontal na cabeça <small>kN · entrada de projeto</small><input disabled="" inputmode="decimal" name="force"/></label><label>Momento na cabeça <small>kN·m</small><input disabled="" inputmode="decimal" name="moment"/></label><label class="dc-oculto">Su na superfície <small>kPa</small><input disabled="" inputmode="decimal" name="su0" readonly="" tabindex="-1"/></label><label class="dc-oculto">Gradiente de Su <small>kPa/m</small><input disabled="" inputmode="decimal" name="suGradient" readonly="" tabindex="-1"/></label><label class="dc-oculto">γ′ do solo <small>kN/m³</small><input disabled="" inputmode="decimal" name="gamma" readonly="" tabindex="-1"/></label><label>ε₅₀ <small>deformação de referência</small><input disabled="" inputmode="decimal" name="epsilon50"/></label></form><div class="action-row"><button class="button primary" id="run-lateral">Calcular ↗</button><button class="button ghost" data-titulo-csv="" id="download-lateral">Baixar perfil CSV</button></div></div><div class="panel"><span class="eyebrow">SEÇÃO DE RESPOSTA</span><h2>Reação do solo na profundidade escolhida</h2><label class="field">Profundidade z <small>m abaixo do leito</small><input disabled="" id="py-depth" inputmode="decimal"/></label><div class="plot" id="py-plot" style="margin-top:12px"></div><div class="kv" id="py-values" style="margin-top:12px"></div></div></section>
+<section class="stats" id="lateral-stats"></section><section class="grid cols-2"><div class="panel"><span class="eyebrow">DESLOCAMENTO</span><h2>y(z)</h2><div class="plot" id="deflection-plot"></div></div><div class="panel"><span class="eyebrow">MOMENTO</span><h2>M(z)</h2><div class="plot" id="moment-plot"></div></div></section>
+<div class="notice error" data-ef-msg="" hidden="" id="message" role="alert"></div>
+<footer class="section-footer"><span>Laboratório offshore · etapa 04 · <a href="../">todos os laboratórios</a></span><a data-flow-link="" href="05-estaca-3d.html">Próxima etapa: Torpedo 3D →</a></footer>
+</main>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/sessao.js?v=20261112-1"></script>
   <script src="assets/js/tema.js"></script>
-  <script src="assets/js/etapa.js?v=20261112-5"></script>
+  <script src="assets/js/etapa.js?v=20261113-1"></script>
   <script src="/assets/js/rodape.js?v=20261112-1"></script>
 </body>
 </html>

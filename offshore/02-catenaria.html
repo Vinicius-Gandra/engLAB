@@ -5,7 +5,7 @@
   <script src="/assets/js/anti-quadro.js"></script>
   <script src="/assets/js/endereco.js?v=20261111-1"></script>
   <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
-  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+  <script src="/assets/js/idioma.js?v=20261113-1"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#09131f"><meta name="color-scheme" content="dark light">
@@ -16,29 +16,111 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/offshore.css?v=20261112-5">
-  <link rel="stylesheet" href="assets/css/conta.css?v=20261110-1">
+  <link rel="stylesheet" href="assets/css/catenaria.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/catenaria-visual.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/conta.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/offshore-ef.css?v=20261113-1">
   <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
   <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
   <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
 </head>
-<body data-page="etapa" data-etapa="catenaria">
-  <a class="skip" href="#main">Pular para o conteúdo</a>
+<body data-etapa="catenaria">
+  <a class="skip" href="#results">Pular para o conteúdo</a>
   <header class="s-appbar">
-    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
-    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
-    <span class="s-header-divider" aria-hidden="true"></span>
-    <div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Catenária</strong></div>
-    <div class="s-actions" aria-label="Ações">
-      <button type="button" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
-    </div>
-  </header>
+<a aria-label="EngenhaLab — todos os laboratórios" class="s-brand" href="../">VG<b>.</b></a>
+<a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+<span aria-hidden="true" class="s-header-divider"></span>
+<div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Catenária · do solo ao topo da linha</strong></div>
+<div aria-label="Ações" class="s-actions">
+<button class="s-act" disabled="" id="export-csv" title="Baixar pontos em CSV" type="button"><span aria-hidden="true">⤓</span><span class="s-act-label">CSV</span></button>
+<button class="s-act" disabled="" id="export-svg" title="Baixar o gráfico em SVG" type="button"><span aria-hidden="true">◫</span><span class="s-act-label">SVG</span></button>
+<button class="s-act s-act-primary" disabled="" id="print-page" title="Imprimir ou salvar em PDF" type="button"><span aria-hidden="true">▣</span><span class="s-act-label">PDF</span></button>
+<button aria-label="Alternar tema claro/escuro" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" type="button"><span aria-hidden="true" class="s-theme-sun">☼</span><span aria-hidden="true" class="s-theme-moon">☾</span></button>
+</div>
+</header>
   <nav class="s-areas" aria-label="Etapas do laboratório offshore"><a class="s-area" data-flow-link href="./"><span class="s-area-number">00</span> Visão geral</a><a class="s-area" data-flow-link href="01-lancamento.html"><span class="s-area-number">01</span> Lançamento e cravação</a><a class="s-area" data-flow-link href="02-catenaria.html" aria-current="page"><span class="s-area-number">02</span> Catenária</a><a class="s-area" data-flow-link href="03-capacidade-axial.html"><span class="s-area-number">03</span> Capacidade axial</a><a class="s-area" data-flow-link href="04-carga-lateral.html"><span class="s-area-number">04</span> Carga lateral</a><a class="s-area" data-flow-link href="05-estaca-3d.html"><span class="s-area-number">05</span> Torpedo 3D</a></nav>
-  <main class="container ef" id="main" aria-busy="true"><header class="ef-topo"><span class="ef-sobre">Laboratório offshore</span><h1>Catenária</h1><p class="ef-msg" id="ef-msg" role="status">Carregando…</p></header></main>
+<div class="workspace" data-view="resultados" id="workspace">
+<aside aria-labelledby="inputs-title" class="inputs">
+<div class="inputs-head">
+<div><p class="eyebrow">01 / PARÂMETROS</p><h2 id="inputs-title">Dados do caso</h2><p>Edite as propriedades e acompanhe a solução.</p></div>
+
+</div>
+<label class="vinculo"><input checked="" disabled="" id="vinculo-lancamento" type="checkbox"/><span><b>Usar os dados do lançamento</b><small id="vinculo-nota">Solo, profundidade do olhal, tração e lâmina vêm do lançamento; mudanças aqui voltam para as outras etapas.</small></span></label>
+<div class="input-error" data-ef-msg="" hidden="" id="input-error" role="alert"></div>
+<form id="case-form" novalidate=""><div class="dc-proj"><div class="dc-cab"><span class="dc-tit">Dados do projeto</span><a class="dc-link" href="01-lancamento.html">Alterar em Lançamento e cravação →</a></div><dl class="dc-lista"><div><dt>Torpedo</dt><dd>—</dd></div><div><dt>Su₀</dt><dd>—</dd></div><div><dt>Gradiente k</dt><dd>—</dd></div><div><dt>Profundidade do olhal</dt><dd>—</dd></div><div><dt>Lâmina d’água</dt><dd>—</dd></div></dl></div>
+<details class="input-group" open=""><summary><b>01</b><span>Solo e interação<small>Resistência e aderência</small></span></summary><div class="fields">
+<label class="dc-oculto">Su<sub>0</sub> <small>kPa</small><input disabled="" inputmode="decimal" name="su0" readonly="" tabindex="-1"/></label>
+<label class="dc-oculto">Gradiente k <small>kPa/m</small><input disabled="" inputmode="decimal" name="gradient" readonly="" tabindex="-1"/></label>
+<label>Se <small>sensibilidade</small><input disabled="" inputmode="decimal" name="se"/></label>
+<label>Et <small>fator tangencial</small><input disabled="" inputmode="decimal" name="et"/></label>
+<label>En <small>fator normal</small><input disabled="" inputmode="decimal" name="en"/></label>
+<label>Nc <small>capacidade</small><input disabled="" inputmode="decimal" name="nc"/></label>
+<label class="wide check-field"><input checked="" disabled="" name="ncDepth" type="checkbox"/><span>Nc reduzido junto ao leito</span></label>
+</div></details>
+<details class="input-group" open=""><summary><b>02</b><span>Linha e TDP<small>Geometria e tração</small></span></summary><div class="fields">
+<label>Diâmetro d <small>m</small><input disabled="" inputmode="decimal" name="diameter"/></label>
+<label>Peso submerso w <small>kN/m</small><input disabled="" inputmode="decimal" name="wChain"/></label>
+<label class="wide dc-oculto">Profundidade D <small>m</small><input disabled="" inputmode="decimal" name="depth" readonly="" tabindex="-1"/></label>
+<label class="wide">Chegada ao leito <small>como a linha encontra o solo</small><select disabled="" name="arrival"><option value="angle">Com ângulo no TDP</option><option value="laid">Deitada no leito, com trecho apoiado</option></select></label>
+<label class="wide">Ângulo no TDP <small>graus</small><input disabled="" inputmode="decimal" name="theta0Deg"/></label>
+
+
+<label class="wide">Grandeza conhecida <small>o que define a linha</small><select disabled="" name="solveFor"><option value="tension">Tração no TDP</option><option value="radius">Raio até o topo</option><option value="length">Comprimento total da linha</option><option value="both">Raio e comprimento total</option></select></label>
+
+
+<label class="wide"><span id="tension0-label">Tração no TDP T<sub>0</sub> <small>kN</small></span><input disabled="" inputmode="decimal" name="tension0"/></label>
+</div></details>
+<details class="input-group"><summary><b>03</b><span>Trecho suspenso<small>Corrente e poliéster</small></span></summary><div class="fields">
+<label class="wide dc-oculto">Altura de chegada <small>m sobre o leito</small><input disabled="" inputmode="decimal" name="targetHeight" readonly="" tabindex="-1"/></label>
+<label>Peso poliéster <small>kN/m</small><input disabled="" inputmode="decimal" name="wPoly"/></label>
+<label>EA corrente <small>kN</small><input disabled="" inputmode="decimal" name="eaChain"/></label>
+<label>EA poliéster <small>kN</small><input disabled="" inputmode="decimal" name="eaPoly"/></label>
+<label>Corrente inicial <small>m</small><input disabled="" inputmode="decimal" name="chain1"/></label>
+<label>Poliéster principal <small>m</small><input disabled="" inputmode="decimal" name="poly1"/></label>
+<label>Corrente de ligação <small>m</small><input disabled="" inputmode="decimal" name="chain2"/></label>
+<label>Poliéster superior <small>m</small><input disabled="" inputmode="decimal" name="poly2"/></label>
+<label class="wide check-field"><input checked="" disabled="" name="stretch" type="checkbox"/><span>Incluir alongamento axial T/EA<small>Aplicado somente no trecho suspenso.</small></span></label>
+</div></details>
+</form>
+<div class="input-foot"><button class="calculate" id="calculate" type="button">Calcular e atualizar <span>↗</span></button><button class="reset" id="reset" type="button">Restaurar exemplo</button><p>Campos aceitam vírgula ou ponto decimal. O caso fica salvo neste aparelho.</p></div>
+</aside>
+<main class="results" id="results">
+<section class="hero cv-hero">
+<p class="eyebrow">ETAPA 02 DE 05</p>
+<h1>Catenária da linha</h1>
+<p class="lead">Perfil da linha de ancoragem desde o olhal da estaca, passando pelo trecho enterrado até o ponto de toque no leito (TDP) e subindo em corrente e poliéster até o FPSO. Ajuste solo, geometria e tração para ver a linha mudar.</p>
+<ol aria-label="Trechos da linha" class="cv-flow"><li><i style="background:var(--orange)">1</i>Trecho enterrado</li><li><i style="background:var(--teal)">2</i>TDP</li><li><i style="background:var(--teal)">3</i>Corrente</li><li><i style="background:var(--blue)">4</i>Poliéster</li><li><i style="background:var(--soft)">5</i>FPSO</li></ol>
+</section>
+<div class="result-error" data-ef-msg="" hidden="" id="result-error" role="alert"></div>
+<div class="stale" id="result-content">
+
+<section aria-label="Resultados principais" class="kpis">
+<article class="kpi"><span>Ângulo enterrado</span><strong id="k-angle">—</strong><small>θ<sub>a</sub> / junto à âncora</small></article>
+<article class="kpi"><span>Tração enterrada</span><strong id="k-ta">—</strong><small>T<sub>a</sub> / na âncora</small></article>
+<article class="kpi"><span>Alcance no leito</span><strong id="k-tdp">—</strong><small>x do TDP</small></article>
+<article class="kpi teal"><span>Tração no topo</span><strong id="k-top-t">—</strong><small>na altura solicitada</small></article>
+<article class="kpi blue"><span>Alcance total</span><strong id="k-top-x">—</strong><small>âncora → topo</small></article>
+</section>
+<section aria-labelledby="chart-title" class="card cv-card">
+<div class="cv-head"><div><p class="eyebrow">02 / GEOMETRIA</p><h2 id="chart-title">Linha de ancoragem</h2><p>Passe o mouse sobre a linha para ler tração, ângulo e posição em cada ponto.</p></div>
+<div aria-label="Vista" class="cv-tabs" id="cv-tabs" role="group"><button aria-pressed="true" data-v="full" type="button">Conjunto</button><button aria-pressed="false" data-v="buried" type="button">Trecho enterrado</button><button aria-pressed="false" data-v="tension" type="button">Tração</button></div></div>
+<div class="cv-stage" id="cv-stage"><svg aria-label="Perfil da linha de ancoragem" id="cv-svg" role="img" viewbox="0 0 1000 580"></svg><div class="cv-tip" id="cv-tip"></div></div>
+<div class="cv-foot"><span><i style="background:var(--orange)"></i>Trecho enterrado</span><span><i style="background:var(--teal)"></i>Corrente</span><span><i style="background:var(--blue)"></i>Poliéster</span><span><i style="background:var(--sediment)"></i>Leito marinho</span></div>
+
+</section>
+<section class="detail-grid"><article class="card balance-card"><div class="card-head"><div><p class="eyebrow">03 / EQUILÍBRIO ENTERRADO</p><h2>Equilíbrio no solo</h2></div><span class="mini-badge" id="solver-badge">—</span></div><div class="balance-list" id="balance-list"></div></article><article class="card segment-card"><div class="card-head"><div><p class="eyebrow">04 / COMPOSIÇÃO</p><h2>Materiais no trecho livre</h2></div></div><div class="segments" id="segments"></div><div class="segment-note">Comprimentos configurados são nominais. O último trecho de corrente continua até atingir a altura especificada.</div></article></section>
+<section class="card data-card"><div class="card-head"><div><p class="eyebrow">05 / PONTOS DA CURVA</p><h2>Pontos da curva</h2><p>Profundidade negativa abaixo do leito; altura positiva acima dele.</p></div><button class="text-button" data-titulo-csv="" id="export-csv-bottom" type="button">Baixar tabela CSV ↗</button></div><div class="table-wrap"><table><thead><tr><th>Trecho</th><th>x [m]</th><th>z [m]</th><th>s [m]</th><th>T [kN]</th><th>θ [°]</th></tr></thead><tbody id="point-rows"></tbody></table></div></section>
+
+</div>
+<noscript></noscript>
+<footer>Laboratório offshore · etapa 02 · catenária · <a href="../">todos os laboratórios</a> · <a href="../sobre.html">sobre o autor</a></footer>
+</main>
+</div>
+<nav aria-label="Alternar dados e resultados" class="mobilebar"><button aria-pressed="false" data-panel="dados" type="button">✎ Dados</button><button aria-pressed="true" data-panel="resultados" type="button">◫ Resultados</button></nav>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/sessao.js?v=20261112-1"></script>
   <script src="assets/js/tema.js"></script>
-  <script src="assets/js/etapa.js?v=20261112-5"></script>
+  <script src="assets/js/etapa.js?v=20261113-1"></script>
   <script src="/assets/js/rodape.js?v=20261112-1"></script>
 </body>
 </html>

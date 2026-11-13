@@ -5,7 +5,7 @@
   <script src="/assets/js/anti-quadro.js"></script>
   <script src="/assets/js/endereco.js?v=20261111-1"></script>
   <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
-  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+  <script src="/assets/js/idioma.js?v=20261113-1"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#09131f"><meta name="color-scheme" content="dark light">
@@ -16,29 +16,172 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/offshore.css?v=20261112-5">
-  <link rel="stylesheet" href="assets/css/conta.css?v=20261110-1">
+  <link rel="stylesheet" href="assets/css/offshore.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/lancamento.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/movel.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/lancamento-movel.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/painel-lancamento.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/dicas.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/conta.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/registro.css?v=20261113-1">
   <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
   <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
   <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
 </head>
-<body data-page="etapa" data-etapa="lancamento">
+<body data-page="lancamento" data-etapa="lancamento">
   <a class="skip" href="#main">Pular para o conteúdo</a>
   <header class="s-appbar">
-    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
-    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
-    <span class="s-header-divider" aria-hidden="true"></span>
-    <div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Lançamento e cravação</strong></div>
-    <div class="s-actions" aria-label="Ações">
-      <button type="button" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
-    </div>
-  </header>
+<a aria-label="EngenhaLab — todos os laboratórios" class="s-brand" href="../">VG<b>.</b></a>
+<a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+<span aria-hidden="true" class="s-header-divider"></span>
+<div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Lançamento e cravação</strong></div>
+<div aria-label="Ações" class="s-actions">
+<button aria-label="Alternar tema claro/escuro" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" type="button"><span aria-hidden="true" class="s-theme-sun">☼</span><span aria-hidden="true" class="s-theme-moon">☾</span></button>
+</div>
+</header>
   <nav class="s-areas" aria-label="Etapas do laboratório offshore"><a class="s-area" data-flow-link href="./"><span class="s-area-number">00</span> Visão geral</a><a class="s-area" data-flow-link href="01-lancamento.html" aria-current="page"><span class="s-area-number">01</span> Lançamento e cravação</a><a class="s-area" data-flow-link href="02-catenaria.html"><span class="s-area-number">02</span> Catenária</a><a class="s-area" data-flow-link href="03-capacidade-axial.html"><span class="s-area-number">03</span> Capacidade axial</a><a class="s-area" data-flow-link href="04-carga-lateral.html"><span class="s-area-number">04</span> Carga lateral</a><a class="s-area" data-flow-link href="05-estaca-3d.html"><span class="s-area-number">05</span> Torpedo 3D</a></nav>
-  <main class="container ef" id="main" aria-busy="true"><header class="ef-topo"><span class="ef-sobre">Laboratório offshore</span><h1>Lançamento e cravação</h1><p class="ef-msg" id="ef-msg" role="status">Carregando…</p></header></main>
+<main class="container" id="main">
+<section class="lx-head">
+<div class="lx-head-main">
+<span class="eyebrow">Etapa 01 de 05</span>
+<h1>Lançamento e cravação</h1>
+<p>Queda livre na água e cravação no solo, da soltura até a parada. O resultado principal é a profundidade do olhal, usada nas etapas seguintes.</p>
+</div>
+<div class="lx-head-actions">
+<button class="button lx-report-btn" data-titulo="" id="lx-report" type="button"><svg aria-hidden="true" viewbox="0 0 16 16"><path d="M4 1.5h5.5L13 5v9.5H4z M9.5 1.5V5H13 M6 8.5h5M6 11h5"></path></svg>Relatório PDF</button>
+<a class="button ghost" data-flow-link="" href="05-estaca-3d.html">Geometria em 3D ↗</a>
+<a class="button primary" data-flow-link="" href="02-catenaria.html">Próxima etapa: catenária →</a>
+</div>
+</section>
+<div class="lx-layout">
+
+<aside aria-label="Parâmetros do lançamento" class="lx-side">
+<div class="lx-card lx-card-modelo">
+<div class="lx-card-h"><span class="eyebrow">Modelo</span><span class="lx-model-name" id="lx-model-name"></span></div>
+<div aria-label="Modelo de torpedo" class="lx-lineup" id="lx-lineup" role="radiogroup"></div>
+<div class="lx-model-specs" id="lx-model-specs"></div>
+</div>
+<section aria-label="Casos salvos" class="lx-card lx-casos" id="lx-casos">
+<div class="lx-card-h"><span class="eyebrow">Casos salvos</span><span class="lx-caso-st" id="lx-caso-st" role="status"></span></div>
+<button aria-controls="lx-caso-lista" aria-expanded="false" aria-haspopup="listbox" class="lx-caso-trig" id="lx-caso-trig" type="button"><span class="lx-caso-trig-t"><b id="lx-caso-nome-atual">Cadastrar caso</b><small id="lx-caso-resumo">Nenhum caso salvo ainda</small></span><svg aria-hidden="true" viewbox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg></button>
+
+
+<div class="lx-caso-acoes"></div>
+<div class="lx-caso-pe"><small class="lx-caso-onde" id="lx-caso-onde">Só neste navegador. Abra um projeto para guardar no servidor.</small><span class="lx-caso-olhal" data-st="erro" id="lx-vivo"><small>Olhal abaixo do leito</small><b id="vv-olhal">—</b></span></div>
+</section>
+<form autocomplete="off" class="lx-card lx-params" data-modo="essencial" id="lx-form" novalidate="">
+<div class="lx-params-h">
+<div aria-label="Quantidade de parâmetros" class="lx-modo" role="group"><button aria-pressed="true" data-modo="essencial" type="button">Essencial</button><button aria-pressed="false" data-modo="avancado" type="button">Avançado</button></div>
+<button aria-label="Restaurar padrões" class="lx-restore" id="lx-restore" title="Volta todos os campos (lançamento, solo e avançados) aos valores padrão do modelo selecionado" type="button"><svg aria-hidden="true" viewbox="0 0 16 16"><path d="M3 8a5 5 0 1 0 1.6-3.7M3 2.5v2.8h2.8"></path></svg><span>Restaurar</span></button>
+</div>
+
+<details class="lx-grupo lx-sec" open=""><summary><b>01</b><span class="lx-adv-gt">Lançamento<small>Soltura, lâmina e corrente</small></span></summary><div class="lx-sec-c">
+<div class="lx-field mod" data-k="release" style="--pct: 0%; --def-n: 0.3684210526315789;"><div class="lx-fh"><label for="f-release">Altura de soltura</label><button aria-label="Voltar ao padrão" class="lx-volta" title="Voltar ao padrão" type="button"></button><span class="lx-val"><input aria-describedby="d-release" aria-invalid="false" disabled="" id="f-release" inputmode="decimal" name="release"/><small>m</small></span></div><div class="lx-range"><input aria-label="Altura de soltura" data-for="release" disabled="" max="400" min="20" step="1" tabindex="-1" type="range"/></div><p id="d-release">Distância percorrida na água até o leito</p></div>
+<div class="lx-field mod" data-k="water" style="--pct: 0%; --def-n: 0.6551724137931034;"><div class="lx-fh"><label for="f-water">Lâmina d’água</label><button aria-label="Voltar ao padrão" class="lx-volta" title="Voltar ao padrão" type="button"></button><span class="lx-val"><input aria-describedby="d-water" aria-invalid="false" disabled="" id="f-water" inputmode="decimal" name="water"/><small>m</small></span></div><div class="lx-range"><input aria-label="Lâmina d’água" data-for="water" disabled="" max="3000" min="100" step="10" tabindex="-1" type="range"/></div><p id="d-water">Profundidade do leito</p></div>
+<div class="lx-field mod" data-k="chainMass" style="--pct: 20%; --def-n: 0.16666666666666666;"><div class="lx-fh"><label for="f-chainMass">Peso adicional <i>corrente</i></label><button aria-label="Voltar ao padrão" class="lx-volta" title="Voltar ao padrão" type="button"></button><span class="lx-val"><input aria-describedby="d-chainMass" aria-invalid="false" disabled="" id="f-chainMass" inputmode="decimal" name="chainMass"/><small>t</small></span></div><div class="lx-range"><input aria-label="Peso adicional" data-for="chainMass" disabled="" max="60" min="0" step="0.5" tabindex="-1" type="range"/></div><p id="d-chainMass">Massa no ar da corrente que desce presa ao torpedo</p></div>
+</div></details>
+<details class="lx-grupo lx-sec" open=""><summary><b>02</b><span class="lx-adv-gt">Solo<small>Resistência da argila</small></span></summary><div class="lx-sec-c">
+<div class="lx-field mod" data-k="su0" style="--pct: 0%; --def-n: 0.03333333333333333;"><div class="lx-fh"><label for="f-su0">Su no leito <i>Su₀</i></label><button aria-label="Voltar ao padrão" class="lx-volta" title="Voltar ao padrão" type="button"></button><span class="lx-val"><input aria-describedby="d-su0" aria-invalid="false" disabled="" id="f-su0" inputmode="decimal" name="su0"/><small>kPa</small></span></div><div class="lx-range"><input aria-label="Su no leito" data-for="su0" disabled="" max="30" min="0" step="0.5" tabindex="-1" type="range"/></div><p id="d-su0">Resistência não drenada na superfície do leito</p></div>
+<div class="lx-field mod" data-k="suGradient" style="--pct: 0%; --def-n: 0.25;"><div class="lx-fh"><label for="f-suGradient">Gradiente de Su <i>k</i></label><button aria-label="Voltar ao padrão" class="lx-volta" title="Voltar ao padrão" type="button"></button><span class="lx-val"><input aria-describedby="d-suGradient" aria-invalid="false" disabled="" id="f-suGradient" inputmode="decimal" name="suGradient"/><small>kPa/m</small></span></div><div class="lx-range"><input aria-label="Gradiente de Su" data-for="suGradient" disabled="" max="4" min="0.2" step="0.02" tabindex="-1" type="range"/></div><p id="d-suGradient">Aumento de Su a cada metro de profundidade</p></div>
+<div aria-hidden="true" class="lx-su" id="lx-su"><div class="lx-su-h"><span>Su ao longo da profundidade</span></div>
+<svg preserveaspectratio="none" role="img" viewbox="0 0 300 58">
+<path class="lx-su-a" d="M4 42L4 42.0L296 42.0L296 42Z"></path><path class="lx-su-l" d="M4 42.0L296 42.0"></path>
+
+</svg></div>
+</div></details>
+
+<div class="lx-err" data-ef-msg="" hidden="" id="lx-err" role="alert"></div>
+</form>
+</aside>
+
+<div class="lx-main">
+<section aria-label="Simulação do lançamento" class="lx-stage" id="lx-sim">
+
+<div class="lx-scene ef-ancora"><svg aria-label="Trajetória do torpedo da soltura até a parada no solo" id="lx-scene" role="img" viewbox="0 0 900 560"></svg><p class="ef-falha" data-ef-msg="" hidden="" role="alert"></p></div>
+<aside aria-live="off" class="lx-hud">
+<div class="lx-hud-top">
+<div class="lx-phase"><i id="hud-dot"></i><span id="hud-phase">Soltura</span></div>
+<span class="lx-hud-t" id="hud-t">0,00 s</span>
+</div>
+<ol aria-hidden="true" class="lx-hud-steps"><li data-st="rel"></li><li data-st="fall"></li><li data-st="soil"></li><li data-st="rest"></li></ol>
+<div class="lx-hud-main">
+<small class="lx-hud-lab" id="hud-mlab">Velocidade</small>
+<div class="lx-hud-big"><strong id="hud-v">—</strong><span id="hud-munit">m/s</span></div>
+<div class="lx-hud-bar"><div id="hud-vbar"></div></div>
+<small class="lx-hud-cap" id="hud-vcap">da velocidade terminal</small>
+</div>
+<section class="lx-hud-grp">
+<h3>Na água</h3>
+<dl class="lx-hud-kv">
+<div><dt>Até o leito</dt><dd id="hud-rem">—</dd></div>
+<div><dt>Velocidade no impacto</dt><dd id="hud-vi">—</dd></div>
+<div><dt>Energia no impacto</dt><dd id="hud-e">—</dd></div>
+<div><dt>Tempo de queda</dt><dd id="hud-tq">—</dd></div>
+</dl>
+</section>
+<section class="lx-hud-grp">
+<h3>No solo</h3>
+<dl class="lx-hud-kv">
+<div><dt>Tempo de cravação</dt><dd id="hud-tc">—</dd></div>
+</dl>
+</section>
+<div class="lx-spark"><small>Velocidade ao longo do tempo</small><svg id="hud-spark" preserveaspectratio="none" viewbox="0 0 220 70"></svg><span class="lx-spark-x"><b>água</b><b>solo</b></span></div>
+</aside>
+<div class="lx-timeline">
+<button aria-label="Reproduzir" class="lx-play" id="lx-play" type="button"><span class="i-play">▶</span><span class="i-pause">❚❚</span></button>
+<div class="lx-track"><input aria-label="Linha do tempo" disabled="" id="lx-scrub" max="1000" min="0" step="1" type="range"/><div class="lx-marks" id="lx-marks"></div></div>
+<div aria-label="Velocidade da reprodução" class="lx-speed" role="group"><button data-speed="0.5" type="button">0,5×</button><button aria-pressed="true" data-speed="1" type="button">1×</button><button data-speed="3" type="button">3×</button></div>
+<button aria-pressed="true" class="lx-anim" id="lx-anim" title="Desligar a animação" type="button"><i aria-hidden="true"></i>Animação</button>
+</div>
+</section>
+<section class="lx-results" id="lx-results"></section>
+<section class="panel">
+<div class="panel-title"><div><span class="eyebrow">Perfil completo</span><h2>Velocidade da soltura à parada</h2><p>Água à esquerda do leito, solo à direita. Toque ou passe o mouse para ler os valores.</p></div>
+<div class="action-row" style="margin:0"><button aria-pressed="false" class="button ghost" id="lx-acc-btn" type="button">Mostrar aceleração</button><button class="button ghost" data-titulo-csv="" id="download-csv" type="button">Baixar CSV</button></div></div>
+<div class="lx-chart" id="lx-vchart"></div>
+<div class="legend"><span><i></i>Velocidade</span><span><i class="teal"></i>Velocidade terminal na água</span><span><i style="background:var(--sediment)"></i>Leito marinho</span></div>
+
+</section>
+<section class="panel">
+<div class="panel-title"><div><span class="eyebrow">Cravação</span><h2>Forças resistentes ao longo da penetração</h2><p>Quando a soma das resistências passa do peso efetivo, a estaca desacelera até parar.</p></div></div>
+<div class="lx-chart" id="lx-fchart"></div>
+<div class="legend"><span><i></i>Ponta F<sub>N</sub></span><span><i class="teal"></i>Atrito lateral F<sub>T</sub></span><span><i class="blue"></i>Arrasto F<sub>D</sub></span><span><i style="background:var(--soft)"></i>Peso efetivo W′</span></div>
+<div class="kv lx-geo" id="true-geo"></div>
+</section>
+<section class="panel lx-registro" id="lx-registro">
+<div class="panel-title"><div><span class="eyebrow">Acelerômetro DC</span><h2>Registro do acelerômetro × cálculo</h2><p>Envie o TXT do lançamento para comparar a velocidade e a profundidade registradas com o cálculo desta página.</p></div>
+<div class="action-row" style="margin:0"><label class="button ghost lg-enviar">Enviar TXT</label><a class="button ghost" data-flow-link="" href="acelerometro-dc.html">Página do registro ↗</a></div></div>
+<div class="g-ferramentas"><div aria-label="Grandeza" class="modebar" role="group"><button aria-pressed="true" data-tipo="velocidade" type="button">Velocidade</button><button aria-pressed="false" data-tipo="profundidade" type="button">Profundidade</button></div></div>
+<p class="lg-resumo" id="lg-resumo" role="status"></p>
+<div class="g-grafico" id="lg-grafico"><p class="g-vazio">Carregue um registro para ver as curvas.</p></div>
+
+</section>
+<section class="soil-layout" id="secao-solo">
+<div class="panel soil-main">
+<div class="panel-title"><div><span class="eyebrow">Posição final em escala</span><h2>Torpedo, solo e linha</h2><p>Toque ou passe o mouse sobre o solo para ler profundidade e Su.</p></div><div aria-label="Enquadramento" class="modebar" role="group"><button aria-pressed="true" data-frame="all" type="button">Seção completa</button><button aria-pressed="false" data-frame="pile" type="button">Aproximar torpedo</button></div></div>
+<div class="plot soil-plot"><svg aria-label="Corte do solo com o torpedo cravado e a linha enterrada" class="diagram" id="soil-section" role="img" viewbox="0 0 1000 600"></svg></div>
+<div class="legend"><span><i></i>Trecho enterrado</span><span><i class="teal"></i>Corrente</span><span><i class="blue"></i>Poliéster</span><span><i style="background:var(--steel)"></i>Torpedo</span><span><i style="background:linear-gradient(90deg,var(--soil-lo),var(--sediment))"></i>Su cresce com a profundidade</span></div>
+</div>
+<aside class="panel soil-side">
+<span class="eyebrow">Linha de ancoragem</span><h2>Torpedo cravado</h2>
+<form class="form-grid" id="soil-form" novalidate="">
+<label>Tração no TDP <small>kN · compartilhada com a catenária</small><input disabled="" inputmode="decimal" name="lineTension"/></label>
+</form>
+<div class="kv" id="soil-values"></div>
+</aside>
+</section>
+
+
+</div>
+</div>
+
+<footer class="section-footer"><span>Laboratório offshore · etapa 01 · <a href="../">todos os laboratórios</a></span><a data-flow-link="" href="02-catenaria.html">Próxima etapa: Catenária →</a></footer>
+</main>
+
   <script src="assets/js/config.js"></script>
   <script src="assets/js/sessao.js?v=20261112-1"></script>
   <script src="assets/js/tema.js"></script>
-  <script src="assets/js/etapa.js?v=20261112-5"></script>
+  <script src="assets/js/etapa.js?v=20261113-1"></script>
   <script src="/assets/js/rodape.js?v=20261112-1"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
   <script src="/assets/js/anti-quadro.js"></script>
   <script src="/assets/js/endereco.js?v=20261111-1"></script>
   <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
-  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+  <script src="/assets/js/idioma.js?v=20261113-1"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#09131f"><meta name="color-scheme" content="dark light">
@@ -16,29 +16,51 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/offshore.css?v=20261112-5">
-  <link rel="stylesheet" href="assets/css/conta.css?v=20261110-1">
+  <link rel="stylesheet" href="assets/css/offshore.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/estaca-3d.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/conta.css?v=20261113-1">
   <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
   <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
   <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
 </head>
-<body data-page="etapa" data-etapa="estaca-3d">
+<body data-page="estaca-3d" data-etapa="estaca-3d">
   <a class="skip" href="#main">Pular para o conteúdo</a>
   <header class="s-appbar">
-    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
-    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
-    <span class="s-header-divider" aria-hidden="true"></span>
-    <div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Torpedo 3D</strong></div>
-    <div class="s-actions" aria-label="Ações">
-      <button type="button" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
-    </div>
-  </header>
+<a aria-label="EngenhaLab — todos os laboratórios" class="s-brand" href="../">VG<b>.</b></a>
+<a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+<span aria-hidden="true" class="s-header-divider"></span>
+<div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Geometria do torpedo</strong></div>
+<div aria-label="Ações" class="s-actions">
+<button aria-label="Alternar tema claro/escuro" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" type="button"><span aria-hidden="true" class="s-theme-sun">☼</span><span aria-hidden="true" class="s-theme-moon">☾</span></button>
+</div>
+</header>
   <nav class="s-areas" aria-label="Etapas do laboratório offshore"><a class="s-area" data-flow-link href="./"><span class="s-area-number">00</span> Visão geral</a><a class="s-area" data-flow-link href="01-lancamento.html"><span class="s-area-number">01</span> Lançamento e cravação</a><a class="s-area" data-flow-link href="02-catenaria.html"><span class="s-area-number">02</span> Catenária</a><a class="s-area" data-flow-link href="03-capacidade-axial.html"><span class="s-area-number">03</span> Capacidade axial</a><a class="s-area" data-flow-link href="04-carga-lateral.html"><span class="s-area-number">04</span> Carga lateral</a><a class="s-area" data-flow-link href="05-estaca-3d.html" aria-current="page"><span class="s-area-number">05</span> Torpedo 3D</a></nav>
-  <main class="container ef" id="main" aria-busy="true"><header class="ef-topo"><span class="ef-sobre">Laboratório offshore</span><h1>Torpedo 3D</h1><p class="ef-msg" id="ef-msg" role="status">Carregando…</p></header><div class="ef-palco"></div></main>
+<main class="container" id="main">
+<header class="e3-head"><div><span class="eyebrow">05 / MODELO 3D</span><h1>Geometria do torpedo</h1></div><nav aria-label="Etapas relacionadas" class="e3-head-links"><a data-flow-link="" href="01-lancamento.html">Configurar lançamento ↗</a><a data-flow-link="" href="03-capacidade-axial.html">Capacidade axial ↗</a></nav></header>
+<section aria-label="Visualizador do torpedo" class="e3-app">
+<aside class="e3-lado e3-sel"><p class="e3-rot">Modelos</p><div aria-label="Modelo do torpedo" class="e3-modelos" id="e3-modelos" role="group"></div></aside>
+<div class="e3-visor">
+<div class="e3-palco" data-modo="material" id="e3-palco"><p class="e3-status" data-ef-msg="" id="e3-status" role="status">Carregando modelo…</p></div>
+<div class="e3-topo"><div aria-label="Modo de exibição" class="e3-seg" role="group"><button aria-pressed="true" data-modo="material" type="button">Material</button><button aria-pressed="false" data-modo="tecnico" type="button">Técnico</button></div><div aria-live="polite" class="e3-leg" id="e3-leg"></div></div>
+<div aria-label="Câmera" class="e3-barra" role="toolbar">
+<div aria-label="Vista" class="e3-seg" role="group"><button aria-pressed="true" data-vista="perspectiva" type="button">Perspectiva</button><button aria-pressed="false" data-vista="lateral" type="button">Lateral</button><button aria-pressed="false" data-vista="superior" type="button">Superior</button><button aria-pressed="false" data-vista="ponta" type="button">Ponta</button></div>
+<span aria-hidden="true" class="e3-sep"></span>
+<button aria-label="Afastar" class="e3-ic" id="e3-menos" title="Afastar" type="button"><svg aria-hidden="true" viewbox="0 0 20 20"><path d="M5 10h10"></path></svg></button><button aria-label="Aproximar" class="e3-ic" id="e3-mais" title="Aproximar" type="button"><svg aria-hidden="true" viewbox="0 0 20 20"><path d="M5 10h10M10 5v10"></path></svg></button><button aria-label="Girar" aria-pressed="false" class="e3-ic" id="e3-girar" title="Girar" type="button"><svg aria-hidden="true" viewbox="0 0 20 20"><path d="M15.5 7.5A6 6 0 1 0 16 12"></path><path d="M16 3.5v4h-4"></path></svg></button>
+<span aria-hidden="true" class="e3-sep"></span>
+<button aria-label="Baixar imagem" class="e3-ic" id="e3-png" title="Baixar imagem" type="button"><svg aria-hidden="true" viewbox="0 0 20 20"><path d="M10 3.5v9M6 9l4 4 4-4M4 16.5h12"></path></svg></button><button aria-label="Tela cheia" aria-pressed="false" class="e3-ic" id="e3-tela" title="Tela cheia" type="button"><svg aria-hidden="true" viewbox="0 0 20 20"><path d="M3.5 7.5v-4h4M12.5 3.5h4v4M16.5 12.5v4h-4M7.5 16.5h-4v-4"></path></svg></button>
+</div>
+<p aria-hidden="true" class="e3-dica">Arraste para girar · role para aproximar · botão direito para mover</p>
+</div>
+<details class="e3-lado e3-props" id="e3-props" open=""><summary><span class="e3-rot">Propriedades</span><span class="e3-props-n"><b id="e3-nome"></b><small id="e3-sub"></small></span></summary>
+<dl class="e3-kv" id="e3-kv"></dl></details>
+</section>
+
+<footer class="section-footer"><span>Laboratório offshore · etapa 05 · <a href="../">todos os laboratórios</a></span><a data-flow-link="" href="./">Voltar à visão geral →</a></footer>
+</main>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/sessao.js?v=20261112-1"></script>
   <script src="assets/js/tema.js"></script>
-  <script src="assets/js/etapa.js?v=20261112-5"></script>
+  <script src="assets/js/etapa.js?v=20261113-1"></script>
   <script src="/assets/js/rodape.js?v=20261112-1"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
   <script src="/assets/js/anti-quadro.js"></script>
   <script src="/assets/js/endereco.js?v=20261111-1"></script>
   <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
-  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+  <script src="/assets/js/idioma.js?v=20261113-1"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#09131f"><meta name="color-scheme" content="dark light">
@@ -16,29 +16,68 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/offshore.css?v=20261112-5">
-  <link rel="stylesheet" href="assets/css/conta.css?v=20261110-1">
+  <link rel="stylesheet" href="assets/css/capacidade-axial.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/conta.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/offshore-ef.css?v=20261113-1">
   <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
   <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
   <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
 </head>
-<body data-page="etapa" data-etapa="capacidade-axial">
-  <a class="skip" href="#main">Pular para o conteúdo</a>
+<body data-etapa="capacidade-axial">
+  <a class="skip" href="#results">Pular para o conteúdo</a>
   <header class="s-appbar">
-    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
-    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
-    <span class="s-header-divider" aria-hidden="true"></span>
-    <div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Capacidade axial</strong></div>
-    <div class="s-actions" aria-label="Ações">
-      <button type="button" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
-    </div>
-  </header>
+<a aria-label="EngenhaLab — todos os laboratórios" class="s-brand" href="../">VG<b>.</b></a>
+<a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+<span aria-hidden="true" class="s-header-divider"></span>
+<div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Estacas · capacidade axial</strong></div>
+<div aria-label="Ações" class="s-actions">
+<button class="s-act" disabled="" id="export-csv" title="Baixar perfil em CSV" type="button"><span aria-hidden="true">⤓</span><span class="s-act-label">CSV</span></button>
+<button class="s-act" disabled="" id="export-svg" title="Baixar o gráfico em SVG" type="button"><span aria-hidden="true">◫</span><span class="s-act-label">SVG</span></button>
+<button class="s-act s-act-primary" disabled="" id="print-page" title="Imprimir ou salvar em PDF" type="button"><span aria-hidden="true">▣</span><span class="s-act-label">PDF</span></button>
+<button aria-label="Alternar tema claro/escuro" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" type="button"><span aria-hidden="true" class="s-theme-sun">☼</span><span aria-hidden="true" class="s-theme-moon">☾</span></button>
+</div>
+</header>
   <nav class="s-areas" aria-label="Etapas do laboratório offshore"><a class="s-area" data-flow-link href="./"><span class="s-area-number">00</span> Visão geral</a><a class="s-area" data-flow-link href="01-lancamento.html"><span class="s-area-number">01</span> Lançamento e cravação</a><a class="s-area" data-flow-link href="02-catenaria.html"><span class="s-area-number">02</span> Catenária</a><a class="s-area" data-flow-link href="03-capacidade-axial.html" aria-current="page"><span class="s-area-number">03</span> Capacidade axial</a><a class="s-area" data-flow-link href="04-carga-lateral.html"><span class="s-area-number">04</span> Carga lateral</a><a class="s-area" data-flow-link href="05-estaca-3d.html"><span class="s-area-number">05</span> Torpedo 3D</a></nav>
-  <main class="container ef" id="main" aria-busy="true"><header class="ef-topo"><span class="ef-sobre">Laboratório offshore</span><h1>Capacidade axial</h1><p class="ef-msg" id="ef-msg" role="status">Carregando…</p></header></main>
+<div class="workspace" data-view="resultados" id="workspace">
+<aside aria-labelledby="inputs-title" class="inputs"><div class="inputs-head"><div><p class="eyebrow">01 / PARÂMETROS</p><h2 id="inputs-title">Dados da estaca</h2><p>Geometria, solo e ações para comparação.</p></div></div><div class="input-error" data-ef-msg="" hidden="" id="input-error" role="alert"></div>
+<form id="case-form" novalidate=""><div class="dc-proj"><div class="dc-cab"><span class="dc-tit">Dados do projeto</span><a class="dc-link" href="01-lancamento.html">Alterar em Lançamento e cravação →</a></div><dl class="dc-lista"><div><dt>Torpedo</dt><dd>—</dd></div><div><dt>Início enterrado</dt><dd>—</dd></div><div><dt>Diâmetro externo</dt><dd>—</dd></div><div><dt>Aletas</dt><dd>—</dd></div><div><dt>Su₀</dt><dd>—</dd></div><div><dt>Gradiente k</dt><dd>—</dd></div><div><dt>γ′</dt><dd>—</dd></div><div><dt>Nc</dt><dd>—</dd></div><div><dt>Sensibilidade St</dt><dd>—</dd></div></dl></div>
+<details class="input-group" open=""><summary><b>01</b><span>Geometria<small>Corpo e aletas</small></span></summary><div class="fields">
+<label class="dc-oculto">Início enterrado <small>z [m]</small><input disabled="" inputmode="decimal" name="headDepth" readonly="" tabindex="-1"/></label><label class="dc-oculto">Diâmetro externo <small>D [m]</small><input disabled="" inputmode="decimal" name="diameter" readonly="" tabindex="-1"/></label>
+<label>Diâmetro interno <input disabled="" inputmode="decimal" name="innerDiameter"/></label><label class="dc-oculto">Número de aletas <small>inteiro</small><input disabled="" inputmode="numeric" name="fins" readonly="" tabindex="-1"/></label><label>Espessura das aletas <small>t [m]</small><input disabled="" inputmode="decimal" name="finThickness"/></label><label>Ponta cônica <input disabled="" inputmode="decimal" name="coneLength"/></label>
+</div></details>
+<details class="input-group" open=""><summary><b>02</b><span>Solo argiloso<small>Su(z) e aderência</small></span></summary><div class="fields">
+<label class="dc-oculto">Su na superfície <small>Su₀ [kPa]</small><input disabled="" inputmode="decimal" name="su0" readonly="" tabindex="-1"/></label><label class="dc-oculto">Gradiente de Su <small>k [kPa/m]</small><input disabled="" inputmode="decimal" name="suGradient" readonly="" tabindex="-1"/></label>
+<label class="dc-oculto">Peso específico submerso <small>γ′ [kN/m³]</small><input disabled="" inputmode="decimal" name="gammaSoil" readonly="" tabindex="-1"/></label><label class="dc-oculto">Fator de ponta <small>Nc</small><input disabled="" inputmode="decimal" name="nc" readonly="" tabindex="-1"/></label><label>Fator de topo no arrancamento <input disabled="" inputmode="decimal" name="ncTop"/></label><label>Fator no topo das aletas <input disabled="" inputmode="decimal" name="ncFin"/></label>
+<label class="wide">Aderência α <small>ao longo da profundidade</small><select disabled="" name="alphaMode"><option value="auto">Automática</option><option value="fixed">Fixa</option></select></label><label>α fixo <small>usado se modo fixo</small><input disabled="" inputmode="decimal" name="alphaFixed"/></label><label>Fator de segurança <small>FS · hipótese de projeto</small><input disabled="" inputmode="decimal" name="factor"/></label>
+</div></details>
+<details class="input-group" open=""><summary><b>03</b><span>Trechos e aletas<small>Largura inicial → final</small></span></summary><div class="segment-inputs" id="segment-inputs"><div class="segment-input" data-index="0"><div class="segment-top"><strong>Trecho 01</strong><button aria-label="Excluir trecho 1" class="remove-segment" type="button">Remover ×</button></div><div class="fields"><label>Comprimento <small>m</small><input data-seg="length" disabled="" inputmode="decimal"/></label><label>Largura inicial <small>m</small><input data-seg="finStart" disabled="" inputmode="decimal"/></label><label>Largura final <small>m</small><input data-seg="finEnd" disabled="" inputmode="decimal"/></label></div></div><div class="segment-input" data-index="1"><div class="segment-top"><strong>Trecho 02</strong><button aria-label="Excluir trecho 2" class="remove-segment" type="button">Remover ×</button></div><div class="fields"><label>Comprimento <small>m</small><input data-seg="length" disabled="" inputmode="decimal"/></label><label>Largura inicial <small>m</small><input data-seg="finStart" disabled="" inputmode="decimal"/></label><label>Largura final <small>m</small><input data-seg="finEnd" disabled="" inputmode="decimal"/></label></div></div><div class="segment-input" data-index="2"><div class="segment-top"><strong>Trecho 03</strong><button aria-label="Excluir trecho 3" class="remove-segment" type="button">Remover ×</button></div><div class="fields"><label>Comprimento <small>m</small><input data-seg="length" disabled="" inputmode="decimal"/></label><label>Largura inicial <small>m</small><input data-seg="finStart" disabled="" inputmode="decimal"/></label><label>Largura final <small>m</small><input data-seg="finEnd" disabled="" inputmode="decimal"/></label></div></div><div class="segment-input" data-index="3"><div class="segment-top"><strong>Trecho 04</strong><button aria-label="Excluir trecho 4" class="remove-segment" type="button">Remover ×</button></div><div class="fields"><label>Comprimento <small>m</small><input data-seg="length" disabled="" inputmode="decimal"/></label><label>Largura inicial <small>m</small><input data-seg="finStart" disabled="" inputmode="decimal"/></label><label>Largura final <small>m</small><input data-seg="finEnd" disabled="" inputmode="decimal"/></label></div></div><div class="segment-input" data-index="4"><div class="segment-top"><strong>Trecho 05</strong><button aria-label="Excluir trecho 5" class="remove-segment" type="button">Remover ×</button></div><div class="fields"><label>Comprimento <small>m</small><input data-seg="length" disabled="" inputmode="decimal"/></label><label>Largura inicial <small>m</small><input data-seg="finStart" disabled="" inputmode="decimal"/></label><label>Largura final <small>m</small><input data-seg="finEnd" disabled="" inputmode="decimal"/></label></div></div></div><div class="segment-tools"><button id="add-segment" type="button">+ Adicionar trecho</button></div></details>
+<details class="input-group"><summary><b>04</b><span>Peso e solicitações<small>Capacidade × carga</small></span></summary><div class="fields">
+<label>ρ aço <small>kg/m³</small><input disabled="" inputmode="decimal" name="steelDensity"/></label><label>ρ fluido <small>kg/m³</small><input disabled="" inputmode="decimal" name="fluidDensity"/></label>
+<label class="wide">Volume submerso da estaca <small>m³</small><input disabled="" inputmode="decimal" name="submergedVolume"/></label>
+<label>Carga de compressão <small>kN</small><input disabled="" inputmode="decimal" name="compressionLoad"/></label><label>Carga de tração <small>kN</small><input disabled="" inputmode="decimal" name="tensionLoad"/></label>
+</div></details>
+<details class="input-group" open=""><summary><b>05</b><span>Recuperação do solo<small>Atrito após a cravação</small></span></summary><div class="fields">
+<label class="dc-oculto">Sensibilidade <small>St = Su / Su amolgado</small><input disabled="" inputmode="decimal" name="st" readonly="" tabindex="-1"/></label>
+<label class="wide rec-field"><span>Recuperação </span><span class="rec-row"><input disabled="" max="100" min="0" name="recovery" step="5" style="--pct: 100%;" type="range"/><output id="recovery-value">—</output></span></label>
+</div></details>
+</form><div class="input-foot"><button class="calculate" id="calculate" type="button">Calcular e atualizar <span>↗</span></button><button class="reset" id="reset" type="button">Restaurar exemplo</button><p>Vírgula ou ponto decimal. O caso fica salvo neste aparelho.</p></div>
+</aside>
+<main class="results" id="results"><section class="hero"><div class="hero-copy"><p class="eyebrow"><span class="live-dot"></span> CAPACIDADE AXIAL · SOLO ARGILOSO</p><h1>Capacidade axial da estaca</h1><div class="hero-tags"><span>● Geometria por trechos</span><span>● α por profundidade</span><span>● Compressão e tração</span></div></div><svg aria-hidden="true" class="hero-art" viewbox="0 0 420 245"><path d="M25 34H395M25 75H395M25 116H395M25 157H395M25 198H395" stroke="var(--line2)" stroke-dasharray="4 8"></path><path d="M166 5V238M240 5V238" stroke="var(--teal)" stroke-width="10"></path><path d="M166 84l-50 31v61l50 32M240 84l50 31v61l-50 32" fill="none" stroke="var(--orange)" stroke-linejoin="round" stroke-width="8"></path><path d="M203 7v-41" stroke="var(--orange)" stroke-width="5"></path><path d="M193 8l10 17 10-17" fill="none" stroke="var(--orange)" stroke-width="4"></path></svg></section>
+<div class="result-error" data-ef-msg="" hidden="" id="result-error" role="alert"></div><div class="stale" id="result-content">
+<section aria-label="Resultados principais" class="kpis"><article class="kpi"><span>Resistência lateral</span><strong id="k-skin">—</strong><small>Q<sub>s</sub> · fuste + aletas</small></article><article class="kpi"><span>Resistência de ponta</span><strong id="k-tip">—</strong><small>Q<sub>p</sub> · na profundidade final</small></article><article class="kpi"><span>Peso submerso</span><strong id="k-weight">—</strong><small>W′ · na água</small></article><article class="kpi teal"><span>Compressão admissível</span><strong id="k-comp">—</strong><small>com o fator de segurança</small></article><article class="kpi blue"><span>Tração admissível</span><strong id="k-tens">—</strong><small>com o fator de segurança</small></article></section>
+<section class="card chart-card"><div class="card-head"><div><p class="eyebrow">02 / PERFIL VERTICAL</p><h2>Resistência ao longo da estaca</h2></div><div aria-label="Variável do gráfico" class="view-tabs pv-tabs" role="group"><span aria-hidden="true" class="pv-ind" id="pv-ind"></span><button aria-pressed="true" class="active" data-chart="cumulative" type="button">Acumulada</button><button aria-pressed="false" data-chart="su" type="button">Su</button><button aria-pressed="false" data-chart="alpha" type="button">α</button><button aria-pressed="false" data-chart="perimeter" type="button">Perímetro</button></div></div><div class="pv-chips" id="pv-chips"></div><div class="chart-wrap pv-wrap" id="chart-wrap"><div id="chart-svg"></div></div><div class="chart-foot"><span>PASSE O MOUSE · OU <kbd>↑</kbd> <kbd>↓</kbd> (<kbd>SHIFT</kbd> = PASSO MAIOR)</span><span>VERTICAL · PROFUNDIDADE [m]</span></div></section>
+<section class="detail-grid"><article class="card balance-card"><div class="card-head"><div><p class="eyebrow">03 / CAPACIDADE</p><h2>Composição da capacidade</h2></div></div><div class="balance-list" id="balance-list"></div><div class="capacity-stack" id="capacity-stack"></div></article><article class="card segment-card"><div class="card-head"><div><p class="eyebrow">04 / SOLICITAÇÕES</p><h2>Comparação com as cargas</h2></div></div><div class="load-checks" id="load-checks"></div></article></section>
+<section class="card rec-card"><div class="card-head"><div><p class="eyebrow">05 / RECUPERAÇÃO DO SOLO</p><h2>Capacidade ao longo da recuperação</h2></div></div><div class="rec-stats" id="recovery-stats"></div><div class="rec-chart" id="recovery-chart"></div></section>
+<section class="card data-card"><div class="card-head"><div><p class="eyebrow">06 / CONTRIBUIÇÕES</p><h2>Trecho por trecho</h2></div><button class="text-button" data-titulo-csv="" id="export-csv-bottom" type="button">Baixar perfil CSV ↗</button></div><div class="table-wrap"><table><thead><tr><th>Trecho</th><th>z inicial [m]</th><th>z final [m]</th><th>Comprimento [m]</th><th>Aleta inicial → final [m]</th><th>Resistência [kN]</th><th>Participação</th></tr></thead><tbody id="segment-rows"></tbody></table></div></section>
+
+</div><noscript></noscript><footer>Laboratório offshore · etapa 03 · capacidade axial · <a href="../">todos os laboratórios</a> · <a href="../sobre.html">sobre o autor</a></footer>
+</main>
+</div>
+<nav aria-label="Alternar dados e resultados" class="mobilebar"><button aria-pressed="false" data-panel="dados" type="button">✎ Dados</button><button aria-pressed="true" data-panel="resultados" type="button">◫ Resultados</button></nav>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/sessao.js?v=20261112-1"></script>
   <script src="assets/js/tema.js"></script>
-  <script src="assets/js/etapa.js?v=20261112-5"></script>
+  <script src="assets/js/etapa.js?v=20261113-1"></script>
   <script src="/assets/js/rodape.js?v=20261112-1"></script>
 </body>
 </html>

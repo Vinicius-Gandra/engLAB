@@ -5,7 +5,7 @@
   <script src="/assets/js/anti-quadro.js"></script>
   <script src="/assets/js/endereco.js?v=20261111-1"></script>
   <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
-  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+  <script src="/assets/js/idioma.js?v=20261113-1"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#09131f"><meta name="color-scheme" content="dark light">
@@ -16,29 +16,79 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="assets/css/offshore.css?v=20261112-5">
-  <link rel="stylesheet" href="assets/css/conta.css?v=20261110-1">
+  <link rel="stylesheet" href="assets/css/offshore.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/movel.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/visao-geral.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/campo3d.css?v=20261113-1">
+  <link rel="stylesheet" href="assets/css/conta.css?v=20261113-1">
   <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
   <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
   <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
 </head>
-<body data-page="etapa" data-etapa="visao-geral">
+<body data-page="offshore" data-etapa="visao-geral">
   <a class="skip" href="#main">Pular para o conteúdo</a>
   <header class="s-appbar">
-    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
-    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
-    <span class="s-header-divider" aria-hidden="true"></span>
-    <div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Visão geral</strong></div>
-    <div class="s-actions" aria-label="Ações">
-      <button type="button" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
-    </div>
-  </header>
+<a aria-label="EngenhaLab — todos os laboratórios" class="s-brand" href="../">VG<b>.</b></a>
+<a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+<span aria-hidden="true" class="s-header-divider"></span>
+<div class="s-appbar-title"><span class="overline">Laboratório offshore</span><strong>Visão geral do estudo</strong></div>
+<div aria-label="Ações" class="s-actions">
+<button aria-label="Alternar tema claro/escuro" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" type="button"><span aria-hidden="true" class="s-theme-sun">☼</span><span aria-hidden="true" class="s-theme-moon">☾</span></button>
+</div>
+</header>
   <nav class="s-areas" aria-label="Etapas do laboratório offshore"><a class="s-area" data-flow-link href="./" aria-current="page"><span class="s-area-number">00</span> Visão geral</a><a class="s-area" data-flow-link href="01-lancamento.html"><span class="s-area-number">01</span> Lançamento e cravação</a><a class="s-area" data-flow-link href="02-catenaria.html"><span class="s-area-number">02</span> Catenária</a><a class="s-area" data-flow-link href="03-capacidade-axial.html"><span class="s-area-number">03</span> Capacidade axial</a><a class="s-area" data-flow-link href="04-carga-lateral.html"><span class="s-area-number">04</span> Carga lateral</a><a class="s-area" data-flow-link href="05-estaca-3d.html"><span class="s-area-number">05</span> Torpedo 3D</a></nav>
-  <main class="container ef" id="main" aria-busy="true"><header class="ef-topo"><span class="ef-sobre">Laboratório offshore</span><h1>Visão geral</h1><p class="ef-msg" id="ef-msg" role="status">Carregando…</p></header><div class="ef-palco"></div></main>
+<main class="container" id="main">
+<section aria-labelledby="v3-title" class="panel v3" id="vista-3d">
+<header class="v3-head">
+<div>
+<span class="eyebrow">00 / Visão geral</span>
+<h1 class="v3-h1">Estacas torpedo e linhas de ancoragem</h1>
+<h2 id="v3-title">Campo de produção com FPSO ancorado</h2>
+<p>FPSO ancorado por 24 linhas em estacas torpedo, com 13 poços ligados direto à unidade por risers rígidos em lazy wave, PLETs sobre estacas de sucção, injeção alternada de água e gás e escoamento do óleo por navio aliviador, em escala real.</p>
+</div>
+<div class="v3-tools">
+<button aria-pressed="false" class="v3-tb v3-primary" id="v3-play" type="button"><svg aria-hidden="true" viewbox="0 0 16 16"><path class="i-play" d="M4 2.5v11l9-5.5z"></path><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"></path></svg><span>Tour guiado</span></button>
+<div aria-label="Câmera" class="v3-seg" role="group">
+<button aria-pressed="true" id="v3-spin" type="button">Girando</button>
+<button aria-pressed="false" id="v3-top" type="button">Vista de cima</button>
+<button id="v3-reset" type="button">Centralizar</button>
+</div>
+<button aria-label="Tela cheia" class="v3-tb v3-icon" id="v3-full" title="Tela cheia" type="button"><svg aria-hidden="true" viewbox="0 0 16 16"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"></path></svg></button>
+</div>
+</header>
+<div class="v3-stage c3 c3-pronto c3-ar" id="v3-stage" style="--c3-cvh: 718px;">
+<canvas aria-label="Vista tridimensional do campo de produção e do sistema de ancoragem" data-engine="three.js r170" height="718" id="v3-canvas" style="touch-action: none;" tabindex="0" width="1312"></canvas>
+<div class="v3-meta">
+<span class="v3-kicker">Arranjo representativo</span>
+<dl>
+<div><dt>Lâmina d’água</dt><dd id="v3-h">— <small>m</small></dd></div>
+<div><dt>Raio de ancoragem</dt><dd id="v3-r">— <small>m</small></dd></div>
+
+</dl>
+</div>
+<div aria-label="Camadas" class="v3-layers" role="group">
+<button aria-pressed="true" data-layer="moor" type="button"><i style="--c:#6fd8cf"></i>Ancoragem</button>
+<button aria-pressed="true" data-layer="prod" type="button"><i style="--c:#f2c14e"></i>Produção</button>
+<button aria-pressed="true" data-layer="inj" type="button"><i style="--c:#4fb3ff"></i>Injeção de água</button>
+<button aria-pressed="true" data-layer="exp" type="button"><i style="--c:#ff7d52"></i>Exportação</button>
+<button aria-pressed="true" data-layer="suc" type="button"><i style="--c:#c59bff"></i>Estacas de sucção</button>
+<button aria-pressed="true" data-layer="lbl" type="button"><i style="--c:#e8f2f3"></i>Rótulos</button>
+</div>
+
+<button aria-label="Sair da tela cheia" class="v3-sair" id="v3-sair" type="button"><svg aria-hidden="true" viewbox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"></path></svg></button>
+<p aria-hidden="true" class="v3-dica">Arraste para girar · pinça para aproximar · toque num equipamento</p>
+<div class="v3-tip" id="v3-tip" role="tooltip"></div><p class="ef-falha" data-ef-msg="" hidden="" role="alert"></p></div>
+<nav aria-label="Capítulos do campo" class="v3-steps" id="v3-steps" role="tablist"><button aria-selected="true" class="" data-step="0" role="tab" type="button"><b>01</b><span>O campo</span></button><button aria-selected="false" class="" data-step="1" role="tab" type="button"><b>02</b><span>FPSO</span></button><button aria-selected="false" class="" data-step="2" role="tab" type="button"><b>03</b><span>Ancoragem</span></button><button aria-selected="false" class="" data-step="3" role="tab" type="button"><b>04</b><span>Estaca torpedo</span></button><button aria-selected="false" class="" data-step="4" role="tab" type="button"><b>05</b><span>Risers</span></button><button aria-selected="false" class="" data-step="5" role="tab" type="button"><b>06</b><span>Poços</span></button><button aria-selected="false" class="" data-step="6" role="tab" type="button"><b>07</b><span>Estaca de sucção</span></button><button aria-selected="false" class="" data-step="7" role="tab" type="button"><b>08</b><span>Injeção e escoamento</span></button></nav>
+</section>
+<section class="panel vc"><div class="vc-topo"><div><span class="eyebrow">VALIDAÇÃO</span><h2>Instalações reais × modelo</h2><p class="vc-sub">Cada torpedo simulado com a altura de soltura e a lâmina d’água da instalação publicada.</p></div><div class="vc-leg"><span><i class="vc-l-faixa"></i>Campo</span><span><i class="vc-l-modelo"></i>Modelo</span></div></div><div class="vc-grade"><article class="vc-card"><header class="vc-head"><div><span class="vc-modelo-nome">T-120</span></div><ul class="vc-chips"><li><small>Estacas</small><b>—</b></li><li><small>Soltura</small><b>—</b></li><li><small>Lâmina</small><b>—</b></li></ul></header><div class="vc-corpo"><div class="vc-m"><div class="vc-m-top"><span class="vc-nome">Velocidade no leito</span></div><div class="vc-vals"><span class="vc-c"><small>Campo</small><b>—</b></span><span class="vc-mo"><small>Modelo</small><b>—</b></span></div><div class="vc-trilho"></div></div><div class="vc-m"><div class="vc-m-top"><span class="vc-nome">Olhal abaixo do leito</span></div><div class="vc-vals"><span class="vc-c"><small>Campo</small><b>—</b></span><span class="vc-mo"><small>Modelo</small><b>—</b></span></div><div class="vc-trilho"></div></div></div><p class="vc-fonte">Campo: mínimo · média · máximo das 24 estacas [1].</p></article><article class="vc-card"><header class="vc-head"><div><span class="vc-modelo-nome">T-98</span></div><ul class="vc-chips"><li><small>Estacas</small><b>—</b></li><li><small>Soltura</small><b>—</b></li><li><small>Lâmina</small><b>—</b></li></ul></header><div class="vc-corpo"><div class="vc-m"><div class="vc-m-top"><span class="vc-nome">Velocidade no leito</span></div><div class="vc-vals"><span class="vc-c"><small>Campo</small><b>—</b></span><span class="vc-mo"><small>Modelo</small><b>—</b></span></div><div class="vc-trilho"></div></div><div class="vc-m"><div class="vc-m-top"><span class="vc-nome">Tempo de queda</span></div><div class="vc-vals"><span class="vc-c"><small>Campo</small><b>—</b></span><span class="vc-mo"><small>Modelo</small><b>—</b></span></div><div class="vc-trilho"></div></div><div class="vc-m"><div class="vc-m-top"><span class="vc-nome">Olhal abaixo do leito</span></div><div class="vc-vals"><span class="vc-c"><small>Campo</small><b>—</b></span><span class="vc-mo"><small>Modelo</small><b>—</b></span></div><div class="vc-trilho"></div></div><div class="vc-m"><div class="vc-m-top"><span class="vc-nome">Tempo de cravação</span></div><div class="vc-vals"><span class="vc-c"><small>Campo</small><b>—</b></span><span class="vc-mo"><small>Modelo</small><b>—</b></span></div><div class="vc-trilho"></div></div></div><p class="vc-fonte">Campo: estaca instalada com registro de aceleração [2]. A velocidade no leito foi usada para calibrar o arrasto da queda; as demais grandezas são previsões do modelo.</p></article></div><ol class="vc-refs"><li>P. Castillo Garcia, B. B. L. Fernandes, C. Tsetoulidis, M. Mader, D. Orejuela, E. Serra e S. Panayides. <i>Torpedo piles and suction piles: geotechnical analysis and installation experiences in seek for optimal anchoring system in deepwater clay soils</i>. Proc. ASME OMAE 2024, OMAE2024-122144.</li><li>F. E. N. Brandão, C. C. D. Henriques, J. B. de Araújo, O. C. G. Ferreira e C. dos Santos Amaral. <i>Albacora Leste Field Development: FPSO P-50 Mooring System Concept and Installation</i>. Offshore Technology Conference, Houston, 2006, OTC 18243.</li></ol><div class="action-row"><a class="button primary" data-flow-link="" href="01-lancamento.html">Configurar torpedo ↗</a><a class="button ghost" data-flow-link="" href="05-estaca-3d.html">Ver modelo 3D ↗</a></div></section>
+<section style="margin-top:24px"><span class="eyebrow">TRILHA DE CÁLCULO</span><h2>Etapas do estudo</h2><div class="steps" id="flow-steps"><a class="step" data-flow-link="" href="01-lancamento.html"><span>01 / ETAPA</span><strong>Lançamento e cravação</strong><small>Velocidade no leito e penetração</small><b>Explorar ↗</b></a><a class="step" data-flow-link="" href="02-catenaria.html"><span>02 / ETAPA</span><strong>Catenária</strong><small>Perfil enterrado, trecho suspenso e vista 3D</small><b>Explorar ↗</b></a><a class="step" data-flow-link="" href="03-capacidade-axial.html"><span>03 / ETAPA</span><strong>Capacidade axial</strong><small>Fuste, ponta e peso</small><b>Explorar ↗</b></a><a class="step" data-flow-link="" href="04-carga-lateral.html"><span>04 / ETAPA</span><strong>Carga lateral</strong><small>Deslocamento e momento na estaca</small><b>Explorar ↗</b></a><a class="step" data-flow-link="" href="05-estaca-3d.html"><span>05 / ETAPA</span><strong>Torpedo 3D</strong><small>Geometria e aletas do torpedo</small><b>Explorar ↗</b></a></div></section>
+
+<footer class="section-footer"><span>Laboratório offshore · etapa 00 · <a href="../">todos os laboratórios</a></span><a data-flow-link="" href="01-lancamento.html">Próxima etapa: Lançamento e cravação →</a></footer>
+</main>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/sessao.js?v=20261112-1"></script>
   <script src="assets/js/tema.js"></script>
-  <script src="assets/js/etapa.js?v=20261112-5"></script>
+  <script src="assets/js/etapa.js?v=20261113-1"></script>
   <script src="/assets/js/rodape.js?v=20261112-1"></script>
 </body>
 </html>

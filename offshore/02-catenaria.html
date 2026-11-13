@@ -5,7 +5,7 @@
   <script src="/assets/js/anti-quadro.js"></script>
   <script src="/assets/js/endereco.js?v=20261111-1"></script>
   <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
-  <script src="/assets/js/idioma.js?v=20261113-1"></script>
+  <script src="/assets/js/idioma.js?v=20261113-2"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#09131f"><meta name="color-scheme" content="dark light">
@@ -45,41 +45,41 @@
 <div><p class="eyebrow">01 / PARÂMETROS</p><h2 id="inputs-title">Dados do caso</h2><p>Edite as propriedades e acompanhe a solução.</p></div>
 
 </div>
-<label class="vinculo"><input checked="" disabled="" id="vinculo-lancamento" type="checkbox"/><span><b>Usar os dados do lançamento</b><small id="vinculo-nota">Solo, profundidade do olhal, tração e lâmina vêm do lançamento; mudanças aqui voltam para as outras etapas.</small></span></label>
+<label class="vinculo"><input checked="" id="vinculo-lancamento" type="checkbox"/><span><b>Usar os dados do lançamento</b><small id="vinculo-nota">Solo, profundidade do olhal, tração e lâmina vêm do lançamento; mudanças aqui voltam para as outras etapas.</small></span></label>
 <div class="input-error" data-ef-msg="" hidden="" id="input-error" role="alert"></div>
-<form id="case-form" novalidate=""><div class="dc-proj"><div class="dc-cab"><span class="dc-tit">Dados do projeto</span><a class="dc-link" href="01-lancamento.html">Alterar em Lançamento e cravação →</a></div><dl class="dc-lista"><div><dt>Torpedo</dt><dd>—</dd></div><div><dt>Su₀</dt><dd>—</dd></div><div><dt>Gradiente k</dt><dd>—</dd></div><div><dt>Profundidade do olhal</dt><dd>—</dd></div><div><dt>Lâmina d’água</dt><dd>—</dd></div></dl></div>
+<form id="case-form" novalidate=""><div class="dc-proj"><div class="dc-cab"><span class="dc-tit">Dados do projeto</span><a class="dc-link" href="01-lancamento.html">Alterar em Lançamento e cravação →</a></div><dl class="dc-lista"><div><dt>Torpedo</dt><dd>T-120</dd></div><div><dt>Su₀</dt><dd>1 kPa</dd></div><div><dt>Gradiente k</dt><dd>1,15 kPa/m</dd></div><div><dt>Profundidade do olhal</dt><dd>20 m</dd></div><div><dt>Lâmina d’água</dt><dd>2000 m</dd></div></dl></div>
 <details class="input-group" open=""><summary><b>01</b><span>Solo e interação<small>Resistência e aderência</small></span></summary><div class="fields">
-<label class="dc-oculto">Su<sub>0</sub> <small>kPa</small><input disabled="" inputmode="decimal" name="su0" readonly="" tabindex="-1"/></label>
-<label class="dc-oculto">Gradiente k <small>kPa/m</small><input disabled="" inputmode="decimal" name="gradient" readonly="" tabindex="-1"/></label>
-<label>Se <small>sensibilidade</small><input disabled="" inputmode="decimal" name="se"/></label>
-<label>Et <small>fator tangencial</small><input disabled="" inputmode="decimal" name="et"/></label>
-<label>En <small>fator normal</small><input disabled="" inputmode="decimal" name="en"/></label>
-<label>Nc <small>capacidade</small><input disabled="" inputmode="decimal" name="nc"/></label>
-<label class="wide check-field"><input checked="" disabled="" name="ncDepth" type="checkbox"/><span>Nc reduzido junto ao leito</span></label>
+<label class="dc-oculto">Su<sub>0</sub> <small>kPa</small><input inputmode="decimal" name="su0" readonly="" tabindex="-1" value="1"/></label>
+<label class="dc-oculto">Gradiente k <small>kPa/m</small><input inputmode="decimal" name="gradient" readonly="" tabindex="-1" value="1,15"/></label>
+<label>Se <small>sensibilidade</small><input inputmode="decimal" name="se" value="2"/></label>
+<label>Et <small>fator tangencial</small><input inputmode="decimal" name="et" value="10"/></label>
+<label>En <small>fator normal</small><input inputmode="decimal" name="en" value="2,5"/></label>
+<label>Nc <small>capacidade</small><input inputmode="decimal" name="nc" value="9"/></label>
+<label class="wide check-field"><input checked="" name="ncDepth" type="checkbox"/><span>Nc reduzido junto ao leito</span></label>
 </div></details>
 <details class="input-group" open=""><summary><b>02</b><span>Linha e TDP<small>Geometria e tração</small></span></summary><div class="fields">
-<label>Diâmetro d <small>m</small><input disabled="" inputmode="decimal" name="diameter"/></label>
-<label>Peso submerso w <small>kN/m</small><input disabled="" inputmode="decimal" name="wChain"/></label>
-<label class="wide dc-oculto">Profundidade D <small>m</small><input disabled="" inputmode="decimal" name="depth" readonly="" tabindex="-1"/></label>
-<label class="wide">Chegada ao leito <small>como a linha encontra o solo</small><select disabled="" name="arrival"><option value="angle">Com ângulo no TDP</option><option value="laid">Deitada no leito, com trecho apoiado</option></select></label>
-<label class="wide">Ângulo no TDP <small>graus</small><input disabled="" inputmode="decimal" name="theta0Deg"/></label>
+<label>Diâmetro d <small>m</small><input inputmode="decimal" name="diameter" value="0,105"/></label>
+<label>Peso submerso w <small>kN/m</small><input inputmode="decimal" name="wChain" value="1,87"/></label>
+<label class="wide dc-oculto">Profundidade D <small>m</small><input inputmode="decimal" name="depth" readonly="" tabindex="-1" value="20"/></label>
+<label class="wide">Chegada ao leito <small>como a linha encontra o solo</small><select name="arrival"><option selected="" value="angle">Com ângulo no TDP</option><option value="laid">Deitada no leito, com trecho apoiado</option></select></label>
+<label class="wide">Ângulo no TDP <small>graus</small><input inputmode="decimal" name="theta0Deg" value="30"/></label>
 
 
-<label class="wide">Grandeza conhecida <small>o que define a linha</small><select disabled="" name="solveFor"><option value="tension">Tração no TDP</option><option value="radius">Raio até o topo</option><option value="length">Comprimento total da linha</option><option value="both">Raio e comprimento total</option></select></label>
+<label class="wide">Grandeza conhecida <small>o que define a linha</small><select name="solveFor"><option selected="" value="tension">Tração no TDP</option><option value="radius">Raio até o topo</option><option value="length">Comprimento total da linha</option><option value="both">Raio e comprimento total</option></select></label>
 
 
-<label class="wide"><span id="tension0-label">Tração no TDP T<sub>0</sub> <small>kN</small></span><input disabled="" inputmode="decimal" name="tension0"/></label>
+<label class="wide"><span id="tension0-label">Tração no TDP T<sub>0</sub> <small>kN</small></span><input inputmode="decimal" name="tension0" value="12000"/></label>
 </div></details>
 <details class="input-group"><summary><b>03</b><span>Trecho suspenso<small>Corrente e poliéster</small></span></summary><div class="fields">
-<label class="wide dc-oculto">Altura de chegada <small>m sobre o leito</small><input disabled="" inputmode="decimal" name="targetHeight" readonly="" tabindex="-1"/></label>
-<label>Peso poliéster <small>kN/m</small><input disabled="" inputmode="decimal" name="wPoly"/></label>
-<label>EA corrente <small>kN</small><input disabled="" inputmode="decimal" name="eaChain"/></label>
-<label>EA poliéster <small>kN</small><input disabled="" inputmode="decimal" name="eaPoly"/></label>
-<label>Corrente inicial <small>m</small><input disabled="" inputmode="decimal" name="chain1"/></label>
-<label>Poliéster principal <small>m</small><input disabled="" inputmode="decimal" name="poly1"/></label>
-<label>Corrente de ligação <small>m</small><input disabled="" inputmode="decimal" name="chain2"/></label>
-<label>Poliéster superior <small>m</small><input disabled="" inputmode="decimal" name="poly2"/></label>
-<label class="wide check-field"><input checked="" disabled="" name="stretch" type="checkbox"/><span>Incluir alongamento axial T/EA<small>Aplicado somente no trecho suspenso.</small></span></label>
+<label class="wide dc-oculto">Altura de chegada <small>m sobre o leito</small><input inputmode="decimal" name="targetHeight" readonly="" tabindex="-1" value="2000"/></label>
+<label>Peso poliéster <small>kN/m</small><input inputmode="decimal" name="wPoly" value="0,006"/></label>
+<label>EA corrente <small>kN</small><input inputmode="decimal" name="eaChain" value="110000"/></label>
+<label>EA poliéster <small>kN</small><input inputmode="decimal" name="eaPoly" value="30000"/></label>
+<label>Corrente inicial <small>m</small><input inputmode="decimal" name="chain1" value="300"/></label>
+<label>Poliéster principal <small>m</small><input inputmode="decimal" name="poly1" value="1400"/></label>
+<label>Corrente de ligação <small>m</small><input inputmode="decimal" name="chain2" value="15"/></label>
+<label>Poliéster superior <small>m</small><input inputmode="decimal" name="poly2" value="1500"/></label>
+<label class="wide check-field"><input checked="" name="stretch" type="checkbox"/><span>Incluir alongamento axial T/EA<small>Aplicado somente no trecho suspenso.</small></span></label>
 </div></details>
 </form>
 <div class="input-foot"><button class="calculate" id="calculate" type="button">Calcular e atualizar <span>↗</span></button><button class="reset" id="reset" type="button">Restaurar exemplo</button><p>Campos aceitam vírgula ou ponto decimal. O caso fica salvo neste aparelho.</p></div>
@@ -120,7 +120,7 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/js/sessao.js?v=20261112-1"></script>
   <script src="assets/js/tema.js"></script>
-  <script src="assets/js/etapa.js?v=20261113-1"></script>
+  <script src="assets/js/etapa.js?v=20261113-2"></script>
   <script src="/assets/js/rodape.js?v=20261112-1"></script>
 </body>
 </html>

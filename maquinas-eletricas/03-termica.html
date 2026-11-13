@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ls5wGMsZiDARMj4sjqscG8Rs0ameKls1aaYB1NWY21o=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.engenhalab.com.br https://engenhalab-calculo.engenhalab.workers.dev http://localhost:8787 http://127.0.0.1:8787 https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <script src="/assets/js/anti-quadro.js"></script>
+  <script src="/assets/js/endereco.js?v=20261111-1"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Laboratório térmico: área mínima do trocador de calor ar–água de máquinas elétricas em circuito fechado (IC81). Perdas no ar, ventiladores LA/LOA, vazão de água, ε–NTU, coeficiente U e folha de dados para o fornecedor.">
+  <meta name="theme-color" content="#09131f">
+  <meta name="color-scheme" content="dark light">
+  <title>Laboratório térmico · Trocador ar–água | Vinicius Gandra</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2309131f'/%3E%3Cpath d='M12 18h36a6 6 0 0 1 0 12H16a6 6 0 0 0 0 12h36' fill='none' stroke='%23f5ad69' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <script>try { var t = localStorage.getItem('vg-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/thermal.css?v=20261102-mancal">
+  <link rel="stylesheet" href="assets/css/site-labs.css">
+  <script src="assets/js/config.js"></script>
+  <script src="../offshore/assets/js/sessao.js?v=20261112-1"></script>
+  <link rel="stylesheet" href="assets/css/portao.css?v=20261111-2">
+  <script src="assets/js/portao.js?v=20261111-2"></script>
+<script src="assets/js/vg-calc.js?v=20261111-5"></script>
+<script defer src="assets/js/thermal-engine.js?v=20261031-vert"></script>
+  <script defer src="assets/js/thermal-figures.js"></script>
+  <script defer src="assets/js/thermal-cfd.js?v=20261102-sim"></script>
+  <script defer src="assets/js/thermal-drawing.js?v=20261102-mancal"></script>
+  <script defer src="assets/js/thermal-app.js?v=20261102-cabo"></script>
+  <script defer src="assets/js/site-labs.js"></script>
+<link rel="stylesheet" href="assets/css/machine-project.css?v=20261019-2">
+<script src="assets/js/shaft-engine.js?v=20261019-8"></script>
+<script src="assets/js/machine-project.js?v=20261019-report-2"></script>
+  <link rel="stylesheet" href="assets/css/review-notes.css?v=20261019-1">
+
+<link rel="stylesheet" href="assets/css/lab-sidebar.css?v=20261019-unified-2">
+<script defer src="assets/js/lab-sidebar.js?v=20261019-unified-2"></script>
+<link rel="stylesheet" href="assets/css/report-picker.css?v=20261019-2">
+<script defer src="assets/js/report-access.js?v=20261030-labs"></script>
+<script defer src="assets/js/report-catalog.js?v=20261019-2"></script>
+<script defer src="assets/js/report-launcher.js?v=20261019-access-3"></script>
+<script defer src="assets/js/report-export.js?v=20261019-security-3"></script>
+  <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
+  <script defer src="/assets/js/analytics.js?v=20261110-1"></script>
+  <link rel="stylesheet" href="assets/css/mais-menos.css?v=20261030-1">
+  <link rel="stylesheet" href="assets/css/conta-lab.css?v=20261030-1">
+  <script defer src="assets/js/conta-lab.js?v=20261111-5"></script>
+  <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
+</head>
+<body class="thermal-app">
+  <a class="t-skip" href="#t-output">Pular para o resultado</a>
+
+  <header class="t-appbar">
+    <a class="t-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
+    <a class="t-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="t-back-label">Laboratórios</span></a>
+    <span class="t-header-divider" aria-hidden="true"></span>
+    <div class="t-appbar-title"><span class="overline">Laboratório térmico</span><strong>Trocador ar–água · área mínima (IC81)</strong></div>
+    <div class="t-actions" aria-label="Ações">
+      <button class="t-act" id="t-reset" type="button" title="Preencher com o exemplo (gerador 10 MVA, condições padrão)"><span aria-hidden="true">↺</span><span class="t-act-label">Exemplo</span></button>
+      <button class="t-act" id="t-clear" type="button" title="Apagar perdas, ventilação e água para digitar outro projeto"><span aria-hidden="true">⌫</span><span class="t-act-label">Limpar</span></button>
+      <button class="t-act" id="t-copy" type="button" title="Copiar a folha de dados para o fornecedor"><span aria-hidden="true">⧉</span><span class="t-act-label">Copiar</span></button>
+      <button class="t-act t-act-primary" id="t-relatorio" type="button" title="Gerar o relatório térmico (com login)"><span aria-hidden="true">▣</span><span class="t-act-label">Gerar relatório</span></button>
+      <button class="t-act t-act-icon" id="t-theme" type="button" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="t-theme-sun" aria-hidden="true">☼</span><span class="t-theme-moon" aria-hidden="true">☾</span></button>
+    </div>
+  </header>
+
+  <nav class="t-areas" aria-label="Laboratórios">
+    <a class="t-area" href="./"><span class="t-area-number">00</span> Anatomia <span class="t-area-detail">· conheça as peças</span></a>
+    <a class="t-area" href="01-maquinas-sincronas.html"><span class="t-area-number">01</span> Máquinas síncronas <span class="t-area-detail">· rotor e campo</span></a>
+    <a class="t-area" href="02-mecanica.html"><span class="t-area-number">02</span> Mecânica <span class="t-area-detail">· eixo e mancal</span></a>
+    <a class="t-area" href="03-termica.html" aria-current="page"><span class="t-area-number">03</span> Térmica <span class="t-area-detail">· trocador ar–água</span></a>
+    <a class="t-area" href="04-eixos.html"><span class="t-area-number">04</span> Eixos <span class="t-area-detail">· rotor completo</span></a>
+  </nav>
+
+  <div class="t-workspace" id="t-workspace" data-view="resultado">
+    <aside class="t-inputs" id="t-inputs" aria-labelledby="t-form-title">
+      <div class="t-inputs-head">
+        <div>
+          <p class="t-eyebrow">Dados do projeto</p>
+          <h2 id="t-form-title">Dados de entrada</h2>
+        </div>
+        <div class="t-progress" id="t-progress" aria-live="polite"></div>
+      </div>
+      <div class="t-legend" aria-hidden="true"><span><i></i>definido por você</span><span><i class="is-calc"></i>calculado (consequência)</span></div>
+      <form id="t-form" novalidate></form>
+    </aside>
+
+    <main class="t-results" id="t-main">
+      <div class="t-intro">
+        <p class="t-eyebrow">Máquinas elétricas · circuito fechado IC81</p>
+        <h1>Laboratório <em>térmico.</em></h1>
+        <div class="t-entrar" data-vg-entrar hidden></div>
+      </div>
+      <div id="t-error" class="t-alert t-alert-fail" role="alert" hidden></div>
+      <div id="t-output" aria-live="off"></div>
+      <noscript><div class="t-alert t-alert-fail"><strong>JavaScript desativado.</strong> O laboratório calcula no próprio navegador e precisa de JavaScript.</div></noscript>
+      <footer class="t-pe"></footer>
+    </main>
+  </div>
+
+  <div class="t-peek" id="t-peek" hidden>
+    <button type="button" id="t-peek-btn"><span class="t-peek-label">Área mínima</span><strong id="t-peek-value">—</strong><span class="t-peek-go" aria-hidden="true">→</span></button>
+  </div>
+  <nav class="t-mobilebar" aria-label="Alternar entre dados e resultado">
+    <button type="button" data-view="dados" aria-pressed="false"><span class="t-mb-icon" aria-hidden="true">✎</span>Dados<span class="t-mb-badge" id="t-mb-badge" hidden></span></button>
+    <button type="button" data-view="resultado" aria-pressed="true"><span class="t-mb-icon" aria-hidden="true">◫</span>Trocador</button>
+  </nav>
+  <div class="t-toast" id="t-toast" role="status" aria-live="polite" hidden></div>
+  <script src="/assets/js/rodape.js?v=20261112-1"></script>
+</body>
+</html>

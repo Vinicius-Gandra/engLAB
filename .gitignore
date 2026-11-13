@@ -1,0 +1,20 @@
+# O repositório público contém somente o site e suas verificações.
+servidor-calculo/
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+.wrangler/
+node_modules/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.pem
+*.key
+*.p12
+*.pfx
+*.bak
+*.orig
+*.old
+*~

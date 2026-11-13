@@ -1,0 +1,16 @@
+/* Observações recolhidas para consulta sob demanda. */
+.review-notes { margin: 12px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.review-notes > summary, .review-item > summary { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; list-style: none; color: var(--text-2); font-size: .8rem; font-weight: 650; }
+.review-notes summary::-webkit-details-marker { display: none; }
+.review-notes > summary::after, .review-item > summary::after { content: '⌄'; margin-left: auto; transition: transform .15s; }
+.review-notes[open] > summary::after, .review-item[open] > summary::after { transform: rotate(180deg); }
+.review-count { padding: 1px 7px; border-radius: 20px; background: var(--accent-wash); font-size: .7rem; }
+.review-items { border-top: 1px solid var(--line); padding: 0 12px; }
+.review-item + .review-item { border-top: 1px solid var(--line); }
+.review-item > summary { padding: 12px 4px; font-size: .76rem; }
+.review-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: #e5bd58; }
+.review-fail .review-dot { background: #ef8278; }
+.review-body { padding: 0 18px 14px; color: var(--text-2); font-size: .76rem; line-height: 1.6; }
+.review-body p { margin: 0; }
+.review-notes summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+

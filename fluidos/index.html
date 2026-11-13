@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.engenhalab.com.br https://engenhalab-calculo.engenhalab.workers.dev http://localhost:8787 http://127.0.0.1:8787 https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <script src="/assets/js/anti-quadro.js"></script>
+  <script src="/assets/js/endereco.js?v=20261111-1"></script>
+  <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
+  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+  <script src="assets/tema-cedo.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Laboratório de fluidos e CFD: as equações que governam o escoamento, ativadas uma a uma sobre uma simulação ao vivo, e o roteiro para montar o mesmo caso no Ansys Fluent.">
+  <meta name="theme-color" content="#09131f">
+  <meta name="color-scheme" content="dark light">
+  <title>Fluidos &amp; CFD · EngenhaLab</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2309131f'/%3E%3Cpath d='M14 18 32 48 50 18' fill='none' stroke='%23f5ad69' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="assets/fluidos.css?v=20261111-1">
+  <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
+  <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
+  <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
+  <script defer src="/assets/js/compartilhar.js?v=20261111-2"></script>
+  <script defer src="/assets/js/dica-tela-cheia.js?v=20261111-2" data-botao="#tela-cheia" data-esconder="#aviso"></script>
+</head>
+<body>
+  <a class="skip" href="#bancada">Pular para o estúdio</a>
+  <header class="s-appbar">
+    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
+    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+    <span class="s-header-divider" aria-hidden="true"></span>
+    <div class="s-appbar-title"><span class="overline">Laboratório de fluidos</span><h1>Fluidos &amp; CFD</h1></div>
+    <div class="s-actions" aria-label="Ações">
+      <button type="button" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
+    </div>
+  </header>
+  <nav class="s-areas" aria-label="Seções desta página">
+    <a class="s-area" href="#bancada" aria-current="page"><span class="s-area-number">00</span> Estúdio</a>
+    <a class="s-area" href="#volume"><span class="s-area-number">·</span> Volume de controle</a>
+    <a class="s-area" href="#equacoes"><span class="s-area-number">·</span> Equações</a>
+    <a class="s-area" href="#fluent"><span class="s-area-number">·</span> Roteiro no Fluent</a>
+    <a class="s-area" href="#estudo"><span class="s-area-number">·</span> Material gratuito</a>
+  </nav>
+
+  <main id="main">
+    <!-- ===================================================== ESTÚDIO -->
+    <section class="studio" id="bancada" aria-label="Estúdio de escoamento">
+      <div class="st-palco">
+        <div class="st-barra">
+          <div class="campos" role="tablist" aria-label="Campo exibido">
+            <button type="button" role="tab" data-campo="vel" aria-selected="true">Velocidade</button>
+            <button type="button" role="tab" data-campo="vort" aria-selected="false">Vorticidade</button>
+            <button type="button" role="tab" data-campo="cp" aria-selected="false">Pressão</button>
+            <button type="button" role="tab" data-campo="temp" aria-selected="false">Temperatura</button>
+            <button type="button" role="tab" data-campo="esp" aria-selected="false">Traçador</button>
+            <button type="button" role="tab" data-campo="nut" aria-selected="false" translate="no">ν<sub>t</sub></button>
+          </div>
+          <div class="ovs" role="group" aria-label="Sobreposições">
+            <button type="button" data-ov="vetores" aria-pressed="true" title="Setas de velocidade">Vetores</button>
+            <button type="button" data-ov="linhas" aria-pressed="false" title="Linhas tangentes à velocidade neste instante">Linhas de corrente</button>
+            <button type="button" data-ov="contornos" aria-pressed="false" title="Linhas de mesmo valor do campo">Isolinhas</button>
+            <button type="button" data-ov="particulas" aria-pressed="false" title="Trajetórias de partículas levadas pelo ar">Partículas</button>
+            <button type="button" data-ov="malha" aria-pressed="false" title="Células da malha de cálculo">Malha</button>
+            <button type="button" data-ov="parede" aria-pressed="false" title="Pressão e atrito na superfície do cilindro">Cargas na parede</button>
+          </div>
+        </div>
+        <figure class="palco" id="palco" data-ferr="sonda">
+          <div class="tela" id="tela-a">
+            <canvas id="campo" width="960" height="400" aria-label="Campo calculado ao redor do cilindro"></canvas>
+            <canvas id="part" class="sobre" width="960" height="400" aria-hidden="true"></canvas>
+            <canvas id="glifos" class="sobre" width="960" height="400" aria-hidden="true"></canvas>
+            <div class="anot" id="anot" aria-hidden="true"></div>
+            <span class="leitura" id="leitura" hidden></span>
+            <div class="etapa-tag" id="etapa-tag" hidden></div>
+            <span class="tela-tag" id="tag-a" hidden>Caso ativo</span>
+          </div>
+          <div class="aviso" id="aviso" role="status" hidden><p id="aviso-t"></p><button type="button" id="aviso-x" aria-label="Fechar">×</button></div>
+          <div class="tela" id="tela-b" hidden>
+            <canvas id="campo-b" width="960" height="200" aria-label="Campo do caso base"></canvas>
+            <canvas id="part-b" class="sobre" width="960" height="200" aria-hidden="true"></canvas>
+            <canvas id="glifos-b" class="sobre" width="960" height="200" aria-hidden="true"></canvas>
+            <span class="tela-tag" id="tag-b">Caso base · massa e momento</span>
+          </div>
+          <div class="zc" role="group" aria-label="Vista">
+            <button type="button" class="ctl" id="zm-tudo" title="Domínio inteiro" aria-label="Domínio inteiro"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="4" width="13" height="8" rx="1"/><circle cx="5.5" cy="8" r="1.4"/></svg></button>
+            <button type="button" class="ctl" id="zm-cil" title="Aproximar do cilindro" aria-label="Aproximar do cilindro"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg></button>
+            <button type="button" class="ctl" id="zm-menos" title="Afastar" aria-label="Afastar">−</button>
+            <button type="button" class="ctl" id="zm-mais" title="Aproximar" aria-label="Aproximar">+</button>
+            <button type="button" class="ctl" id="tela-cheia" title="Tela cheia" aria-label="Tela cheia"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button>
+          </div>
+          <dl class="kpis" aria-live="off">
+            <div title="Coeficiente de arrasto"><dt translate="no">C<sub>d</sub></dt><dd id="mo-cd">—</dd></div>
+            <div title="Coeficiente de sustentação"><dt translate="no">C<sub>l</sub></dt><dd id="mo-cl">—</dd></div>
+            <div title="Frequência de desprendimento dos vórtices: St = f·D/U"><dt translate="no">St</dt><dd id="mo-st">—</dd></div>
+            <div title="Troca de calor na parede"><dt translate="no">Nu</dt><dd id="mo-nu">—</dd></div>
+            <div class="mon-massa" title="Vazão de massa na saída dividida pela da entrada"><dt><span translate="no">ṁ</span> sai/entra</dt><dd id="mo-massa">—</dd></div>
+          </dl>
+        </figure>
+        <div class="st-pe">
+          <div class="ferr" role="toolbar" aria-label="Ferramentas">
+            <button type="button" data-ferr="sonda" aria-pressed="true" title="Mede o balanço da equação num ponto"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3"/></svg><span>Sonda pontual</span></button>
+            <button type="button" data-ferr="vc" aria-pressed="false" title="Confere o que entra e o que sai de uma região"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="3.5" width="11" height="9" rx="1" stroke-dasharray="2 1.6"/></svg><span>Volume de controle</span></button>
+            <button type="button" data-ferr="elem" aria-pressed="false" title="Solta um pedaço de fluido e acompanha as forças sobre ele"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5.5 9.5 3l3.5 6.5-7 3z"/><path d="M1 13h4" stroke-dasharray="1.5 1.5"/></svg><span>Elemento de fluido</span></button>
+            <button type="button" data-ferr="forca" aria-pressed="false" title="Aplica uma força no ar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h10M9 4.5 12.5 8 9 11.5"/></svg><span>Empurrar</span></button>
+            <button type="button" data-ferr="fumaca" aria-pressed="false" title="Solta traçador em qualquer ponto"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 13c0-2 2-2 2-4S4 7 4 5M8 13c0-2 2-2 2-4S8 7 8 5M12 13c0-2 2-2 2-4s-2-2-2-4"/></svg><span>Fumaça</span></button>
+          </div>
+          <div class="barra"><button type="button" class="pilula" id="dom-bt" aria-pressed="false" title="Pinta cada região com a cor da parcela que mais pesa ali">Quem domina</button><span id="barra-nome">Velocidade [m/s]</span><span class="barra-l"><b id="barra-min"></b><canvas id="barra" width="256" height="8" aria-hidden="true"></canvas><b id="barra-max"></b></span></div>
+          <div class="palco-ctl">
+            <button type="button" class="ctl" id="play" aria-pressed="true" title="Pausar ou continuar" aria-label="Pausar ou continuar"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-pause" d="M4 3h3v10H4zM9 3h3v10H9z"/><path class="i-play" d="M4.5 2.5v11l9-5.5z"/></svg></button>
+            <button type="button" class="ctl" id="passo1" title="Avançar um passo de tempo" aria-label="Avançar um passo de tempo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.5v11l7-5.5zM11.5 3h2v10h-2z"/></svg></button>
+            <div class="seg" role="group" aria-label="Velocidade de reprodução"><button type="button" data-vel="1" aria-pressed="false">1×</button><button type="button" data-vel="2" aria-pressed="true">2×</button><button type="button" data-vel="4" aria-pressed="false">4×</button></div>
+            <button type="button" class="ctl ctl-txt" id="reiniciar" title="Recomeça a partir do escoamento uniforme">Reiniciar</button>
+            <span class="relogio"><b id="tempo">0,00 s</b></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- console da equação: a equação em foco, com cada parcela medida na sonda -->
+      <section class="deck" id="deck" aria-label="Equação em foco">
+        <div class="dk-eq">
+          <div class="dk-top">
+            <div class="eqtabs" id="eq-tabs" role="tablist" aria-label="Equação em foco">
+              <button type="button" role="tab" data-eq="bc" aria-selected="true">Fronteiras</button>
+              <span class="eqtab"><button type="button" role="tab" data-eq="massa" aria-selected="false">Continuidade</button><input type="checkbox" role="switch" id="m-continuidade" data-m="continuidade" checked aria-label="Continuidade ligada"></span>
+              <span class="eqtab eqtab-fixo"><button type="button" role="tab" data-eq="mom" aria-selected="false">Momento</button><span class="cadeado" title="Sempre resolvida" aria-label="Sempre resolvida"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span></span>
+              <span class="eqtab"><button type="button" role="tab" data-eq="energia" aria-selected="false">Energia</button><input type="checkbox" role="switch" id="m-energia" data-m="energia" aria-label="Energia ligada"></span>
+              <span class="eqtab"><button type="button" role="tab" data-eq="especie" aria-selected="false">Espécies</button><input type="checkbox" role="switch" id="m-especie" data-m="especie" aria-label="Espécies ligadas"></span>
+              <span class="eqtab"><button type="button" role="tab" data-eq="les" aria-selected="false">Turbulência</button><input type="checkbox" role="switch" id="m-les" data-m="les" aria-label="Turbulência ligada"></span>
+              <button type="button" role="tab" data-eq="num" aria-selected="false" title="Solução numérica">Numérico</button>
+            </div>
+          </div>
+          <div class="dk-f m" id="eqf-f"></div>
+          <div class="dk-x"><p class="dk-txt" id="eqf-txt"></p><p class="dk-vivo" id="eqf-vivo"></p></div>
+        </div>
+        <div class="dk-lente">
+          <div class="lt-top">
+            <div class="lt-tabs" id="lente-tabs" role="tablist" aria-label="Lente">
+              <button type="button" role="tab" data-lente="ponto" aria-selected="true">Balanço</button>
+              <button type="button" role="tab" data-lente="celula" aria-selected="false">Célula</button>
+              <button type="button" role="tab" data-lente="parede" aria-selected="false">Parede</button>
+              <button type="button" role="tab" data-lente="elem" aria-selected="false">Elemento</button>
+            </div>
+            <p class="lt-t" id="lente-t"></p>
+          </div>
+          <div class="lt-c"><canvas id="lente-c" width="460" height="300" aria-hidden="true"></canvas></div>
+          <p class="lt-n" id="lente-n"></p>
+        </div>
+      </section>
+
+      <!-- trilho: guia, sistema e solver -->
+      <aside class="rail" id="rail" aria-label="Guia, sistema e solver">
+        <div class="trilha">
+          <button type="button" class="ctl" id="tr-ant" aria-label="Etapa anterior">←</button>
+          <ol id="trilha" aria-label="Trilha pelas equações">
+            <li><button type="button" data-passo="1" title="Domínio e contornos" translate="no">01</button></li>
+            <li><button type="button" data-passo="2" title="Quantidade de movimento" translate="no">02</button></li>
+            <li><button type="button" data-passo="3" title="Continuidade" translate="no">03</button></li>
+            <li><button type="button" data-passo="4" title="Energia" translate="no">04</button></li>
+            <li><button type="button" data-passo="5" title="Gravidade e empuxo" translate="no">05</button></li>
+            <li><button type="button" data-passo="6" title="Transporte de espécies" translate="no">06</button></li>
+            <li><button type="button" data-passo="7" title="Turbulência" translate="no">07</button></li>
+            <li><button type="button" data-passo="8" title="Solução numérica" translate="no">08</button></li>
+          </ol>
+          <button type="button" class="ctl" id="tr-prox" aria-label="Próxima etapa">→</button>
+        </div>
+        <div class="rl-tabs" role="tablist" aria-label="Painel">
+          <button type="button" role="tab" data-rl="guia" aria-selected="true">Guia</button>
+          <button type="button" role="tab" data-rl="sistema" aria-selected="false">Sistema</button>
+          <button type="button" role="tab" data-rl="solver" aria-selected="false">Solver</button>
+        </div>
+
+        <div class="rl-p" id="rl-guia" role="tabpanel">
+          <p class="guia-k" id="guia-k">Etapa 01 de 08</p>
+          <h2 class="guia-t" id="guia-t">Domínio e condições de contorno</h2>
+          <p class="guia-sobre" id="guia-sobre"></p>
+          <div class="guia-exp"><h3>Experimente</h3><ul class="tarefas" id="tarefas"></ul></div>
+          <dl class="guia-dl">
+            <div><dt>Objetivo</dt><dd id="g-obj"></dd></div>
+            <div><dt id="g-por-t">Por que está aqui</dt><dd id="g-por"></dd></div>
+            <div><dt id="g-sem-t">Sem ela</dt><dd id="g-sem"></dd></div>
+            <div><dt>O que ela entrega</dt><dd id="g-ent"></dd></div>
+          </dl>
+          <p class="guia-fl" id="guia-fl"></p>
+          <div class="guia-nav"><button type="button" class="ctl ctl-txt" id="guia-ant">← Anterior</button><button type="button" class="ctl ctl-txt prim" id="guia-prox">Próxima etapa →</button></div>
+        </div>
+
+        <div class="rl-p" id="rl-sistema" role="tabpanel" hidden>
+          <div class="sis-head">
+            <h2>Sistema resolvido agora</h2>
+            <p class="sis-conta" id="sis-conta"></p>
+            <p class="sis-tam" id="sis-tam"></p>
+          </div>
+          <div class="sis-l" id="sistema">
+            <div class="eqr" data-row="bc"><button type="button" class="eqr-b"><span class="eqr-n">Fronteiras</span><span class="eqr-f m" translate="no"><b>u</b> = <i>U</i>(<i>t</i>) · <i>p</i> = 0 · <b>u</b><sub>w</sub> = 0</span></button><span class="eqr-u" translate="no"></span></div>
+            <div class="eqr" data-row="massa"><button type="button" class="eqr-b"><span class="eqr-n">Continuidade</span><span class="eqr-f m" translate="no">∇·<b>u</b> = 0</span></button><span class="eqr-u" translate="no"><i>p</i></span><input type="checkbox" role="switch" data-m="continuidade" checked aria-label="Continuidade ligada"></div>
+            <div class="eqr" data-row="mom"><button type="button" class="eqr-b"><span class="eqr-n">Momento</span><span class="eqr-f m" translate="no"><i>ρ</i> D<b>u</b>/D<i>t</i> = −∇<i>p</i> + ∇·(<i>μ</i><span class="so-les"><sub>ef</sub></span>∇<b>u</b>)<span class="so-empuxo"> + <i>ρ</i><b>b</b></span></span></button><span class="eqr-u" translate="no"><i>u</i>, <i>v</i></span><span class="cadeado" title="Sempre resolvida" aria-label="Sempre resolvida"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span></div>
+            <div class="eqr eqr-sub" data-row="emp"><button type="button" class="eqr-b"><span class="eqr-n">Gravidade e empuxo</span><span class="eqr-f m" translate="no"><i>ρ</i><b>b</b> = −<i>ρ</i><sub>0</sub><i>β</i>(<i>T</i> − <i>T</i><sub>∞</sub>)<b>g</b></span></button><span class="eqr-u" translate="no"></span><input type="checkbox" role="switch" data-m="empuxo" aria-label="Gravidade e empuxo ligados"></div>
+            <div class="eqr" data-row="energia"><button type="button" class="eqr-b"><span class="eqr-n">Energia</span><span class="eqr-f m" translate="no"><i>ρc</i><sub>p</sub> D<i>T</i>/D<i>t</i> = ∇·(<i>k</i><span class="so-les"><sub>ef</sub></span>∇<i>T</i>)</span></button><span class="eqr-u" translate="no"><i>T</i></span><input type="checkbox" role="switch" data-m="energia" aria-label="Energia ligada"></div>
+            <div class="eqr" data-row="especie"><button type="button" class="eqr-b"><span class="eqr-n">Espécies</span><span class="eqr-f m" translate="no"><i>ρ</i> D<i>Y</i>/D<i>t</i> = ∇·(<i>ρD</i><span class="so-les"><sub>ef</sub></span>∇<i>Y</i>)</span></button><span class="eqr-u" translate="no"><i>Y</i></span><input type="checkbox" role="switch" data-m="especie" aria-label="Espécies ligadas"></div>
+            <div class="eqr" data-row="les"><button type="button" class="eqr-b"><span class="eqr-n">Turbulência</span><span class="eqr-f m" translate="no"><i>μ</i><sub>t</sub> = <i>ρ</i>(<i>C</i><sub>s</sub><i>Δ</i>)<sup>2</sup>|<i>S̄</i>|</span></button><span class="eqr-u" translate="no"><i>μ</i><sub>t</sub></span><input type="checkbox" role="switch" data-m="les" aria-label="Turbulência ligada"></div>
+          </div>
+          <h3 class="cap">Quem depende de quem</h3>
+          <svg class="grafo" id="grafo" viewBox="0 0 320 180" role="img" aria-label="Acoplamento entre as incógnitas"></svg>
+          <p class="sis-nota" id="sis-nota"></p>
+
+          <h3 class="cap">Parâmetros</h3>
+          <div class="par">
+            <label for="re"><span>Reynolds</span><output id="re-v" for="re">150</output></label>
+            <input type="range" id="re" min="0" max="1000" step="1" value="0">
+            <p class="par-sub" id="re-u">U = 0,117 m/s</p>
+            <label for="dT"><span>Parede acima do ar</span><output id="dT-v" for="dT">20 K</output></label>
+            <input type="range" id="dT" min="2" max="60" step="1" value="20">
+          </div>
+          <dl class="adim" id="adim">
+            <div><dt translate="no">Re</dt><dd><b id="n-re">150</b><span>inércia ÷ atrito viscoso</span></dd></div>
+            <div><dt translate="no">Ri</dt><dd><b id="n-ri">0,96</b><span id="n-ri-t">empuxo ÷ inércia</span></dd></div>
+            <div><dt translate="no">Pr</dt><dd><b>0,71</b><span>difusão de momento ÷ de calor</span></dd></div>
+            <div><dt translate="no">Sc</dt><dd><b>100</b><span>difusão de momento ÷ de massa</span></dd></div>
+          </dl>
+
+          <h3 class="cap">Condições de contorno</h3>
+          <div class="bcs">
+            <div class="bc-l"><span class="bc-n"><b>Entrada</b><small translate="no">velocity-inlet</small></span><div class="seg seg-sm" role="radiogroup" aria-label="Velocidade de entrada"><button type="button" role="radio" data-bc-entrada="const" aria-checked="true">Constante</button><button type="button" role="radio" data-bc-entrada="puls" aria-checked="false">Pulsante</button></div></div>
+            <div class="bc-l"><span class="bc-n"><b>Topo e fundo</b><small id="bc-lados-t" translate="no">symmetry</small></span><div class="seg seg-sm" role="radiogroup" aria-label="Topo e fundo do domínio"><button type="button" role="radio" data-bc-paredes="sim" aria-checked="true">Simetria</button><button type="button" role="radio" data-bc-paredes="parede" aria-checked="false">Parede</button></div></div>
+            <div class="bc-l bc-fixa"><span class="bc-n"><b>Saída</b><small translate="no">pressure-outlet</small></span><span class="bc-v" translate="no">p = 0 Pa</span></div>
+            <div class="bc-l bc-fixa"><span class="bc-n"><b>Cilindro</b><small translate="no">wall</small></span><span class="bc-v" id="bc-cil">sem escorregamento</span></div>
+            <p class="par-sub" id="bc-vazao"></p>
+          </div>
+
+          <h3 class="cap">Exibição</h3>
+          <div class="exib">
+            <label class="chk"><input type="checkbox" id="comparar"> Comparar com o caso base</label>
+            <label class="sel">Paleta <select id="paleta"><option value="lab">EngenhaLab</option><option value="arco">Arco-íris do Fluent</option></select></label>
+          </div>
+        </div>
+
+        <div class="rl-p" id="rl-solver" role="tabpanel" hidden>
+          <div class="sis-head">
+            <h2>Como cada passo de tempo é calculado</h2>
+            <p class="sis-tam" id="sv-res"></p>
+          </div>
+          <ol class="pipe" id="pipe"></ol>
+          <div class="sv-acoes"><button type="button" class="ctl ctl-txt prim" id="sv-abrir">Abrir um passo, etapa por etapa</button></div>
+          <div class="sv-passo" id="sv-passo" hidden>
+            <p class="guia-k" id="sv-k"></p>
+            <p class="sv-info" id="sv-info"></p>
+            <div class="sv-it" id="sv-it-box" hidden>
+              <div class="seg seg-sm" role="radiogroup" aria-label="Ponto de partida da pressão"><button type="button" role="radio" data-part="frio" aria-checked="true">Do zero</button><button type="button" role="radio" data-part="morno" aria-checked="false">Do passo anterior</button></div>
+              <label for="sv-it"><span>Iterações</span><output id="sv-it-v" for="sv-it">0</output></label>
+              <input type="range" id="sv-it" min="0" max="10" step="1" value="0">
+            </div>
+            <div class="sv-nav"><button type="button" class="ctl" id="sv-ant" aria-label="Etapa anterior do passo">←</button><button type="button" class="ctl ctl-txt prim" id="sv-prox">Próxima etapa →</button><button type="button" class="ctl ctl-txt" id="sv-sair">Voltar ao tempo real</button></div>
+          </div>
+          <h3 class="cap">Pressão · um sistema linear por passo</h3>
+          <p class="sv-sis" id="sv-sis"></p>
+          <canvas class="sv-graf" id="res-c" width="560" height="220" aria-label="Erro da pressão ao longo das iterações"></canvas>
+          <p class="sv-nota" id="res-n"></p>
+          <h3 class="cap">Relatórios</h3>
+          <canvas class="sv-graf" id="grafico" width="560" height="200" aria-label="Coeficientes de sustentação e arrasto ao longo do tempo"></canvas>
+        </div>
+      </aside>
+    </section>
+
+    <div class="wrap">
+      <details class="metodo">
+        <summary>Como a bancada calcula e quanto ela acerta</summary>
+        <div class="metodo-b">
+          <div>
+            <h4>Método</h4>
+            <p>Volumes finitos em malha cartesiana deslocada de 256 × 96 células, com 16 células no diâmetro. Cada passo de tempo segue a mesma ordem de um solver segregado: transporte pela velocidade (advecção semi-lagrangiana de segunda ordem), empuxo, difusão viscosa e projeção da pressão, que impõe ∇·<b>u</b> = 0. Energia e traçador são transportados pelo mesmo campo de velocidade.</p>
+            <p>Domínio de 16 D × 6 D, com o cilindro a 4,5 D da entrada. Entrada com velocidade uniforme, saída com pressão fixa, topo e fundo com simetria e cilindro com parede sem escorregamento, à temperatura indicada. Ar a 25 °C com propriedades constantes: ν = 1,56 × 10⁻⁵ m²/s, Pr = 0,71, β = 1/298 K⁻¹. Traçador com Sc = 100, como fumaça, para que os filetes não se espalhem por difusão. A turbulência usa o modelo de Smagorinsky com C<sub>s</sub> = 0,17.</p>
+          </div>
+          <div>
+            <h4>Conferência em Re = 150</h4>
+            <table class="conf">
+              <thead><tr><th>Grandeza</th><th>Bancada</th><th>Referência</th></tr></thead>
+              <tbody>
+                <tr><td>Strouhal</td><td>0,197</td><td>0,18 a 0,19</td></tr>
+                <tr><td>C<sub>d</sub> médio</td><td>1,58</td><td>1,33 a 1,40</td></tr>
+                <tr><td>Nusselt médio</td><td>6,8</td><td>6,2</td></tr>
+              </tbody>
+            </table>
+            <p>As referências valem para cilindro em escoamento livre: medições em túnel para Strouhal e arrasto e correlação empírica para Nusselt. As paredes do domínio ocupam 1/6 da altura e aceleram o escoamento ao redor do cilindro, o que eleva Strouhal e arrasto. O contorno em degraus da malha cartesiana também influi. No Fluent, uma malha ajustada à parede e um domínio maior aproximam os valores de referência.</p>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- ===================================================== VOLUME DE CONTROLE -->
+    <section class="sec wrap" id="volume" aria-labelledby="v-titulo">
+      <div class="sec-head">
+        <div><p class="eyebrow">02 / O que o solver faz em cada célula</p><h2 id="v-titulo">Uma equação para todas</h2></div>
+        <p>Todas as equações de conservação têm a mesma forma: o que se acumula numa célula é o que entra por convecção, mais o que entra por difusão, mais o que é gerado dentro dela. Muda apenas a grandeza transportada.</p>
+      </div>
+      <div class="vc">
+        <figure class="vc-fig">
+          <svg id="vc-svg" viewBox="0 0 420 320" role="img" aria-label="Volume de controle com fluxos pelas faces">
+            <defs>
+              <marker id="vc-a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10z" class="vc-cab-c"/></marker>
+              <marker id="vc-a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10z" class="vc-cab-d"/></marker>
+            </defs>
+            <g class="vc-malha"><path d="M40 40H380M40 120H380M40 200H380M40 280H380M40 40V280M130 40V280M290 40V280M380 40V280"/></g>
+            <g class="vc-viz"><text x="56" y="196">W</text><text x="364" y="196">E</text><text x="270" y="64">N</text><text x="270" y="264">S</text></g>
+            <rect class="vc-cel" x="130" y="120" width="160" height="80"/>
+            <g class="vc-l" data-l="trans"><rect class="vc-acum" x="130" y="120" width="160" height="80"/><text x="210" y="138" class="vc-rot">acúmulo</text></g>
+            <g class="vc-l" data-l="conv"><path class="vc-conv" d="M58 160H124" marker-end="url(#vc-a1)"/><path class="vc-conv" d="M296 160H362" marker-end="url(#vc-a1)"/><path class="vc-conv vc-fino" d="M210 266V206" marker-end="url(#vc-a1)"/><path class="vc-conv vc-fino" d="M210 114V54" marker-end="url(#vc-a1)"/><text x="78" y="150" class="vc-rot">ρuφ</text></g>
+            <g class="vc-l" data-l="dif"><path class="vc-dif" d="M174 112 L170 104 178 96 170 88 174 80" marker-end="url(#vc-a2)"/><path class="vc-dif" d="M246 208 L250 216 242 224 250 232 246 240" marker-end="url(#vc-a2)"/><text x="186" y="96" class="vc-rot vc-rot-d">Γ∇φ</text></g>
+            <g class="vc-l" data-l="fonte"><circle class="vc-fonte" cx="210" cy="164" r="7"/><circle class="vc-fonte-o" cx="210" cy="164" r="14"/><text x="232" y="180" class="vc-rot vc-rot-s">S<tspan baseline-shift="sub" font-size="9">φ</tspan></text></g>
+          </svg>
+        </figure>
+        <div class="vc-txt">
+          <div class="geral m" id="geral" translate="no">
+            <button type="button" class="t" data-l="trans"><span class="fr"><span>∂(<i>ρ</i><span class="phi">φ</span>)</span><span>∂<i>t</i></span></span></button>
+            <span>+</span>
+            <button type="button" class="t" data-l="conv">∇·(<i>ρ</i><b>u</b><span class="phi">φ</span>)</button>
+            <span>=</span>
+            <button type="button" class="t" data-l="dif">∇·(<span class="gam">Γ</span>∇<span class="phi">φ</span>)</button>
+            <span>+</span>
+            <button type="button" class="t" data-l="fonte"><span class="src">S</span><sub class="phi">φ</sub></button>
+          </div>
+          <dl class="termos">
+            <div data-l="trans"><dt>Transiente</dt><dd>Quanto de φ se acumula na célula a cada instante. Some no regime permanente.</dd></div>
+            <div data-l="conv"><dt>Convecção</dt><dd>φ levado pelo próprio escoamento através das faces. É o termo não linear do momento.</dd></div>
+            <div data-l="dif"><dt>Difusão</dt><dd>φ que passa de célula a célula por gradiente: viscosidade, condução de calor, difusão de massa.</dd></div>
+            <div data-l="fonte"><dt>Fonte</dt><dd>φ criado ou consumido dentro da célula: gradiente de pressão, empuxo, reação química, calor gerado.</dd></div>
+          </dl>
+          <div class="phi-tab" role="group" aria-label="Grandeza transportada">
+            <p class="phi-cap">Escolha φ</p>
+            <div class="phi-bt" id="phi-bt">
+              <button type="button" data-phi="0" aria-pressed="true">1</button>
+              <button type="button" data-phi="1" aria-pressed="false"><b>u</b></button>
+              <button type="button" data-phi="2" aria-pressed="false"><i>h</i></button>
+              <button type="button" data-phi="3" aria-pressed="false"><i>Y</i><sub>i</sub></button>
+              <button type="button" data-phi="4" aria-pressed="false"><i>k</i>, <i>ω</i></button>
+            </div>
+            <p class="phi-res" id="phi-res"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== EQUAÇÕES -->
+    <section class="sec wrap" id="equacoes" aria-labelledby="e-titulo">
+      <div class="sec-head">
+        <div><p class="eyebrow">03 / Equações governantes</p><h2 id="e-titulo">O que cada modelo acrescenta</h2></div>
+        <p>Massa e momento estão sempre ativos. Cada modelo do Fluent acrescenta incógnitas e as equações que as fecham. As marcadas como bancada podem ser ligadas na simulação acima.</p>
+      </div>
+      <div class="eqs">
+        <article class="eqc" data-grupo="base">
+          <header><span class="eqc-n">01</span><h3>Conservação de massa</h3><span class="tag tag-b">Bancada</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>∂<i>ρ</i></span><span>∂<i>t</i></span></span> + ∇·(<i>ρ</i><b>u</b>) = <i>S</i><sub>m</sub></div>
+          <p>O que entra numa célula sai ou se acumula. Em escoamento incompressível vira ∇·<b>u</b> = 0, e a pressão passa a ser o campo que garante essa condição.</p>
+          <p class="eqc-fl"><span>Fluent</span>Sempre resolvida · General › Solver</p>
+        </article>
+        <article class="eqc" data-grupo="base">
+          <header><span class="eqc-n">02</span><h3>Quantidade de movimento</h3><span class="tag tag-b">Bancada</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>∂(<i>ρ</i><b>u</b>)</span><span>∂<i>t</i></span></span> + ∇·(<i>ρ</i><b>uu</b>) = −∇<i>p</i> + ∇·<b>τ</b> + <i>ρ</i><b>g</b> + <b>F</b></div>
+          <div class="f f-s m" translate="no"><b>τ</b> = <i>μ</i>[(∇<b>u</b> + ∇<b>u</b><sup>T</sup>) − ⅔(∇·<b>u</b>)<b>I</b>]</div>
+          <p>Navier–Stokes: a segunda lei de Newton aplicada a cada célula. Pressão, tensões viscosas e forças de volume aceleram o fluido.</p>
+          <p class="eqc-fl"><span>Fluent</span>Sempre resolvida · Materials › Viscosity</p>
+        </article>
+        <article class="eqc" data-grupo="calor">
+          <header><span class="eqc-n">03</span><h3>Energia</h3><span class="tag tag-b">Bancada</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>∂(<i>ρE</i>)</span><span>∂<i>t</i></span></span> + ∇·[<b>u</b>(<i>ρE</i> + <i>p</i>)] = ∇·(<i>k</i><sub>ef</sub>∇<i>T</i> − Σ<i>h</i><sub>j</sub><b>J</b><sub>j</sub> + <b>τ</b><sub>ef</sub>·<b>u</b>) + <i>S</i><sub>h</sub></div>
+          <p>Acrescenta a temperatura. Necessária com troca de calor, propriedades que variam com T, escoamento compressível ou empuxo.</p>
+          <p class="eqc-fl"><span>Fluent</span>Models › Energy</p>
+        </article>
+        <article class="eqc" data-grupo="calor">
+          <header><span class="eqc-n">04</span><h3>Estado e empuxo</h3><span class="tag tag-b">Bancada</span></header>
+          <div class="f m" translate="no"><i>p</i> = <i>ρRT</i></div>
+          <div class="f f-s m" translate="no">(<i>ρ</i> − <i>ρ</i><sub>0</sub>)<b>g</b> ≈ −<i>ρ</i><sub>0</sub><i>β</i>(<i>T</i> − <i>T</i><sub>0</sub>)<b>g</b></div>
+          <p>Liga densidade a pressão e temperatura. Gás ideal para escoamento compressível. Boussinesq quando a densidade varia pouco e só importa no empuxo.</p>
+          <p class="eqc-fl"><span>Fluent</span>Materials › Density · General › Gravity</p>
+        </article>
+        <article class="eqc" data-grupo="massa">
+          <header><span class="eqc-n">05</span><h3>Transporte de espécies</h3><span class="tag tag-b">Bancada</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>∂(<i>ρY</i><sub>i</sub>)</span><span>∂<i>t</i></span></span> + ∇·(<i>ρ</i><b>u</b><i>Y</i><sub>i</sub>) = −∇·<b>J</b><sub>i</sub> + <i>R</i><sub>i</sub> + <i>S</i><sub>i</sub></div>
+          <p>Uma equação por espécie, menos uma. Mistura de gases, dispersão de poluentes e, com <i>R</i><sub>i</sub>, reações e combustão.</p>
+          <p class="eqc-fl"><span>Fluent</span>Models › Species › Species Transport</p>
+        </article>
+        <article class="eqc" data-grupo="turb">
+          <header><span class="eqc-n">06</span><h3>Turbulência k–ε</h3><span class="tag">Fluent</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>∂(<i>ρk</i>)</span><span>∂<i>t</i></span></span> + ∇·(<i>ρ</i><b>u</b><i>k</i>) = ∇·[(<i>μ</i> + <span class="fr"><span><i>μ</i><sub>t</sub></span><span><i>σ</i><sub>k</sub></span></span>)∇<i>k</i>] + <i>G</i><sub>k</sub> − <i>ρε</i></div>
+          <div class="f f-s m" translate="no"><i>μ</i><sub>t</sub> = <i>ρC</i><sub>μ</sub><i>k</i><sup>2</sup>/<i>ε</i></div>
+          <p>Modelo RANS de duas equações: resolve o escoamento médio e representa todos os turbilhões por uma viscosidade turbulenta. Robusto longe das paredes.</p>
+          <p class="eqc-fl"><span>Fluent</span>Models › Viscous › k-epsilon</p>
+        </article>
+        <article class="eqc" data-grupo="turb">
+          <header><span class="eqc-n">07</span><h3>Turbulência k–ω SST</h3><span class="tag">Fluent</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>∂(<i>ρω</i>)</span><span>∂<i>t</i></span></span> + ∇·(<i>ρ</i><b>u</b><i>ω</i>) = ∇·[(<i>μ</i> + <span class="fr"><span><i>μ</i><sub>t</sub></span><span><i>σ</i><sub>ω</sub></span></span>)∇<i>ω</i>] + <i>G</i><sub>ω</sub> − <i>Y</i><sub>ω</sub> + <i>D</i><sub>ω</sub></div>
+          <p>Usa k–ω perto da parede e k–ε longe dela. É a escolha mais comum para separação e gradiente adverso de pressão. Pede malha com y⁺ ≈ 1 na parede.</p>
+          <p class="eqc-fl"><span>Fluent</span>Models › Viscous › k-omega › SST</p>
+        </article>
+        <article class="eqc" data-grupo="turb">
+          <header><span class="eqc-n">08</span><h3>Simulação de grandes escalas</h3><span class="tag tag-b">Bancada</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>∂(<i>ρ</i><b>ū</b>)</span><span>∂<i>t</i></span></span> + ∇·(<i>ρ</i><b>ūū</b>) = −∇<i>p̄</i> + ∇·(<b>τ̄</b> + <b>τ</b><sup>sgs</sup>)</div>
+          <div class="f f-s m" translate="no"><i>μ</i><sub>t</sub> = <i>ρ</i>(<i>C</i><sub>s</sub><i>Δ</i>)<sup>2</sup>|<i>S̄</i>|</div>
+          <p>Resolve os turbilhões maiores que a malha e modela só os menores. Mostra a estrutura instantânea do escoamento, com custo bem maior que RANS.</p>
+          <p class="eqc-fl"><span>Fluent</span>Models › Viscous › Large Eddy Simulation · só em 3D</p>
+        </article>
+        <article class="eqc" data-grupo="fase">
+          <header><span class="eqc-n">09</span><h3>Multifásico VOF</h3><span class="tag">Fluent</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>∂<i>α</i><sub>q</sub></span><span>∂<i>t</i></span></span> + ∇·(<i>α</i><sub>q</sub><b>u</b>) = 0 &nbsp;·&nbsp; <i>ρ</i> = Σ<i>α</i><sub>q</sub><i>ρ</i><sub>q</sub></div>
+          <p>Fração de volume de cada fase em cada célula. Superfície livre, enchimento de tanques, ondas e jatos de líquido.</p>
+          <p class="eqc-fl"><span>Fluent</span>Models › Multiphase › Volume of Fluid</p>
+        </article>
+        <article class="eqc" data-grupo="calor">
+          <header><span class="eqc-n">10</span><h3>Radiação</h3><span class="tag">Fluent</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>d<i>I</i></span><span>d<i>s</i></span></span> + (<i>a</i> + <i>σ</i><sub>s</sub>)<i>I</i> = <i>an</i><sup>2</sup><span class="fr"><span><i>σT</i><sup>4</sup></span><span><i>π</i></span></span> + <span class="fr"><span><i>σ</i><sub>s</sub></span><span>4<i>π</i></span></span>∫<i>I</i>Φ d<i>Ω</i>′</div>
+          <p>Troca de calor por radiação entre superfícies e através do meio. Relevante em fornos, chamas e superfícies acima de algumas centenas de graus.</p>
+          <p class="eqc-fl"><span>Fluent</span>Models › Radiation · DO, P1, S2S</p>
+        </article>
+        <article class="eqc" data-grupo="fase">
+          <header><span class="eqc-n">11</span><h3>Fase discreta</h3><span class="tag">Fluent</span></header>
+          <div class="f m" translate="no"><span class="fr"><span>d<b>u</b><sub>p</sub></span><span>d<i>t</i></span></span> = <span class="fr"><span><b>u</b> − <b>u</b><sub>p</sub></span><span><i>τ</i><sub>r</sub></span></span> + <span class="fr"><span><b>g</b>(<i>ρ</i><sub>p</sub> − <i>ρ</i>)</span><span><i>ρ</i><sub>p</sub></span></span> + <b>F</b></div>
+          <p>Partículas, gotas ou bolhas seguidas uma a uma pelo campo calculado. Sprays, erosão, ciclones e deposição.</p>
+          <p class="eqc-fl"><span>Fluent</span>Models › Discrete Phase</p>
+        </article>
+        <article class="eqc" data-grupo="base">
+          <header><span class="eqc-n">12</span><h3>Referencial em rotação</h3><span class="tag">Fluent</span></header>
+          <div class="f m" translate="no">∇·(<i>ρ</i><b>u</b><sub>r</sub><b>u</b><sub>r</sub>) + <i>ρ</i>(2<b>Ω</b>×<b>u</b><sub>r</sub> + <b>Ω</b>×<b>Ω</b>×<b>r</b>) = −∇<i>p</i> + ∇·<b>τ</b><sub>r</sub></div>
+          <p>Momento escrito num referencial que gira com o rotor. Aparecem as acelerações de Coriolis e centrífuga. Bombas, ventiladores e turbinas.</p>
+          <p class="eqc-fl"><span>Fluent</span>Cell Zone Conditions › Frame Motion</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================================================== FLUENT -->
+    <section class="sec wrap" id="fluent" aria-labelledby="f-titulo">
+      <div class="sec-head">
+        <div><p class="eyebrow">04 / Roteiro no Ansys Fluent</p><h2 id="f-titulo">O mesmo caso no Fluent</h2></div>
+        <p>Os valores ao lado seguem o estado da bancada. Mude Reynolds, temperatura ou modelos acima e eles se atualizam.</p>
+      </div>
+      <div class="fl">
+        <ol class="fl-passos">
+          <li><span class="fl-n">01</span><div><h3>Geometria</h3><p>Projeto 2D no SpaceClaim ou no DesignModeler, com <em translate="no">Analysis Type = 2D</em>. Retângulo de 320 × 120 mm e furo de Ø 20 mm com centro a 90 mm da entrada. Nomeie as bordas: <code translate="no">inlet</code>, <code translate="no">outlet</code>, <code translate="no">top</code>, <code translate="no">bottom</code> e <code translate="no">cylinder</code>.</p></div></li>
+          <li><span class="fl-n">02</span><div><h3>Malha</h3><p>Quadriláteros com <em translate="no">Inflation</em> no cilindro: primeira camada de 0,05 mm, 15 camadas e taxa de crescimento de 1,2. Refine a esteira com uma região de influência de 1 mm até a saída. Confira a qualidade em <em translate="no">Mesh › Quality</em>. Uma malha de 40 a 80 mil células cabe na versão Student.</p></div></li>
+          <li><span class="fl-n">03</span><div><h3>Setup</h3><p><em translate="no">General</em>: Pressure-Based, Transient, 2D Planar. <em translate="no">Models</em>: os mesmos ligados na bancada. Em 2D, use Laminar até Re ≈ 200 e SST k–ω acima disso. <em translate="no">Boundary Conditions</em>: <code translate="no">velocity-inlet</code> na entrada, <code translate="no">pressure-outlet</code> a 0 Pa na saída, <code translate="no">symmetry</code> no topo e no fundo, <code translate="no">wall</code> no cilindro.</p></div></li>
+          <li><span class="fl-n">04</span><div><h3>Solução</h3><p>Acoplamento PISO ou Coupled, discretização espacial de segunda ordem e formulação temporal <em translate="no">Bounded Second Order Implicit</em>. Em <em translate="no">Report Definitions</em>, crie arrasto e sustentação no cilindro com os valores de referência ao lado. Inicialize, rode cerca de 15 períodos e descarte os primeiros 5.</p></div></li>
+          <li><span class="fl-n">05</span><div><h3>Resultados</h3><p>Contornos de vorticidade, velocidade e temperatura em <em translate="no">Results › Contours</em>. Trajetórias em <em translate="no">Pathlines</em>. Para o Strouhal, aplique <em translate="no">FFT</em> ao histórico de sustentação: St = <i>f</i>·D/U. Compare com os monitores da bancada.</p></div></li>
+        </ol>
+        <aside class="fl-val" aria-labelledby="fv-titulo">
+          <h3 id="fv-titulo">Valores para o caso atual</h3>
+          <dl id="fl-val">
+            <div><dt>Entrada</dt><dd id="fv-ent">—</dd></div>
+            <div><dt>Velocidade de entrada</dt><dd id="fv-u">—</dd></div>
+            <div><dt>Topo e fundo</dt><dd id="fv-lados">—</dd></div>
+            <div><dt>Reynolds</dt><dd id="fv-re">—</dd></div>
+            <div><dt>Temperatura do ar</dt><dd>298,15 K</dd></div>
+            <div><dt>Temperatura da parede</dt><dd id="fv-tw">—</dd></div>
+            <div><dt>Densidade</dt><dd id="fv-rho">—</dd></div>
+            <div><dt>Gravidade</dt><dd id="fv-g">—</dd></div>
+            <div><dt>Modelo viscoso</dt><dd id="fv-visc">—</dd></div>
+            <div><dt>Período esperado</dt><dd id="fv-per">—</dd></div>
+            <div><dt>Passo de tempo</dt><dd id="fv-dt">—</dd></div>
+            <div><dt>Tempo total</dt><dd id="fv-tot">—</dd></div>
+            <div><dt>Área de referência</dt><dd>0,02 m² (D × 1 m)</dd></div>
+            <div><dt>Comprimento de referência</dt><dd>0,02 m</dd></div>
+          </dl>
+          <p class="fl-nota" id="fv-nota"></p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================================================== ESTUDO -->
+    <section class="sec wrap" id="estudo" aria-labelledby="r-titulo">
+      <div class="sec-head">
+        <div><p class="eyebrow">05 / Material gratuito</p><h2 id="r-titulo">Para continuar</h2></div>
+        <p>Software, cursos e textos abertos. Alguns cursos pedem cadastro gratuito.</p>
+      </div>
+      <div class="lib">
+        <a href="https://www.ansys.com/academic/students/ansys-student" rel="noopener" target="_blank"><small>Software</small><strong>Ansys Student</strong><span>Fluent gratuito para estudo, com limite de tamanho de malha.</span></a>
+        <a href="https://innovationspace.ansys.com/product/getting-started-with-ansys-fluent-basics/" rel="noopener" target="_blank"><small>Curso · Ansys</small><strong>Getting Started with Fluent</strong><span>Interface, montagem do caso e fluxo de trabalho, do zero.</span></a>
+        <a href="https://innovationspace.ansys.com/product/cornell-simcafe-fluids" rel="noopener" target="_blank"><small>Curso · Cornell</small><strong>SimCafe Fluids</strong><span>Casos resolvidos passo a passo, com verificação e validação.</span></a>
+        <a href="https://confluence.cornell.edu/display/SIMULATION/FLUENT+Learning+Modules" rel="noopener" target="_blank"><small>Tutoriais · Cornell</small><strong>Fluent Learning Modules</strong><span>Tubo, placa plana, aerofólio, cilindro e outros casos clássicos.</span></a>
+        <a href="https://ansyshelp.ansys.com/public/Views/Secured/corp/v252/en/flu_th/flu_th.html" rel="noopener" target="_blank"><small>Documentação</small><strong>Fluent Theory Guide</strong><span>Equações completas, hipóteses e modelos de fechamento.</span></a>
+        <a href="https://github.com/barbagroup/CFDPython" rel="noopener" target="_blank"><small>Código aberto</small><strong>12 passos até Navier–Stokes</strong><span>Notebooks em Python que constroem um solver de CFD do zero.</span></a>
+        <a href="https://doc.cfd.direct/notes/cfd-general-principles" rel="noopener" target="_blank"><small>Livro aberto</small><strong>Notes on CFD: General Principles</strong><span>Volumes finitos, discretização e solução numérica, sem depender de software.</span></a>
+        <a href="https://ocw.mit.edu/courses/2-29-numerical-fluid-mechanics-spring-2015/" rel="noopener" target="_blank"><small>Curso · MIT</small><strong>Numerical Fluid Mechanics</strong><span>Notas de aula e exercícios de mecânica dos fluidos numérica.</span></a>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/fluidos.js?v=20261111-1"></script>
+  <script src="/assets/js/rodape.js?v=20261112-1"></script>
+</body>
+</html>

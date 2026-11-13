@@ -1,0 +1,2 @@
+/* sem sessão a página é trocada pela tela de entrada (assets/js/portao.js); até lá não aparece nada */
+html.me-portao body{visibility:hidden!important}

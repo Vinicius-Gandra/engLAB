@@ -1,0 +1,52 @@
+/* Abrir e fechar em todo o laboratório: "+" com o item fechado e "−" com ele aberto
+   (o mesmo padrão do laboratório offshore). Carregado por último em cada página. */
+:root {
+  --mm-cor: var(--text-3, #7d8b96);
+  --mm-ativo: var(--accent, var(--acc, #c8612b));
+  --mm-fonte: 700 1.05rem/1 var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+}
+
+/* grupos do formulário · térmica e eixos */
+details.g > summary .g-arrow { display: grid; place-items: center; width: 18px; font-size: 0 !important; transform: none !important; transition: none; }
+details.g > summary .g-arrow::before { content: "+"; color: var(--mm-cor); font: var(--mm-fonte); }
+details.g[open] > summary .g-arrow::before { content: "−"; color: var(--mm-ativo); }
+
+/* grupos do formulário · síncronas e mecânica */
+:is(.grp-head, .grp-t)::after { content: "+" !important; transform: none !important; color: var(--mm-cor) !important; font: var(--mm-fonte) !important; }
+:is(.grp-head, .grp-t)[aria-expanded="true"]::after { content: "−" !important; color: var(--mm-ativo) !important; }
+
+/* observações, itens de revisão, grupos do projeto da máquina e sequência */
+:is(.review-notes, .review-item, .machine-group) > summary::after,
+summary.seqflow-head::after { content: "+"; margin-left: auto; transform: none !important; color: var(--mm-cor); font: var(--mm-fonte); }
+:is(.review-notes, .review-item, .machine-group)[open] > summary::after,
+details[open] > summary.seqflow-head::after { content: "−"; color: var(--mm-ativo); }
+
+/* passos do cálculo: o sinal fica ao lado do título */
+.sec details:not([open]) .sec-intro::after { content: none !important; }
+.sec > details > summary h3::after { content: "+"; display: inline-block; margin-left: 10px; color: var(--mm-cor); font: var(--mm-fonte); vertical-align: 1px; }
+.sec > details[open] > summary h3::after { content: "−"; color: var(--mm-ativo); }
+
+/* módulos da página de máquinas síncronas */
+.sync-module-toggle { display: grid; place-items: center; width: 22px; padding: 0 !important; border: 0 !important; background: none !important; font-size: 0 !important; }
+.sync-module-toggle::before { content: "+"; color: var(--mm-cor); font: var(--mm-fonte); }
+.sync-module > details[open] .sync-module-toggle::before { content: "−"; color: var(--mm-ativo); }
+
+/* lista de peças da anatomia */
+.bom-cols, .bom-row summary { grid-template-columns: 30px minmax(0, 1fr) 54px 14px !important; }
+.bom-row summary::after { content: "+"; justify-self: end; color: var(--mm-cor); font: var(--mm-fonte); }
+.bom-row[open] summary::after { content: "−"; color: var(--mm-ativo); }
+
+/* ferramentas da barra lateral: busca e exemplos */
+:is(.lab-sidebar-tools, .examples) > summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; list-style: none; }
+:is(.lab-sidebar-tools, .examples) > summary::-webkit-details-marker { display: none; }
+:is(.lab-sidebar-tools, .examples) > summary > span { display: none; }
+:is(.lab-sidebar-tools, .examples) > summary::after { content: "+"; color: var(--mm-cor); font: var(--mm-fonte); }
+:is(.lab-sidebar-tools, .examples)[open] > summary::after { content: "−"; color: var(--mm-ativo); }
+
+/* gráfico ↔ tabela */
+.chart-table > summary { list-style: none; }
+.chart-table > summary::-webkit-details-marker { display: none; }
+.chart-table > summary::after { content: "+"; margin-left: 6px; font: 700 .82rem/1 var(--font-mono, ui-monospace, monospace); }
+.chart-table[open] > summary::after { content: "−"; }
+
+@media print { :is(.g-arrow, .sync-module-toggle)::before, :is(.grp-head, .grp-t, .review-notes > summary, .review-item > summary, .bom-row summary)::after, .sec summary h3::after { content: none !important; } }

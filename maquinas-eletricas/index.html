@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ls5wGMsZiDARMj4sjqscG8Rs0ameKls1aaYB1NWY21o=' 'sha256-s5etMwJokvmh8iq9RKEqmfjwISp/4/QFyRD2rtsQwP8=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.engenhalab.com.br https://engenhalab-calculo.engenhalab.workers.dev http://localhost:8787 http://127.0.0.1:8787 https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <script src="/assets/js/anti-quadro.js"></script>
+  <script src="/assets/js/endereco.js?v=20261111-1"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Laboratório de máquinas elétricas: corte de uma máquina síncrona com as peças que cada módulo calcula — estator e rotor, eixo, ponta de eixo e mancal, ventiladores e trocador ar–água.">
+  <meta name="theme-color" content="#09131f">
+  <meta name="color-scheme" content="dark light">
+  <title>Laboratório de máquinas elétricas · Anatomia | Vinicius Gandra</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2309131f'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%23f5ad69' stroke-width='5'/%3E%3Cpath d='M32 18v28M18 32h28' stroke='%23f5ad69' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script>try { var t = localStorage.getItem('vg-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/site-labs.css">
+<link rel="stylesheet" href="assets/css/maquina3d.css?v=20261104-2">
+<script type="module" src="assets/js/maquina3d.js?v=20261104-2"></script>
+  <style>
+    /* Capa do laboratório (00 · Anatomia). Mesmo cabeçalho e barra de áreas dos módulos 01–04. */
+    :root { --hh: 56px; --ah: 40px; --gut: clamp(16px, 3vw, 36px); }
+    body.anat-app { min-height: 100dvh; font-size: 14px; line-height: 1.55; }
+    .s-skip { position: fixed; top: -80px; left: 16px; z-index: 300; padding: 10px 16px; border-radius: 8px; background: var(--accent); color: var(--accent-ink); font-weight: 750; }
+    .s-skip:focus { top: 10px; }
+    .s-eyebrow { color: var(--accent); font-size: .64rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+
+    .s-appbar { position: sticky; top: 0; z-index: 80; display: flex; align-items: center; gap: 14px; height: var(--hh); padding: 0 var(--gut) 0 16px;
+      border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); }
+    .s-brand { flex: none; font-size: 1.3rem; font-weight: 850; letter-spacing: -.05em; }
+    .s-brand b { color: var(--accent); }
+    .s-back { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 6px 8px; border-radius: 8px; color: var(--text-3); font-size: .74rem; font-weight: 650; }
+    .s-back:hover { color: var(--text); background: var(--surface-2); }
+    .s-header-divider { flex: none; width: 1px; height: 26px; background: var(--line); }
+    .s-appbar-title { display: grid; min-width: 0; line-height: 1.15; }
+    .s-appbar-title .overline { color: var(--text-3); font-size: .6rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .s-appbar-title strong { overflow: hidden; font-size: .9rem; text-overflow: ellipsis; white-space: nowrap; }
+    .s-actions { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .s-act { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 40px; height: 38px; padding: 0 12px; border: 1px solid transparent; border-radius: 10px; background: transparent; color: var(--text-2); font-size: .78rem; font-weight: 680; transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast); }
+    .s-act > span:first-child { font-size: 1.05rem; line-height: 1; }
+    .s-act:hover { border-color: var(--line); background: var(--surface-2); color: var(--text); }
+    .s-act-primary { background: var(--accent); color: var(--accent-ink); }
+    .s-act-primary:hover { border-color: var(--accent-strong); background: var(--accent-strong); color: var(--accent-ink); }
+    .s-act-icon { padding: 0; }
+    .s-theme-moon { display: none; }
+    html[data-theme="light"] .s-theme-sun { display: none; }
+    html[data-theme="light"] .s-theme-moon { display: inline; }
+    @media (prefers-color-scheme: light) { html:not([data-theme]) .s-theme-sun { display: none; } html:not([data-theme]) .s-theme-moon { display: inline; } }
+    .s-areas { position: sticky; top: var(--hh); z-index: 70; display: flex; gap: 2px; height: var(--ah); padding: 0 var(--gut) 0 16px; border-bottom: 1px solid var(--line); background: var(--bg-alt); overflow-x: auto; scrollbar-width: none; }
+    .s-areas::-webkit-scrollbar { display: none; }
+    .s-area { display: inline-flex; align-items: center; gap: 6px; padding: 0 14px; border-bottom: 2px solid transparent; color: var(--text-2); font-size: .76rem; font-weight: 650; white-space: nowrap; }
+    .s-area:hover { color: var(--text); background: var(--surface); }
+    .s-area[aria-current="page"] { border-bottom-color: var(--accent); color: var(--text); background: var(--accent-wash); }
+    .s-area-number { color: var(--accent); font: 700 .62rem var(--font-mono); }
+    .s-area-detail { color: var(--text-3); font-weight: 500; }
+
+    /* ---- Conteúdo ---------------------------------------------------------- */
+    .anat { max-width: 1320px; margin: 0 auto; padding: 0 var(--gut) 72px; }
+    .s-intro { max-width: 860px; padding: 28px 0 6px; }
+    .s-intro h1 { margin-top: 8px; font-size: clamp(1.9rem, 3.6vw, 3rem); line-height: 1.05; }
+    .s-intro h1 em { font-family: var(--font-serif); font-weight: 400; color: var(--accent); }
+    .s-intro p:last-child { max-width: 72ch; margin-top: 10px; color: var(--text-2); font-size: .9rem; line-height: 1.65; }
+
+    .anat-stage { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; align-items: start; margin-top: 26px; }
+    .anat-fig { margin: 0; padding: 18px 18px 12px; border: 1px solid var(--line); border-radius: var(--r-l); background: var(--surface); }
+    .anat-fig figcaption { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--text-3); font-size: .74rem; }
+    .key-item { display: inline-flex; align-items: center; gap: 7px; }
+    .key-sw { width: 18px; height: 10px; border-radius: 2px; border: 1px solid var(--text-3); }
+    .key-sw.lam { background: repeating-linear-gradient(90deg, var(--surface-2) 0 3px, var(--text-3) 3px 4px); }
+    .key-sw.cu { background: var(--c-em); border-color: transparent; }
+    .key-sw.hot, .key-sw.cold { height: 0; border: 0; border-top: 2px dashed var(--fail); }
+    .key-sw.cold { border-top-color: var(--teal); }
+
+    /* Desenho */
+    .anat-svg { width: 100%; height: auto; overflow: visible; }
+    .anat-svg .lam-bg, .anat-svg .cast-bg { fill: var(--surface-2); }
+    .anat-svg .lam-line { stroke: var(--text-3); stroke-width: .9; opacity: .7; }
+    .anat-svg .cast-line { stroke: var(--text-3); stroke-width: .8; opacity: .45; }
+    .anat-svg .iron { fill: url(#lam); stroke: var(--text-2); stroke-width: 1; }
+    .anat-svg .steel { fill: var(--surface-3); stroke: var(--text-3); stroke-width: 1; }
+    .anat-svg .shaft { fill: var(--line-strong); stroke: var(--text-2); stroke-width: 1.2; }
+    .anat-svg .key { fill: var(--text-3); stroke: var(--text-2); stroke-width: 1; }
+    .anat-svg .housing { fill: url(#cast); stroke: var(--text-2); stroke-width: 1.1; }
+    .anat-svg .seal { fill: var(--line-strong); stroke: var(--text-3); stroke-width: .8; }
+    .anat-svg .cu { fill: var(--c-em); stroke: color-mix(in srgb, var(--c-em) 60%, var(--bg)); stroke-width: 1; }
+    .anat-svg .brass { fill: var(--warn); stroke: none; }
+    .anat-svg .damper { fill: none; stroke: var(--warn); stroke-width: 2.4; }
+    .anat-svg .shell { fill: var(--surface-2); }
+    .anat-svg .ol { fill: none; stroke: var(--text-2); stroke-width: 1.4; }
+    .anat-svg .ol.thin { stroke: var(--text-3); stroke-width: 1; }
+    .anat-svg .tube { fill: var(--teal-wash); stroke: var(--teal); stroke-width: 1.3; }
+    .anat-svg .pipe { fill: var(--surface-3); stroke: var(--text-3); stroke-width: 1; }
+    .anat-svg .centre { fill: none; stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 22 5 4 5; }
+    .anat-svg .ground { fill: none; stroke: var(--text-3); stroke-width: 1.4; }
+    .anat-svg .ground.thin { stroke-width: 1; }
+    .anat-svg .air { fill: none; stroke-width: 2; stroke-dasharray: 7 5; }
+    .anat-svg .air.hot { stroke: var(--fail); marker-end: url(#ah-hot); }
+    .anat-svg .air.cold { stroke: var(--teal); marker-end: url(#ah-cold); }
+    .anat-svg .air.mix { stroke: var(--text-3); marker-end: url(#ah-mix); }
+    .anat-svg .ah.hot { fill: var(--fail); } .anat-svg .ah.cold { fill: var(--teal); } .anat-svg .ah.mix { fill: var(--text-3); }
+    .anat-svg .leader { fill: none; stroke: var(--text-3); stroke-width: 1; }
+    .anat-svg .dot { fill: var(--text-2); }
+    .anat-svg .ring { fill: var(--surface); stroke: var(--text-2); stroke-width: 1.4; }
+    .anat-svg .balloon text { fill: var(--text); font: 700 15px var(--font-mono); text-anchor: middle; dominant-baseline: central; }
+
+    .anat-svg .centre, .anat-svg .airflow, .anat-svg .ground { pointer-events: none; }
+    .anat-svg .part, .anat-svg .balloon { cursor: pointer; transition: opacity .2s var(--ease); }
+    .anat-svg .part:focus { outline: none; }
+    .anat-svg .part:focus-visible .steel, .anat-svg .part:focus-visible .shaft, .anat-svg .part:focus-visible .iron, .anat-svg .part:focus-visible .housing { stroke: var(--accent); stroke-width: 2; }
+    .anat-svg .airflow { transition: opacity .2s var(--ease); }
+    .anat-svg[data-show] .part:not(.is-on) { opacity: .16; }
+    .anat-svg[data-show] .balloon:not(.is-on) { opacity: .3; }
+    .anat-svg[data-show] .airflow { opacity: .12; }
+    .anat-svg[data-show="trocador"] .airflow, .anat-svg[data-show="ventiladores"] .airflow { opacity: 1; }
+    .anat-svg .balloon.is-on .ring { fill: var(--accent); stroke: var(--accent); }
+    .anat-svg .balloon.is-on text { fill: var(--accent-ink); }
+    .anat-svg .balloon.is-on .leader { stroke: var(--accent); }
+    .anat-svg .balloon.is-on .dot { fill: var(--accent); }
+
+    /* Lista de peças */
+    .bom { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--surface); overflow: hidden; }
+    .bom-head { padding: 16px 18px 12px; }
+    .bom-head h2 { font-size: 1.05rem; letter-spacing: -.015em; }
+    .bom-head p { margin-top: 4px; color: var(--text-3); font-size: .78rem; }
+    .bom-cols, .bom-row summary { display: grid; grid-template-columns: 30px minmax(0, 1fr) 54px; align-items: center; gap: 10px; }
+    .bom-cols { padding: 6px 18px; border-top: 1px solid var(--line); background: var(--surface-2); color: var(--text-3); font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .bom-cols span:last-child, .bom-mod { text-align: right; }
+    .bom-row { border-top: 1px solid var(--line); }
+    .bom-row summary { min-height: 46px; padding: 8px 18px; cursor: pointer; list-style: none; transition: background var(--t-fast); }
+    .bom-row summary::-webkit-details-marker { display: none; }
+    .bom-row summary:hover, .bom-row.is-hover summary { background: var(--surface-2); }
+    .bom-row[open] summary { background: var(--accent-wash); }
+    .bom-num { display: grid; place-items: center; width: 24px; height: 24px; border: 1.4px solid var(--text-3); border-radius: 50%; font: 700 .72rem var(--font-mono); color: var(--text); }
+    .bom-row[open] .bom-num { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+    .bom-name { font-weight: 650; font-size: .9rem; }
+    .bom-mod { color: var(--accent); font: 600 .78rem var(--font-mono); }
+    .bom-mod.none { color: var(--text-3); }
+    .bom-detail { padding: 2px 18px 16px 58px; background: var(--accent-wash); }
+    .bom-detail p { color: var(--text-2); font-size: .85rem; line-height: 1.6; }
+    .bom-detail .btn { margin-top: 12px; }
+    .bom-detail .no-mod { margin-top: 10px; color: var(--text-3); font-size: .8rem; }
+
+    /* Módulos */
+    .mods { margin-top: 64px; }
+    .mods-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+    .mods-head h2 { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+    .mods-head p { color: var(--text-3); font-size: .84rem; }
+    .mod { display: grid; grid-template-columns: 84px minmax(0, 1fr) minmax(220px, 300px); gap: 8px 28px; padding: 26px 0; border-top: 1px solid var(--line); }
+    .mod:last-child { border-bottom: 1px solid var(--line); }
+    .mod-num { color: var(--accent); font: 600 2.1rem/1 var(--font-mono); letter-spacing: -.04em; }
+    .mod h3 { font-size: 1.25rem; letter-spacing: -.02em; }
+    .mod h3 span { color: var(--text-3); font-weight: 500; }
+    .mod-text p { max-width: 68ch; margin-top: 8px; color: var(--text-2); font-size: .9rem; line-height: 1.65; }
+    .mod-side { display: grid; align-content: start; gap: 12px; }
+    .mod-side dl { display: grid; gap: 8px; margin: 0; }
+    .mod-side dt { color: var(--text-3); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .mod-side dd { margin: 2px 0 0; color: var(--text-2); font-size: .82rem; line-height: 1.5; }
+    .mod-side .btn { justify-self: start; }
+    .anat-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; margin-top: 40px; color: var(--text-3); font-size: .8rem; }
+    .anat-foot a { color: var(--text-2); border-bottom: 1px solid var(--line-strong); }
+    .anat-foot a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ---- Responsivo ---------------------------------------------------------- */
+    @media (max-width: 1100px) { .s-act-label { display: none; } .s-act { padding: 0 10px; } .anat-stage { grid-template-columns: minmax(0, 1fr) 320px; } }
+    @media (max-width: 1050px) {
+      :root { --hh: 54px; --ah: 38px; }
+      .s-appbar-title, .s-header-divider, .s-back-label { display: none; }
+      .s-areas { padding-inline: 8px; }
+      .s-area { flex: 1; justify-content: center; padding-inline: 6px; }
+    }
+    @media (max-width: 920px) {
+      .anat-stage { grid-template-columns: minmax(0, 1fr); }
+      .mod { grid-template-columns: 56px minmax(0, 1fr); }
+      .mod-num { font-size: 1.6rem; }
+      .mod-side { grid-column: 2; }
+    }
+    @media (max-width: 900px) { .s-area-detail { display: none; } }
+    @media (max-width: 560px) {
+      .anat-fig { padding: 10px 8px 8px; margin-inline: calc(var(--gut) * -.5); }
+      .anat-svg .balloon text { font-size: 20px; }
+      .anat-svg .ring { r: 17px; }
+      .mod { grid-template-columns: minmax(0, 1fr); }
+      .mod-side { grid-column: auto; }
+      .bom-detail { padding-left: 18px; }
+    }
+    @media (max-width: 420px) { .s-area { padding: 0 9px; font-size: .69rem; } .s-brand { font-size: 1.1rem; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+    @media print { .s-appbar, .s-areas { display: none !important; } .anat-stage { grid-template-columns: 1fr; } }
+  </style>
+  <script src="assets/js/config.js"></script>
+  <script src="../offshore/assets/js/sessao.js?v=20261112-1"></script>
+  <link rel="stylesheet" href="assets/css/portao.css?v=20261111-2">
+  <script src="assets/js/portao.js?v=20261111-2"></script>
+<script src="assets/js/vg-calc.js?v=20261111-5"></script>
+<script defer src="assets/js/site-labs.js"></script>
+  <link rel="stylesheet" href="assets/css/machine-project.css?v=20261019-3">
+  <script src="assets/js/shaft-engine.js?v=20261019-8"></script>
+  <script src="assets/js/machine-project.js?v=20261019-report-2"></script>
+  <script defer src="assets/js/machine-project-ui.js?v=20261019-3"></script>
+<link rel="stylesheet" href="assets/css/report-picker.css?v=20261019-2">
+<script defer src="assets/js/report-access.js?v=20261030-labs"></script>
+<script defer src="assets/js/report-catalog.js?v=20261019-2"></script>
+<script defer src="assets/js/report-launcher.js?v=20261019-access-3"></script>
+<script defer src="assets/js/report-export.js?v=20261019-security-3"></script>
+  <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
+  <script defer src="/assets/js/analytics.js?v=20261110-1"></script>
+  <link rel="stylesheet" href="assets/css/mais-menos.css?v=20261030-1">
+  <link rel="stylesheet" href="assets/css/conta-lab.css?v=20261030-1">
+  <script defer src="assets/js/conta-lab.js?v=20261111-5"></script>
+  <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
+</head>
+<body class="anat-app">
+  <a class="s-skip" href="#anat-main">Pular para o conteúdo</a>
+
+  <header class="s-appbar">
+    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
+    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+    <span class="s-header-divider" aria-hidden="true"></span>
+    <div class="s-appbar-title"><span class="overline">Laboratório de máquinas elétricas</span><strong>Anatomia · conheça as peças</strong></div>
+    <div class="s-actions" aria-label="Ações">
+      <a class="s-act s-act-primary" href="01-maquinas-sincronas.html" title="Abrir o módulo 01 · Máquinas síncronas"><span aria-hidden="true">→</span><span class="s-act-label">Abrir o módulo 01</span></a>
+      <button class="s-act s-act-primary" id="general-report" type="button" title="Gerar relatório geral"><span aria-hidden="true">▣</span><span class="s-act-label">PDF</span></button>
+      <button class="s-act s-act-icon" id="a-theme" type="button" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
+    </div>
+  </header>
+
+  <nav class="s-areas" aria-label="Laboratórios">
+    <a class="s-area" href="./" aria-current="page"><span class="s-area-number">00</span> Anatomia <span class="s-area-detail">· conheça as peças</span></a>
+    <a class="s-area" href="01-maquinas-sincronas.html"><span class="s-area-number">01</span> Máquinas síncronas <span class="s-area-detail">· rotor e campo</span></a>
+    <a class="s-area" href="02-mecanica.html"><span class="s-area-number">02</span> Mecânica <span class="s-area-detail">· eixo e mancal</span></a>
+    <a class="s-area" href="03-termica.html"><span class="s-area-number">03</span> Térmica <span class="s-area-detail">· trocador ar–água</span></a>
+    <a class="s-area" href="04-eixos.html"><span class="s-area-number">04</span> Eixos <span class="s-area-detail">· rotor completo</span></a>
+  </nav>
+
+  <main class="anat" id="anat-main">
+    <section class="s-intro">
+      <p class="s-eyebrow">Máquinas elétricas · visão geral</p>
+      <h1>Laboratório de máquinas <em>elétricas.</em></h1>
+      <p>Ferramentas para projetar geradores e motores síncronos: do campo magnético ao eixo, aos mancais e à refrigeração.</p>
+    </section>
+
+    <section class="m3" id="tour-3d" aria-labelledby="m3-tit">
+      <header class="m3-head">
+        <div>
+          <p class="s-eyebrow">00 · Visão geral em 3D</p>
+          <h2 id="m3-tit">O gerador por dentro</h2>
+          <p>Gerador síncrono de polos salientes com excitação sem escovas e trocador ar–água. Escolha a trilha mecânica ou a elétrica e siga o tour, ou gire e toque numa peça.</p>
+        </div>
+        <div class="m3-tools">
+          <div class="m3-seg" role="group" aria-label="Trilha do tour">
+            <button type="button" data-trilha="mecanica" aria-pressed="true">Mecânica</button>
+            <button type="button" data-trilha="eletrica" aria-pressed="false">Elétrica</button>
+          </div>
+          <button type="button" class="m3-tb m3-primary" id="m3-play" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg><span>Tour guiado</span></button>
+          <div class="m3-seg m3-vis" role="group" aria-label="Vista">
+            <button type="button" id="m3-giro" aria-pressed="true" title="Girar o rotor">Rotor girando</button>
+            <button type="button" id="m3-explodir" aria-pressed="false" title="Afastar trocador, tampas e mancais">Explodir</button>
+            <button type="button" id="m3-centro" title="Enquadrar de novo">Centralizar</button>
+          </div>
+          <button type="button" class="m3-ico" id="m3-full" aria-label="Tela cheia" aria-pressed="false" title="Tela cheia"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button>
+        </div>
+      </header>
+      <div class="m3-stage" id="m3-stage">
+        <canvas id="m3-canvas" tabindex="0" aria-label="Gerador síncrono em 3D: gire, aproxime e toque numa peça"></canvas>
+        <div class="m3-card" id="m3-card">
+          <div class="m3-card-top"><span class="m3-trilha" id="m3-trilha-rot">Mecânica</span><span id="m3-count">01 / 08</span>
+            <div class="m3-nav"><button type="button" id="m3-prev" aria-label="Capítulo anterior"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button><button type="button" id="m3-next" aria-label="Próximo capítulo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button></div>
+          </div>
+          <h3 id="m3-step-title"></h3>
+          <p id="m3-step-text" aria-live="polite"></p>
+          <div class="m3-prog"><i id="m3-prog"></i></div>
+        </div>
+        <div class="m3-tip" id="m3-tip" role="tooltip" hidden></div>
+      </div>
+      <nav class="m3-caps" id="m3-caps" role="tablist" aria-label="Capítulos do tour"></nav>
+    </section>
+
+    <div class="anat-stage">
+      <figure class="anat-fig">
+<svg class="anat-svg" viewBox="0 0 1000 636" role="img" aria-labelledby="anat-t anat-d">
+<title id="anat-t">Corte longitudinal de uma máquina síncrona</title>
+<desc id="anat-d">Máquina síncrona horizontal com rotor de polos salientes, mancais de deslizamento em pedestal e trocador de calor ar–água sobre a carcaça. Os números indicam as peças listadas ao lado.</desc>
+<defs>
+<pattern id="lam" width="5" height="10" patternUnits="userSpaceOnUse"><rect width="5" height="10" class="lam-bg"/><path d="M2.5 0V10" class="lam-line"/></pattern>
+<pattern id="cast" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" class="cast-bg"/><path d="M0 0V8" class="cast-line"/></pattern>
+<marker id="ah-hot" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L9 5L0 9Z" class="ah hot"/></marker>
+<marker id="ah-cold" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L9 5L0 9Z" class="ah cold"/></marker>
+<marker id="ah-mix" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L9 5L0 9Z" class="ah mix"/></marker>
+</defs>
+<path class="ground" d="M100 585H900"/><path class="ground thin" d="M112 585l-8 9"/><path class="ground thin" d="M126 585l-8 9"/><path class="ground thin" d="M140 585l-8 9"/><path class="ground thin" d="M154 585l-8 9"/><path class="ground thin" d="M168 585l-8 9"/><path class="ground thin" d="M182 585l-8 9"/><path class="ground thin" d="M196 585l-8 9"/><path class="ground thin" d="M210 585l-8 9"/><path class="ground thin" d="M224 585l-8 9"/><path class="ground thin" d="M238 585l-8 9"/><path class="ground thin" d="M252 585l-8 9"/><path class="ground thin" d="M266 585l-8 9"/><path class="ground thin" d="M280 585l-8 9"/><path class="ground thin" d="M294 585l-8 9"/><path class="ground thin" d="M308 585l-8 9"/><path class="ground thin" d="M322 585l-8 9"/><path class="ground thin" d="M336 585l-8 9"/><path class="ground thin" d="M350 585l-8 9"/><path class="ground thin" d="M364 585l-8 9"/><path class="ground thin" d="M378 585l-8 9"/><path class="ground thin" d="M392 585l-8 9"/><path class="ground thin" d="M406 585l-8 9"/><path class="ground thin" d="M420 585l-8 9"/><path class="ground thin" d="M434 585l-8 9"/><path class="ground thin" d="M448 585l-8 9"/><path class="ground thin" d="M462 585l-8 9"/><path class="ground thin" d="M476 585l-8 9"/><path class="ground thin" d="M490 585l-8 9"/><path class="ground thin" d="M504 585l-8 9"/><path class="ground thin" d="M518 585l-8 9"/><path class="ground thin" d="M532 585l-8 9"/><path class="ground thin" d="M546 585l-8 9"/><path class="ground thin" d="M560 585l-8 9"/><path class="ground thin" d="M574 585l-8 9"/><path class="ground thin" d="M588 585l-8 9"/><path class="ground thin" d="M602 585l-8 9"/><path class="ground thin" d="M616 585l-8 9"/><path class="ground thin" d="M630 585l-8 9"/><path class="ground thin" d="M644 585l-8 9"/><path class="ground thin" d="M658 585l-8 9"/><path class="ground thin" d="M672 585l-8 9"/><path class="ground thin" d="M686 585l-8 9"/><path class="ground thin" d="M700 585l-8 9"/><path class="ground thin" d="M714 585l-8 9"/><path class="ground thin" d="M728 585l-8 9"/><path class="ground thin" d="M742 585l-8 9"/><path class="ground thin" d="M756 585l-8 9"/><path class="ground thin" d="M770 585l-8 9"/><path class="ground thin" d="M784 585l-8 9"/><path class="ground thin" d="M798 585l-8 9"/><path class="ground thin" d="M812 585l-8 9"/><path class="ground thin" d="M826 585l-8 9"/><path class="ground thin" d="M840 585l-8 9"/><path class="ground thin" d="M854 585l-8 9"/><path class="ground thin" d="M868 585l-8 9"/><path class="ground thin" d="M882 585l-8 9"/><path class="ground thin" d="M896 585l-8 9"/>
+<g class="parts">
+<g class="part" data-part="trocador"><title>Trocador ar–água</title><rect x="262" y="22" width="476" height="72" class="shell" rx="3"/><path class="ol" d="M266 94H262V22H738V94H734M690 94H560M440 94H310"/><path class="ol thin" d="M266 94V100M310 94V100M440 94V100M560 94V100M690 94V100M734 94V100"/><path class="ol thin" d="M462 30V86M538 30V86"/><rect x="374" y="8" width="12" height="14" class="pipe"/><rect x="614" y="8" width="12" height="14" class="pipe"/><circle cx="318" cy="40" r="4.6" class="tube"/><circle cx="332" cy="40" r="4.6" class="tube"/><circle cx="346" cy="40" r="4.6" class="tube"/><circle cx="360" cy="40" r="4.6" class="tube"/><circle cx="374" cy="40" r="4.6" class="tube"/><circle cx="388" cy="40" r="4.6" class="tube"/><circle cx="402" cy="40" r="4.6" class="tube"/><circle cx="416" cy="40" r="4.6" class="tube"/><circle cx="430" cy="40" r="4.6" class="tube"/><circle cx="444" cy="40" r="4.6" class="tube"/><circle cx="552" cy="40" r="4.6" class="tube"/><circle cx="566" cy="40" r="4.6" class="tube"/><circle cx="580" cy="40" r="4.6" class="tube"/><circle cx="594" cy="40" r="4.6" class="tube"/><circle cx="608" cy="40" r="4.6" class="tube"/><circle cx="622" cy="40" r="4.6" class="tube"/><circle cx="636" cy="40" r="4.6" class="tube"/><circle cx="650" cy="40" r="4.6" class="tube"/><circle cx="664" cy="40" r="4.6" class="tube"/><circle cx="678" cy="40" r="4.6" class="tube"/><circle cx="325" cy="58" r="4.6" class="tube"/><circle cx="339" cy="58" r="4.6" class="tube"/><circle cx="353" cy="58" r="4.6" class="tube"/><circle cx="367" cy="58" r="4.6" class="tube"/><circle cx="381" cy="58" r="4.6" class="tube"/><circle cx="395" cy="58" r="4.6" class="tube"/><circle cx="409" cy="58" r="4.6" class="tube"/><circle cx="423" cy="58" r="4.6" class="tube"/><circle cx="437" cy="58" r="4.6" class="tube"/><circle cx="559" cy="58" r="4.6" class="tube"/><circle cx="573" cy="58" r="4.6" class="tube"/><circle cx="587" cy="58" r="4.6" class="tube"/><circle cx="601" cy="58" r="4.6" class="tube"/><circle cx="615" cy="58" r="4.6" class="tube"/><circle cx="629" cy="58" r="4.6" class="tube"/><circle cx="643" cy="58" r="4.6" class="tube"/><circle cx="657" cy="58" r="4.6" class="tube"/><circle cx="671" cy="58" r="4.6" class="tube"/><circle cx="318" cy="76" r="4.6" class="tube"/><circle cx="332" cy="76" r="4.6" class="tube"/><circle cx="346" cy="76" r="4.6" class="tube"/><circle cx="360" cy="76" r="4.6" class="tube"/><circle cx="374" cy="76" r="4.6" class="tube"/><circle cx="388" cy="76" r="4.6" class="tube"/><circle cx="402" cy="76" r="4.6" class="tube"/><circle cx="416" cy="76" r="4.6" class="tube"/><circle cx="430" cy="76" r="4.6" class="tube"/><circle cx="444" cy="76" r="4.6" class="tube"/><circle cx="552" cy="76" r="4.6" class="tube"/><circle cx="566" cy="76" r="4.6" class="tube"/><circle cx="580" cy="76" r="4.6" class="tube"/><circle cx="594" cy="76" r="4.6" class="tube"/><circle cx="608" cy="76" r="4.6" class="tube"/><circle cx="622" cy="76" r="4.6" class="tube"/><circle cx="636" cy="76" r="4.6" class="tube"/><circle cx="650" cy="76" r="4.6" class="tube"/><circle cx="664" cy="76" r="4.6" class="tube"/><circle cx="678" cy="76" r="4.6" class="tube"/></g>
+<g class="part" data-part="carcaca"><title>Carcaça</title><rect x="250" y="100" width="16" height="12" class="steel"/><rect x="310" y="100" width="130" height="12" class="steel"/><rect x="560" y="100" width="130" height="12" class="steel"/><rect x="734" y="100" width="16" height="12" class="steel"/><rect x="250" y="100" width="12" height="190" class="steel"/><rect x="738" y="100" width="12" height="190" class="steel"/><rect x="377" y="112" width="6" height="22" class="steel"/><rect x="617" y="112" width="6" height="22" class="steel"/><rect x="247" y="291" width="18" height="10" class="seal"/><rect x="735" y="291" width="18" height="10" class="seal"/><rect x="250" y="548" width="500" height="12" class="steel"/><rect x="250" y="370" width="12" height="190" class="steel"/><rect x="738" y="370" width="12" height="190" class="steel"/><rect x="377" y="526" width="6" height="22" class="steel"/><rect x="617" y="526" width="6" height="22" class="steel"/><rect x="247" y="359" width="18" height="10" class="seal"/><rect x="735" y="359" width="18" height="10" class="seal"/><rect x="262" y="560" width="70" height="25" class="steel"/><rect x="668" y="560" width="70" height="25" class="steel"/></g>
+<g class="part" data-part="estator"><title>Estator</title><rect x="360" y="134" width="43.3333" height="80" class="iron"/><rect x="407.333" y="134" width="43.3333" height="80" class="iron"/><rect x="454.667" y="134" width="43.3333" height="80" class="iron"/><rect x="502" y="134" width="43.3333" height="80" class="iron"/><rect x="549.333" y="134" width="43.3333" height="80" class="iron"/><rect x="596.667" y="134" width="43.3333" height="80" class="iron"/><rect x="354" y="134" width="6" height="42" class="steel"/><rect x="640" y="134" width="6" height="42" class="steel"/><rect x="358" y="184" width="284" height="26" class="cu"/><path class="cu" d="M362 184L324 172Q304 168 304 182Q304 196 324 196L362 210Z"/><path class="cu" d="M638 184L676 172Q696 168 696 182Q696 196 676 196L638 210Z"/><g transform="translate(0 660) scale(1 -1)"><rect x="360" y="134" width="43.3333" height="80" class="iron"/><rect x="407.333" y="134" width="43.3333" height="80" class="iron"/><rect x="454.667" y="134" width="43.3333" height="80" class="iron"/><rect x="502" y="134" width="43.3333" height="80" class="iron"/><rect x="549.333" y="134" width="43.3333" height="80" class="iron"/><rect x="596.667" y="134" width="43.3333" height="80" class="iron"/><rect x="354" y="134" width="6" height="42" class="steel"/><rect x="640" y="134" width="6" height="42" class="steel"/><rect x="358" y="184" width="284" height="26" class="cu"/><path class="cu" d="M362 184L324 172Q304 168 304 182Q304 196 324 196L362 210Z"/><path class="cu" d="M638 184L676 172Q696 168 696 182Q696 196 676 196L638 210Z"/></g></g>
+<g class="part" data-part="rotor"><title>Rotor de polos salientes</title><rect x="360" y="220" width="280" height="82" class="iron"/><rect x="336" y="234" width="24" height="32" class="cu" rx="3"/><rect x="640" y="234" width="24" height="32" class="cu" rx="3"/><rect x="352" y="220" width="8" height="10" class="brass"/><rect x="640" y="220" width="8" height="10" class="brass"/><path class="damper" d="M356 225H644"/><g transform="translate(0 660) scale(1 -1)"><rect x="360" y="220" width="280" height="82" class="iron"/><rect x="336" y="234" width="24" height="32" class="cu" rx="3"/><rect x="640" y="234" width="24" height="32" class="cu" rx="3"/><rect x="352" y="220" width="8" height="10" class="brass"/><rect x="640" y="220" width="8" height="10" class="brass"/><path class="damper" d="M356 225H644"/></g></g>
+<g class="part" data-part="ventiladores"><title>Ventiladores</title><rect x="272" y="290" width="24" height="12" class="steel"/><path class="steel" d="M279 290V224Q284 220 289 224V290Z"/><rect x="704" y="290" width="24" height="12" class="steel"/><path class="steel" d="M711 290V224Q716 220 721 224V290Z"/><g transform="translate(0 660) scale(1 -1)"><rect x="272" y="290" width="24" height="12" class="steel"/><path class="steel" d="M279 290V224Q284 220 289 224V290Z"/><rect x="704" y="290" width="24" height="12" class="steel"/><path class="steel" d="M711 290V224Q716 220 721 224V290Z"/></g></g>
+<g class="part" data-part="eixo"><title>Eixo</title><path class="shaft" d="M150 308H210V304H250V302H750V304H790V308H850V312H876L880 316V344L876 348H850V352H790V356H750V358H250V356H210V352H150Z"/><path class="ol thin" d="M210 308V352M250 304V356M750 304V356M790 308V352M850 312V348"/></g>
+<g class="part" data-part="ponta"><title>Ponta de eixo</title><path class="shaft" d="M150 312H44L40 316V344L44 348H150Z"/><rect x="64" y="306" width="62" height="8" class="key" rx="2"/></g>
+<g class="part" data-part="mancais"><title>Mancais de deslizamento</title><rect x="146" y="266" width="68" height="38" class="housing" rx="4"/><rect x="150" y="304" width="60" height="4" class="brass"/><rect x="786" y="266" width="68" height="38" class="housing" rx="4"/><rect x="790" y="304" width="60" height="4" class="brass"/><g transform="translate(0 660) scale(1 -1)"><rect x="146" y="266" width="68" height="38" class="housing" rx="4"/><rect x="150" y="304" width="60" height="4" class="brass"/><rect x="786" y="266" width="68" height="38" class="housing" rx="4"/><rect x="790" y="304" width="60" height="4" class="brass"/></g><path class="housing" d="M152 394H208L222 585H138Z"/><path class="housing" d="M792 394H848L862 585H778Z"/></g>
+</g>
+<path class="centre" d="M18 330H982"/>
+<g class="airflow" aria-hidden="true"><path class="air hot" d="M500 132V66"/><path class="air hot" d="M452.7 212V140"/><path class="air hot" d="M547.3 212V140"/><path class="air mix" d="M490 50H326"/><path class="air mix" d="M510 50H674"/><path class="air cold" d="M288 66V156"/><path class="air cold" d="M712 66V156"/></g>
+<g class="balloons"><g class="balloon" data-part="estator"><path class="leader" d="M600.0 602.0L600 500"/><circle class="dot" cx="600" cy="500" r="2.6"/><circle class="ring" cx="600" cy="616" r="14"/><text x="600" y="616">1</text></g><g class="balloon" data-part="rotor"><path class="leader" d="M470.0 602.0L470 422"/><circle class="dot" cx="470" cy="422" r="2.6"/><circle class="ring" cx="470" cy="616" r="14"/><text x="470" y="616">2</text></g><g class="balloon" data-part="eixo"><path class="leader" d="M232.0 602.0L232 357"/><circle class="dot" cx="232" cy="357" r="2.6"/><circle class="ring" cx="232" cy="616" r="14"/><text x="232" y="616">3</text></g><g class="balloon" data-part="ponta"><path class="leader" d="M95.0 602.0L95 349"/><circle class="dot" cx="95" cy="349" r="2.6"/><circle class="ring" cx="95" cy="616" r="14"/><text x="95" y="616">4</text></g><g class="balloon" data-part="mancais"><path class="leader" d="M156.7 238.3L172 266"/><circle class="dot" cx="172" cy="266" r="2.6"/><circle class="ring" cx="150" cy="226" r="14"/><text x="150" y="226">5</text></g><g class="balloon" data-part="ventiladores"><path class="leader" d="M233.2 200.4L283 238"/><circle class="dot" cx="283" cy="238" r="2.6"/><circle class="ring" cx="222" cy="192" r="14"/><text x="222" y="192">6</text></g><g class="balloon" data-part="trocador"><path class="leader" d="M778.5 47.6L739 58"/><circle class="dot" cx="739" cy="58" r="2.6"/><circle class="ring" cx="792" cy="44" r="14"/><text x="792" y="44">7</text></g><g class="balloon" data-part="carcaca"><path class="leader" d="M779.7 134.6L751 150"/><circle class="dot" cx="751" cy="150" r="2.6"/><circle class="ring" cx="792" cy="128" r="14"/><text x="792" y="128">8</text></g></g>
+</svg>
+        <figcaption>
+          <span>Corte longitudinal esquemático, fora de escala.</span>
+          <span class="key-item"><i class="key-sw lam" aria-hidden="true"></i>Chapas de aço-silício</span>
+          <span class="key-item"><i class="key-sw cu" aria-hidden="true"></i>Cobre</span>
+          <span class="key-item"><i class="key-sw hot" aria-hidden="true"></i>Ar quente</span>
+          <span class="key-item"><i class="key-sw cold" aria-hidden="true"></i>Ar frio</span>
+        </figcaption>
+      </figure>
+
+      <aside class="bom" aria-labelledby="bom-title">
+        <div class="bom-head">
+          <h2 id="bom-title">Lista de peças</h2>
+          <p>O número é o mesmo do balão no desenho.</p>
+        </div>
+        <div class="bom-cols" aria-hidden="true"><span>Item</span><span>Peça</span><span>Módulo</span></div>
+
+        <details class="bom-row" name="bom" data-part="estator">
+          <summary><span class="bom-num">1</span><span class="bom-name">Estator</span><span class="bom-mod">01</span></summary>
+          <div class="bom-detail">
+            <p>Núcleo de chapas de aço-silício empilhadas, com ranhuras onde fica o enrolamento trifásico. As correntes de armadura produzem o campo girante; os dutos radiais entre os pacotes de chapas deixam o ar de refrigeração passar.</p>
+            <a class="btn btn-s" href="01-maquinas-sincronas.html">Abrir 01 · Máquinas síncronas</a>
+          </div>
+        </details>
+        <details class="bom-row" name="bom" data-part="rotor">
+          <summary><span class="bom-num">2</span><span class="bom-name">Rotor de polos salientes</span><span class="bom-mod">01</span></summary>
+          <div class="bom-detail">
+            <p>Polos com bobinas de campo em corrente contínua e barras amortecedoras na sapata polar. O número de polos fixa a rotação síncrona, n<sub>s</sub> = 120·f/P. O núcleo pode ser laminado integral, como no desenho, ou de polos montados sobre a aranha.</p>
+            <a class="btn btn-s" href="01-maquinas-sincronas.html">Abrir 01 · Máquinas síncronas</a>
+          </div>
+        </details>
+        <details class="bom-row" name="bom" data-part="eixo">
+          <summary><span class="bom-num">3</span><span class="bom-name">Eixo</span><span class="bom-mod">04</span></summary>
+          <div class="bom-detail">
+            <p>Carrega o peso do rotor e a atração magnética desequilibrada e transmite o torque. É verificado à flexão, à torção e à fadiga, com chavetas, ajustes e raios de concordância dos ombros.</p>
+            <a class="btn btn-s" href="04-eixos.html">Abrir 04 · Eixos</a>
+          </div>
+        </details>
+        <details class="bom-row" name="bom" data-part="ponta">
+          <summary><span class="bom-num">4</span><span class="bom-name">Ponta de eixo</span><span class="bom-mod">02</span></summary>
+          <div class="bom-detail">
+            <p>Trecho do eixo que sai da máquina e recebe o acoplamento. O diâmetro vem do torque transmitido e dos critérios de resistência, com a chaveta dimensionada junto.</p>
+            <a class="btn btn-s" href="02-mecanica.html">Abrir 02 · Mecânica</a>
+          </div>
+        </details>
+        <details class="bom-row" name="bom" data-part="mancais">
+          <summary><span class="bom-num">5</span><span class="bom-name">Mancais de deslizamento</span><span class="bom-mod">02</span></summary>
+          <div class="bom-detail">
+            <p>Com a rotação, forma-se uma cunha de óleo que separa o munhão da bucha. A verificação usa a equação de Reynolds para chegar à espessura mínima do filme, à temperatura e à perda por atrito. As cargas de cada mancal podem vir do módulo 04.</p>
+            <a class="btn btn-s" href="02-mecanica.html">Abrir 02 · Mecânica</a>
+          </div>
+        </details>
+        <details class="bom-row" name="bom" data-part="ventiladores">
+          <summary><span class="bom-num">6</span><span class="bom-name">Ventiladores</span><span class="bom-mod">03</span></summary>
+          <div class="bom-detail">
+            <p>Montados no eixo, um de cada lado, fazem o ar circular pela máquina e pelo trocador. A vazão e a potência dos ventiladores do lado acionado (LA) e do lado oposto (LOA) entram no balanço térmico.</p>
+            <a class="btn btn-s" href="03-termica.html">Abrir 03 · Térmica</a>
+          </div>
+        </details>
+        <details class="bom-row" name="bom" data-part="trocador">
+          <summary><span class="bom-num">7</span><span class="bom-name">Trocador ar–água</span><span class="bom-mod">03</span></summary>
+          <div class="bom-detail">
+            <p>No circuito fechado IC81 o ar não sai da máquina: no desenho, ele sobe quente pelo centro, atravessa o feixe de tubos com água e volta frio pelas pontas. O módulo calcula a área mínima de troca e monta a folha de dados para o fornecedor.</p>
+            <a class="btn btn-s" href="03-termica.html">Abrir 03 · Térmica</a>
+          </div>
+        </details>
+        <details class="bom-row" name="bom" data-part="carcaca">
+          <summary><span class="bom-num">8</span><span class="bom-name">Carcaça</span><span class="bom-mod none">—</span></summary>
+          <div class="bom-detail">
+            <p>Estrutura soldada que sustenta o núcleo do estator, leva o torque de reação até a base e fecha o circuito de ar com o trocador.</p>
+            <p class="no-mod">Ainda não tem módulo neste laboratório.</p>
+          </div>
+        </details>
+      </aside>
+    </div>
+
+  <section class="machine-home" id="machine-project" aria-labelledby="machine-project-title">
+   <div class="machine-home-head"><h2 id="machine-project-title">DADOS GERAIS DA MÁQUINA</h2></div>
+   <p class="machine-project-warning">Os campos vinculados usam os mesmos dados em todos os módulos. Ao alterar aqui ou em outra página, a mudança é aplicada à máquina inteira.</p>
+   <div class="case-grid">
+    <label class="quick-field quick-type"><span class="q-label">Aplicação</span><select id="quick-type" aria-label="Aplicação"><option value="generator">Gerador síncrono</option><option value="motor">Motor síncrono</option></select></label>
+    <label class="quick-field"><span class="q-label" id="power-label">Potência aparente nominal</span><span class="q-control"><input id="quick-power" inputmode="decimal" autocomplete="off" aria-labelledby="power-label"><span class="q-unit" id="quick-power-unit">kVA</span></span></label>
+    <label class="quick-field"><span class="q-label">Total de polos · P</span><span class="q-control"><input id="quick-poles" inputmode="numeric" autocomplete="off" aria-label="Número total de polos"><span class="q-unit">polos</span></span></label>
+    <label class="quick-field"><span class="q-label">Frequência · f</span><span class="q-control"><input id="quick-freq" inputmode="decimal" autocomplete="off" aria-label="Frequência"><span class="q-unit">Hz</span></span></label>
+    <div class="quick-result"><span>VELOCIDADE SÍNCRONA</span><strong id="quick-speed">—</strong><small>nₛ = 120 f / P</small></div>
+   </div>
+   <div class="pole-options"><span>Experimente P:</span><div id="pole-shortcuts"></div><small>Ou digite qualquer número par de 2 a 60.<br>Limite de exibição, não de máquinas reais.</small></div>
+   <div id="machine-shared-fields"></div>
+   <div class="casebar-foot"><span class="quick-error" id="quick-error" role="alert"></span></div>
+  </section>
+
+    <section class="mods" aria-labelledby="mods-title">
+      <div class="mods-head">
+        <h2 id="mods-title">Módulos do laboratório</h2>
+        <p>Todos calculam no próprio navegador. Nada é enviado para servidor.</p>
+      </div>
+
+      <article class="mod">
+        <span class="mod-num">01</span>
+        <div class="mod-text">
+          <h3>Máquinas síncronas <span>· rotor e campo</span></h3>
+          <p>Pré-dimensione geradores e motores síncronos com rotor laminado integral ou de polos montados, de 2 a 60 polos. A máquina é desenhada em escala a partir do cálculo e gira em sincronismo, em corte transversal, longitudinal e no detalhe do polo.</p>
+        </div>
+        <div class="mod-side">
+          <dl><div><dt>Peças</dt><dd>Estator e rotor</dd></div><div><dt>Você leva</dt><dd>Desenho em SVG, tabela em CSV, projeto em JSON e relatório em PDF</dd></div></dl>
+          <a class="btn btn-s" href="01-maquinas-sincronas.html">Abrir módulo 01</a>
+        </div>
+      </article>
+
+      <article class="mod">
+        <span class="mod-num">02</span>
+        <div class="mod-text">
+          <h3>Mecânica <span>· eixo e mancal</span></h3>
+          <p>Dimensione a ponta de eixo e verifique o mancal de deslizamento hidrodinâmico pela equação de Reynolds, com gráficos de engenharia e memória de cálculo identificada passo a passo.</p>
+        </div>
+        <div class="mod-side">
+          <dl><div><dt>Peças</dt><dd>Ponta de eixo e mancais</dd></div><div><dt>Você leva</dt><dd>Relatório para imprimir ou salvar em PDF e link do caso para compartilhar</dd></div></dl>
+          <a class="btn btn-s" href="02-mecanica.html">Abrir módulo 02</a>
+        </div>
+      </article>
+
+      <article class="mod">
+        <span class="mod-num">03</span>
+        <div class="mod-text">
+          <h3>Térmica <span>· trocador ar–água</span></h3>
+          <p>Calcule a área mínima do trocador ar–água em circuito fechado (IC81) a partir das perdas no ar, dos ventiladores e da vazão de água, pelo método ε–NTU com o coeficiente global U.</p>
+        </div>
+        <div class="mod-side">
+          <dl><div><dt>Peças</dt><dd>Trocador e ventiladores</dd></div><div><dt>Você leva</dt><dd>Folha de dados para o fornecedor, pronta para copiar, e PDF</dd></div></dl>
+          <a class="btn btn-s" href="03-termica.html">Abrir módulo 03</a>
+        </div>
+      </article>
+
+      <article class="mod">
+        <span class="mod-num">04</span>
+        <div class="mod-text">
+          <h3>Eixos <span>· rotor completo</span></h3>
+          <p>Analise o eixo do rotor por elementos finitos de viga, com a torção pelo caminho real do torque e a resistência pela DIN 743. Inclui casos de verificação, convergência da malha, chavetas e ajustes.</p>
+        </div>
+        <div class="mod-side">
+          <dl><div><dt>Peças</dt><dd>Eixo, com as cargas dos mancais</dd></div><div><dt>Você leva</dt><dd>Folha A3 em PDF, caso em JSON e tabela para colar no Excel</dd></div></dl>
+          <a class="btn btn-s" href="04-eixos.html">Abrir módulo 04</a>
+        </div>
+      </article>
+    </section>
+
+    <footer class="anat-foot">
+      <span>Laboratório de máquinas elétricas · EngenhaLab</span>
+      <span><a href="../">Todos os laboratórios</a> · <a href="../sobre.html">Sobre o autor</a></span>
+    </footer>
+  </main>
+
+  <script>
+  (() => {
+    const svg = document.querySelector('.anat-svg');
+    const rows = [...document.querySelectorAll('.bom-row')];
+    const NAMES = Object.fromEntries(rows.map(r => [r.dataset.part, r.querySelector('.bom-num').textContent + ' ' + r.querySelector('.bom-name').textContent]));
+    const narrow = matchMedia('(max-width: 920px)');
+
+    function show(part) {
+      if (part) svg.dataset.show = part; else delete svg.dataset.show;
+      svg.querySelectorAll('.part, .balloon').forEach(el => el.classList.toggle('is-on', el.dataset.part === part));
+    }
+    function current() { const r = rows.find(r => r.open); return r ? r.dataset.part : null; }
+    function choose(part, fromDrawing) {
+      rows.forEach(r => { r.open = r.dataset.part === part && !r.open; });
+      show(current());
+      const open = rows.find(r => r.open);
+      if (fromDrawing && open && narrow.matches) open.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    rows.forEach(r => {
+      r.addEventListener('toggle', () => show(current()));
+      r.addEventListener('mouseenter', () => { if (!current()) show(r.dataset.part); });
+      r.addEventListener('mouseleave', () => { if (!current()) show(null); });
+    });
+
+    svg.querySelectorAll('.part, .balloon').forEach(el => {
+      const part = el.dataset.part;
+      if (el.classList.contains('part')) {
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('role', 'button');
+        el.setAttribute('aria-label', NAMES[part]);
+      }
+      el.addEventListener('click', () => choose(part, true));
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(part, true); } });
+      el.addEventListener('mouseenter', () => { if (!current()) show(part); rows.forEach(r => r.classList.toggle('is-hover', r.dataset.part === part)); });
+      el.addEventListener('mouseleave', () => { if (!current()) show(null); rows.forEach(r => r.classList.remove('is-hover')); });
+    });
+
+    document.getElementById('a-theme').addEventListener('click', () => {
+      const root = document.documentElement, attr = root.getAttribute('data-theme');
+      const dark = attr === 'dark' || (!attr && !matchMedia('(prefers-color-scheme: light)').matches);
+      const next = dark ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('vg-theme', next); } catch (_) {}
+    });
+  })();
+  </script>
+  <script src="/assets/js/rodape.js?v=20261112-1"></script>
+</body>
+</html>

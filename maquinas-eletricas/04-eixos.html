@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ls5wGMsZiDARMj4sjqscG8Rs0ameKls1aaYB1NWY21o=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.engenhalab.com.br https://engenhalab-calculo.engenhalab.workers.dev http://localhost:8787 http://127.0.0.1:8787 https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <script src="/assets/js/anti-quadro.js"></script>
+  <script src="/assets/js/endereco.js?v=20261111-1"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Laboratório de eixos: eixo do rotor de máquinas elétricas por elementos finitos de viga, torção pelo caminho real do torque, resistência pela DIN 743, casos de verificação, convergência da malha, chavetas, ajustes e folha A3.">
+  <meta name="theme-color" content="#09131f">
+  <meta name="color-scheme" content="dark light">
+  <title>Laboratório de eixos · Rotor completo | Vinicius Gandra</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2309131f'/%3E%3Cpath d='M8 27h8v-5h12v-4h10v4h12v5h6v10h-6v5H38v4H28v-4H16v-5H8z' fill='%23f5ad69'/%3E%3Cpath d='M5 32h54' stroke='%2309131f' stroke-width='2' stroke-dasharray='6 3 1.5 3'/%3E%3C/svg%3E">
+  <script>try { var t = localStorage.getItem('vg-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/shaft.css?v=20261019-notes-1">
+  <link rel="stylesheet" href="assets/css/site-labs.css">
+  <script src="assets/js/config.js"></script>
+  <script src="../offshore/assets/js/sessao.js?v=20261112-1"></script>
+  <link rel="stylesheet" href="assets/css/portao.css?v=20261111-2">
+  <script src="assets/js/portao.js?v=20261111-2"></script>
+<script src="assets/js/vg-calc.js?v=20261111-5"></script>
+<script defer src="assets/js/shaft-engine.js?v=20261019-8"></script>
+  <script defer src="assets/js/shaft-figures.js?v=20261017-4"></script>
+  <script defer src="assets/js/shaft-drawing.js?v=20261017-4"></script>
+  <script defer src="assets/js/shaft-app.js?v=20261102-rel3"></script>
+  <script defer src="assets/js/site-labs.js"></script>
+<link rel="stylesheet" href="assets/css/machine-project.css?v=20261019-2">
+<script src="assets/js/machine-project.js?v=20261019-report-2"></script>
+  <link rel="stylesheet" href="assets/css/review-notes.css?v=20261019-1">
+
+<link rel="stylesheet" href="assets/css/lab-sidebar.css?v=20261019-unified-2">
+<script defer src="assets/js/lab-sidebar.js?v=20261019-unified-2"></script>
+<link rel="stylesheet" href="assets/css/report-picker.css?v=20261019-2">
+<script defer src="assets/js/report-access.js?v=20261030-labs"></script>
+<script defer src="assets/js/report-catalog.js?v=20261019-2"></script>
+<script defer src="assets/js/report-launcher.js?v=20261019-access-3"></script>
+<script defer src="assets/js/report-export.js?v=20261019-security-3"></script>
+  <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
+  <script defer src="/assets/js/analytics.js?v=20261110-1"></script>
+  <link rel="stylesheet" href="assets/css/mais-menos.css?v=20261030-1">
+  <link rel="stylesheet" href="assets/css/conta-lab.css?v=20261030-1">
+  <script defer src="assets/js/conta-lab.js?v=20261111-5"></script>
+  <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
+</head>
+<body class="shaft-app">
+  <a class="s-skip" href="#s-output">Pular para o resultado</a>
+
+  <header class="s-appbar">
+    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
+    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+    <span class="s-header-divider" aria-hidden="true"></span>
+    <div class="s-appbar-title"><span class="overline">Laboratório de eixos</span><strong>Eixo do rotor · MEF e DIN 743</strong></div>
+    <div class="s-actions" aria-label="Ações">
+      <button class="s-act" id="s-reset" type="button" title="Preencher com o exemplo (gerador 8.000 kW, 1.800 rpm, 24 trechos)"><span aria-hidden="true">↺</span><span class="s-act-label">Exemplo</span></button>
+      <button class="s-act" id="s-open" type="button" title="Abrir um caso salvo (JSON)"><span aria-hidden="true">⇪</span><span class="s-act-label">Abrir</span></button>
+      <button class="s-act" id="s-save" type="button" title="Salvar o caso em JSON, com o perfil e as tabelas"><span aria-hidden="true">⤓</span><span class="s-act-label">Salvar</span></button>
+      <button class="s-act" id="s-copy" type="button" title="Copiar o resumo e a tabela dos trechos (cola no Excel)"><span aria-hidden="true">⧉</span><span class="s-act-label">Copiar</span></button>
+      <button class="s-act s-act-primary" id="s-relatorio" type="button" title="Gerar o relatório do eixo (com login)"><span aria-hidden="true">▣</span><span class="s-act-label">Gerar relatório</span></button>
+      <button class="s-act s-act-icon" id="s-theme" type="button" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
+      <input type="file" id="s-file" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <nav class="s-areas" aria-label="Laboratórios">
+    <a class="s-area" href="./"><span class="s-area-number">00</span> Anatomia <span class="s-area-detail">· conheça as peças</span></a>
+    <a class="s-area" href="01-maquinas-sincronas.html"><span class="s-area-number">01</span> Máquinas síncronas <span class="s-area-detail">· rotor e campo</span></a>
+    <a class="s-area" href="02-mecanica.html"><span class="s-area-number">02</span> Mecânica <span class="s-area-detail">· eixo e mancal</span></a>
+    <a class="s-area" href="03-termica.html"><span class="s-area-number">03</span> Térmica <span class="s-area-detail">· trocador ar–água</span></a>
+    <a class="s-area" href="04-eixos.html" aria-current="page"><span class="s-area-number">04</span> Eixos <span class="s-area-detail">· rotor completo</span></a>
+  </nav>
+
+  <div class="s-workspace" id="s-workspace" data-view="resultado">
+    <aside class="s-inputs" id="s-inputs" aria-labelledby="s-form-title">
+      <div class="s-inputs-head">
+        <div>
+          <p class="s-eyebrow">Dados do projeto</p>
+          <h2 id="s-form-title">Dados de entrada</h2>
+        </div>
+        <div class="s-progress" id="s-progress" aria-live="polite"></div>
+      </div>
+      <div class="s-legend" aria-hidden="true"><span><i></i>definido por você</span><span><i class="is-calc"></i>calculado (consequência)</span></div>
+      <form id="s-form" novalidate></form>
+    </aside>
+
+    <main class="s-results" id="s-main">
+      <div class="s-intro">
+        <p class="s-eyebrow">Máquinas elétricas · eixo do rotor</p>
+        <h1>Laboratório de <em>eixos.</em></h1>
+      </div>
+      <div id="s-error" class="s-alert s-alert-fail" role="alert" hidden></div>
+      <div id="s-output" aria-live="off"></div>
+      <noscript><div class="s-alert s-alert-fail"><strong>JavaScript desativado.</strong> O laboratório calcula no próprio navegador e precisa de JavaScript.</div></noscript>
+    </main>
+  </div>
+
+  <div class="s-peek" id="s-peek" hidden>
+    <button type="button" id="s-peek-btn"><span class="s-peek-label">Resultado</span><strong id="s-peek-value">—</strong><span class="s-peek-go" aria-hidden="true">→</span></button>
+  </div>
+  <nav class="s-mobilebar" aria-label="Alternar entre dados e resultado">
+    <button type="button" data-view="dados" aria-pressed="false"><span class="s-mb-icon" aria-hidden="true">✎</span>Dados<span class="s-mb-badge" id="s-mb-badge" hidden></span></button>
+    <button type="button" data-view="resultado" aria-pressed="true"><span class="s-mb-icon" aria-hidden="true">◫</span>Eixo</button>
+  </nav>
+  <div class="s-toast" id="s-toast" role="status" aria-live="polite" hidden></div>
+  <script src="/assets/js/rodape.js?v=20261112-1"></script>
+</body>
+</html>

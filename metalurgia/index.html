@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.engenhalab.com.br https://engenhalab-calculo.engenhalab.workers.dev http://localhost:8787 http://127.0.0.1:8787 https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <script src="/assets/js/anti-quadro.js"></script>
+  <script src="/assets/js/endereco.js?v=20261111-1"></script>
+  <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
+  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+  <script src="assets/studio-start.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Estúdio de metalurgia do EngenhaLab: aquecimento por micro-ondas, secagem, redução da hematita em etapas e separação magnética do ferro de um resíduo de bauxita, com cada equação medida ao vivo.">
+  <meta name="theme-color" content="#09131f">
+  <meta name="color-scheme" content="dark light">
+  <title>Estúdio de metalurgia · EngenhaLab</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%2309131f'/%3E%3Cpath d='M9 29 20 9l11 20M14 22h12' fill='none' stroke='%23f5ad69' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="assets/estudio.css?v=20261111-4">
+  <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
+  <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
+  <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
+</head>
+<body>
+  <a class="skip" href="#bancada">Pular para o estúdio</a>
+  <header class="s-appbar">
+    <a class="s-brand" href="../" aria-label="EngenhaLab — todos os laboratórios">VG<b>.</b></a>
+    <a class="s-back" href="../" title="Voltar a todos os laboratórios"><span aria-hidden="true">←</span><span class="s-back-label">Laboratórios</span></a>
+    <span class="s-header-divider" aria-hidden="true"></span>
+    <div class="s-appbar-title"><span class="overline">Metalurgia</span><h1>Forno de micro-ondas</h1></div>
+    <div class="s-actions" aria-label="Ações">
+      <button type="button" class="s-act s-act-icon" id="theme-toggle" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="s-theme-sun" aria-hidden="true">☼</span><span class="s-theme-moon" aria-hidden="true">☾</span></button>
+    </div>
+  </header>
+  <nav class="s-areas" aria-label="Seções desta página">
+    <a class="s-area" href="#bancada" aria-current="page"><span class="s-area-number">00</span> Estúdio</a>
+    <a class="s-area" href="#contexto"><span class="s-area-number">·</span> Contexto</a>
+    <a class="s-area" href="#metodo"><span class="s-area-number">·</span> Método</a>
+    <a class="s-area" href="#referencias"><span class="s-area-number">·</span> Referências</a>
+  </nav>
+
+  <main id="main">
+    <!-- ===================================================== ESTÚDIO -->
+    <section class="studio" id="bancada" aria-label="Estúdio do forno de micro-ondas">
+      <div class="st-palco">
+        <div class="st-barra">
+          <div class="campos" role="tablist" aria-label="Campo exibido">
+            <button type="button" role="tab" data-campo="T" aria-selected="true">Temperatura</button>
+            <button type="button" role="tab" data-campo="q" aria-selected="false">Potência absorvida</button>
+            <button type="button" role="tab" data-campo="agua" aria-selected="false">Água</button>
+            <button type="button" role="tab" data-campo="fases" aria-selected="false">Fases do ferro</button>
+            <button type="button" role="tab" data-campo="met" aria-selected="false">Metalização</button>
+            <button type="button" role="tab" data-campo="dp" aria-selected="false">Penetração</button>
+          </div>
+          <div class="ovs" role="group" aria-label="Sobreposições">
+            <button type="button" data-ov="ondas" aria-pressed="true" title="Potência da onda ao atravessar a amostra">Ondas</button>
+            <button type="button" data-ov="iso" aria-pressed="false" title="Linhas de mesma temperatura">Isotermas</button>
+            <button type="button" data-ov="fluxo" aria-pressed="false" title="Setas do calor conduzido">Fluxo de calor</button>
+            <button type="button" data-ov="frentes" aria-pressed="false" title="Onde metade da água saiu e onde metade do ferro virou metal">Frentes</button>
+            <button type="button" data-ov="malha" aria-pressed="false" title="Células da malha de cálculo">Malha</button>
+          </div>
+        </div>
+        <figure class="palco" id="palco" data-ferr="sonda">
+          <div class="niveis" id="niveis" role="tablist" aria-label="Nível de aproximação">
+            <button type="button" role="tab" data-nivel="forno" aria-selected="true" title="O equipamento: onde está a amostra e por onde entram energia e gases">Forno</button>
+            <button type="button" role="tab" data-nivel="amostra" aria-selected="false" title="Onde a amostra aquece, seca e se transforma">Amostra</button>
+            <button type="button" role="tab" data-nivel="celula" aria-selected="false" title="Como as equações produzem o resultado numa célula">Célula</button>
+          </div>
+          <div class="zc" role="group" aria-label="Vista">
+            <button type="button" class="ctl" id="zm-tudo" title="Amostra inteira" aria-label="Amostra inteira"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="4" width="13" height="8" rx="1"/></svg></button>
+            <button type="button" class="ctl" id="zm-face" title="Aproximar da face de entrada" aria-label="Aproximar da face de entrada"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg></button>
+            <button type="button" class="ctl" id="zm-menos" title="Afastar" aria-label="Afastar">−</button>
+            <button type="button" class="ctl" id="zm-mais" title="Aproximar" aria-label="Aproximar">+</button>
+            <button type="button" class="ctl" id="tela-cheia" title="Tela cheia" aria-label="Tela cheia"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button>
+          </div>
+          <dl class="kpis" aria-live="off">
+            <div title="Temperatura média da amostra"><dt translate="no">T̄</dt><dd id="k-tm" translate="no">—</dd></div>
+            <div title="Temperatura da célula mais quente"><dt translate="no">T<sub>max</sub></dt><dd id="k-tx" translate="no">—</dd></div>
+            <div class="k-txt" title="Fração da potência incidente que a amostra absorve"><dt>absorvida</dt><dd id="k-abs" translate="no">—</dd></div>
+            <div class="k-txt" title="Fração da água inicial que ainda está na amostra"><dt>água</dt><dd id="k-agua" translate="no">—</dd></div>
+            <div class="k-txt" title="Fração do ferro que já é metal"><dt>Fe metálico</dt><dd id="k-met" translate="no">—</dd></div>
+            <div class="k-txt" title="Fração do ferro que o separador magnético levaria ao concentrado"><dt>recuperação</dt><dd id="k-rec" translate="no">—</dd></div>
+          </dl>
+          <div class="tela" id="tela">
+            <canvas id="campo" width="960" height="460" aria-label="Campo calculado no corte da amostra"></canvas>
+            <canvas id="glifos" class="sobre" width="960" height="460" aria-hidden="true"></canvas>
+            <span class="leitura" id="leitura" translate="no" hidden></span>
+            <div class="etapa-tag" id="etapa-tag" hidden></div>
+          </div>
+          <div class="proc" id="proc">
+            <ol aria-label="Etapas do tratamento">
+              <li><button type="button" data-proc="carregada"><i aria-hidden="true"></i>Amostra carregada</button></li>
+              <li><button type="button" data-proc="aquece"><i aria-hidden="true"></i>Aquecimento e secagem</button></li>
+              <li><button type="button" data-proc="reduz"><i aria-hidden="true"></i>Redução</button></li>
+              <li><button type="button" data-proc="fim"><i aria-hidden="true"></i>Fim do tratamento</button></li>
+              <li><button type="button" data-proc="separa"><i aria-hidden="true"></i>Separação estimada</button></li>
+            </ol>
+            <div class="ativos" id="ativos" aria-label="Fenômenos ativos agora">
+              <span data-at="aquece"><b>Aquecendo</b><i translate="no"></i></span>
+              <span data-at="seca"><b>Secando</b><i translate="no"></i></span>
+              <span data-at="reduz"><b>Reduzindo</b><i translate="no"></i></span>
+            </div>
+          </div>
+            <div class="aviso" id="aviso" role="status" hidden><p id="aviso-t"></p><button type="button" id="aviso-x" aria-label="Fechar">×</button></div>
+        </figure>
+        <div class="st-pe">
+          <div class="ferr" role="toolbar" aria-label="Ferramentas">
+            <button type="button" data-ferr="sonda" aria-pressed="true" title="Mede cada parcela da equação numa célula"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="M8 1v3M8 12v3M1 8h3M12 8h3"/></svg><span>Sonda pontual</span></button>
+            <button type="button" data-ferr="perfil" aria-pressed="false" title="Mostra os valores ao longo da linha da sonda"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8h14"/><path d="M2 12c3-8 6-8 8-5s3 2 4 0"/></svg><span>Perfil</span></button>
+          </div>
+          <div class="barra"><button type="button" class="pilula" id="dom-bt" aria-pressed="false" title="Pinta cada região com a cor da parcela que mais pesa ali">Quem domina</button><span id="barra-nome">Temperatura [°C]</span><span class="barra-l"><b id="barra-min" translate="no"></b><canvas id="barra" width="256" height="8" aria-hidden="true"></canvas><b id="barra-max" translate="no"></b></span></div>
+          <div class="palco-ctl">
+            <button type="button" class="ctl" id="play" aria-pressed="false" title="Iniciar ou pausar o ensaio" aria-label="Iniciar ou pausar o ensaio"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-pause" d="M4 3h3v10H4zM9 3h3v10H9z"/><path class="i-play" d="M4.5 2.5v11l9-5.5z"/></svg></button>
+            <button type="button" class="ctl" id="passo1" title="Avançar um passo de tempo" aria-label="Avançar um passo de tempo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.5v11l7-5.5zM11.5 3h2v10h-2z"/></svg></button>
+            <div class="seg" role="group" aria-label="Ritmo do ensaio"><button type="button" data-vel="10" aria-pressed="false" translate="no">10×</button><button type="button" data-vel="30" aria-pressed="true" translate="no">30×</button><button type="button" data-vel="100" aria-pressed="false" translate="no">100×</button></div>
+            <button type="button" class="ctl ctl-txt" id="reiniciar" title="Volta o lote ao início, úmido e a 25 °C">Reiniciar</button>
+            <span class="relogio"><b id="tempo" translate="no">0 s</b><i class="prog"><i id="prog"></i></i></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- console da equação -->
+      <section class="deck" id="deck" aria-label="Equação em foco">
+        <div class="dk-eq">
+          <div class="dk-top">
+            <div class="eqtabs" id="eq-tabs" role="tablist" aria-label="Equação em foco">
+              <button type="button" role="tab" data-eq="bc" aria-selected="true">Fronteiras</button>
+              <span class="eqtab eqtab-fixo"><button type="button" role="tab" data-eq="energia" aria-selected="false">Energia</button><span class="cadeado" title="Sempre resolvida" aria-label="Sempre resolvida"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span></span>
+              <span class="eqtab"><button type="button" role="tab" data-eq="micro" aria-selected="false">Micro-ondas</button><input type="checkbox" role="switch" data-m="micro" checked aria-label="Micro-ondas ligadas"></span>
+              <span class="eqtab"><button type="button" role="tab" data-eq="agua" aria-selected="false">Água</button><input type="checkbox" role="switch" data-m="secagem" checked aria-label="Secagem ligada"></span>
+              <span class="eqtab"><button type="button" role="tab" data-eq="reducao" aria-selected="false">Redução</button><input type="checkbox" role="switch" data-m="reacao" checked aria-label="Redução ligada"></span>
+              <button type="button" role="tab" data-eq="separacao" aria-selected="false">Separação</button>
+              <button type="button" role="tab" data-eq="num" aria-selected="false" title="Solução numérica">Numérico</button>
+            </div>
+          </div>
+          <div class="dk-f m" id="eqf-f"></div>
+          <div class="dk-x"><p class="dk-txt" id="eqf-txt"></p><p class="dk-vivo" id="eqf-vivo"></p></div>
+        </div>
+        <div class="dk-lente">
+          <div class="lt-top">
+            <div class="lt-tabs" id="lente-tabs" role="tablist" aria-label="Lente">
+              <button type="button" role="tab" data-lente="celula" aria-selected="true">Célula</button>
+              <button type="button" role="tab" data-lente="perfil" aria-selected="false">Perfil</button>
+              <button type="button" role="tab" data-lente="energia" aria-selected="false">Energia</button>
+              <button type="button" role="tab" data-lente="fases" aria-selected="false">Fases</button>
+            </div>
+            <p class="lt-t" id="lente-t"></p>
+          </div>
+          <div class="lt-c"><canvas id="lente-c" width="460" height="300" aria-hidden="true"></canvas></div>
+          <p class="lt-n" id="lente-n"></p>
+        </div>
+      </section>
+
+      <!-- trilho: guia, ensaio, sistema e solver -->
+      <aside class="rail" id="rail" aria-label="Guia, ensaio, sistema e solver">
+        <div class="trilha">
+          <button type="button" class="ctl" id="tr-ant" aria-label="Etapa anterior">←</button>
+          <ol id="trilha" aria-label="Trilha pelas equações">
+            <li><button type="button" data-passo="1" title="A amostra e suas fronteiras" translate="no">01</button></li>
+            <li><button type="button" data-passo="2" title="Micro-ondas" translate="no">02</button></li>
+            <li><button type="button" data-passo="3" title="Condução e perdas" translate="no">03</button></li>
+            <li><button type="button" data-passo="4" title="Secagem" translate="no">04</button></li>
+            <li><button type="button" data-passo="5" title="Fuga térmica" translate="no">05</button></li>
+            <li><button type="button" data-passo="6" title="Redução em etapas" translate="no">06</button></li>
+            <li><button type="button" data-passo="7" title="Separação magnética" translate="no">07</button></li>
+            <li><button type="button" data-passo="8" title="Solução numérica" translate="no">08</button></li>
+          </ol>
+          <button type="button" class="ctl" id="tr-prox" aria-label="Próxima etapa">→</button>
+        </div>
+        <div class="rl-tabs" role="tablist" aria-label="Painel">
+          <button type="button" role="tab" data-rl="guia" aria-selected="true">Guia</button>
+          <button type="button" role="tab" data-rl="ensaio" aria-selected="false">Ensaio</button>
+          <button type="button" role="tab" data-rl="sistema" aria-selected="false">Sistema</button>
+          <button type="button" role="tab" data-rl="solver" aria-selected="false">Solver</button>
+        </div>
+
+        <div class="rl-p" id="rl-guia" role="tabpanel">
+          <p class="guia-k" id="guia-k">Etapa 01 de 08</p>
+          <h2 class="guia-t" id="guia-t"></h2>
+          <p class="guia-sobre" id="guia-sobre"></p>
+          <div class="guia-exp"><h3>Experimente</h3><ul class="tarefas" id="tarefas"></ul></div>
+          <dl class="guia-dl">
+            <div><dt>Objetivo</dt><dd id="g-obj"></dd></div>
+            <div><dt id="g-por-t">Por que está aqui</dt><dd id="g-por"></dd></div>
+            <div><dt id="g-sem-t">Sem ela</dt><dd id="g-sem"></dd></div>
+            <div><dt>O que ela entrega</dt><dd id="g-ent"></dd></div>
+          </dl>
+          <p class="guia-fl" id="guia-fl"></p>
+          <div class="guia-nav"><button type="button" class="ctl ctl-txt" id="guia-ant">← Anterior</button><button type="button" class="ctl ctl-txt prim" id="guia-prox">Próxima etapa →</button></div>
+        </div>
+
+        <div class="rl-p" id="rl-ensaio" role="tabpanel" hidden>
+          <div class="sis-head">
+            <h2>Três experiências, o mesmo lote</h2>
+            <p class="sis-tam">810 g de resíduo seco · 40 % de hematita · 180 × 100 × 25 mm</p>
+          </div>
+          <div class="exps" role="group" aria-label="Experiências">
+            <button type="button" data-exp="seca" aria-pressed="false"><span translate="no">01</span><b>Aquecer a amostra seca</b><small>Sem água e sem CO</small></button>
+            <button type="button" data-exp="umida" aria-pressed="false"><span translate="no">02</span><b>Secar e aquecer</b><small>A água consome parte da energia</small></button>
+            <button type="button" data-exp="reduz" aria-pressed="true"><span translate="no">03</span><b>Reduzir com CO</b><small>Secagem, redução e separação</small></button>
+          </div>
+          <table class="cmp" id="cmp">
+            <caption>Resultado ao fim do lote, com os parâmetros abaixo</caption>
+            <thead><tr><th></th><th translate="no">01</th><th translate="no">02</th><th translate="no">03</th></tr></thead>
+            <tbody>
+              <tr><th>T média</th><td data-c="seca-Tm"></td><td data-c="umida-Tm"></td><td data-c="reduz-Tm"></td></tr>
+              <tr><th>T máxima</th><td data-c="seca-Tx"></td><td data-c="umida-Tx"></td><td data-c="reduz-Tx"></td></tr>
+              <tr><th>Água removida</th><td data-c="seca-ev"></td><td data-c="umida-ev"></td><td data-c="reduz-ev"></td></tr>
+              <tr><th>Fe metálico</th><td data-c="seca-met"></td><td data-c="umida-met"></td><td data-c="reduz-met"></td></tr>
+              <tr><th>Recuperação</th><td data-c="seca-rec"></td><td data-c="umida-rec"></td><td data-c="reduz-rec"></td></tr>
+              <tr><th>Teor de Fe</th><td data-c="seca-teor"></td><td data-c="umida-teor"></td><td data-c="reduz-teor"></td></tr>
+            </tbody>
+          </table>
+          <p class="sis-nota" id="cmp-n"></p>
+
+          <h3 class="cap">Forno</h3>
+          <div class="par">
+            <label for="p-pot"><span>Potência incidente</span><output id="p-pot-v" for="p-pot" translate="no"></output></label>
+            <input type="range" id="p-pot" min="400" max="3000" step="100" value="1800">
+            <label for="p-ret"><span>Parede da cavidade devolve</span><output id="p-ret-v" for="p-ret" translate="no"></output></label>
+            <input type="range" id="p-ret" min="0" max="100" step="5" value="80">
+            <label for="p-dur"><span>Duração do lote</span><output id="p-dur-v" for="p-dur" translate="no"></output></label>
+            <input type="range" id="p-dur" min="60" max="900" step="30" value="300">
+            <label for="p-h"><span>Convecção nas faces</span><output id="p-h-v" for="p-h" translate="no"></output></label>
+            <input type="range" id="p-h" min="0" max="40" step="1" value="12">
+          </div>
+          <h3 class="cap">Amostra</h3>
+          <div class="par">
+            <label for="p-um"><span>Umidade inicial</span><output id="p-um-v" for="p-um" translate="no"></output></label>
+            <input type="range" id="p-um" min="0" max="20" step="1" value="8">
+            <p class="par-sub">Mudar a umidade reinicia o lote.</p>
+          </div>
+          <h3 class="cap">Separador magnético</h3>
+          <div class="par">
+            <label for="p-cap"><span>Captura do ferro e da magnetita</span><output id="p-cap-v" for="p-cap" translate="no"></output></label>
+            <input type="range" id="p-cap" min="0" max="100" step="1" value="90">
+            <label for="p-arr"><span>Arraste de matriz mineral</span><output id="p-arr-v" for="p-arr" translate="no"></output></label>
+            <input type="range" id="p-arr" min="0" max="30" step="1" value="5">
+          </div>
+          <div class="prod" id="prod"></div>
+          <div class="sv-acoes"><button type="button" class="ctl ctl-txt" id="restaurar">Restaurar condições iniciais</button></div>
+        </div>
+
+        <div class="rl-p" id="rl-sistema" role="tabpanel" hidden>
+          <div class="sis-head">
+            <h2>Sistema resolvido agora</h2>
+            <p class="sis-conta" id="sis-conta"></p>
+            <p class="sis-tam" id="sis-tam"></p>
+          </div>
+          <div class="sis-l" id="sistema">
+            <div class="eqr" data-row="energia"><button type="button" class="eqr-b"><span class="eqr-n">Energia</span><span class="eqr-f m" translate="no"><i>ρc</i><sub>p</sub> ∂<i>T</i>/∂<i>t</i> = ∇·(<i>k</i>∇<i>T</i>) + <i>q</i><sub>mo</sub> − <i>ṁ</i><sub>ev</sub><i>L</i> + Σ(−Δ<i>H</i>)<i>r</i></span></button><span class="eqr-u" translate="no"><i>T</i></span><span class="cadeado" title="Sempre resolvida" aria-label="Sempre resolvida"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span></div>
+            <div class="eqr eqr-sub" data-row="conducao"><button type="button" class="eqr-b"><span class="eqr-n">Condução interna</span><span class="eqr-f m" translate="no">∇·(<i>k</i>∇<i>T</i>)</span></button><span class="eqr-u"></span><input type="checkbox" role="switch" data-m="conducao" checked aria-label="Condução ligada"></div>
+            <div class="eqr eqr-sub" data-row="perdas"><button type="button" class="eqr-b"><span class="eqr-n">Perdas nas faces</span><span class="eqr-f m" translate="no"><i>h</i>(<i>T</i> − <i>T</i><sub>∞</sub>) + <i>εσ</i>(<i>T</i><sup>4</sup> − <i>T</i><sub>∞</sub><sup>4</sup>)</span></button><span class="eqr-u"></span><input type="checkbox" role="switch" data-m="perdas" checked aria-label="Perdas ligadas"></div>
+            <div class="eqr" data-row="micro"><button type="button" class="eqr-b"><span class="eqr-n">Micro-ondas</span><span class="eqr-f m" translate="no">d<i>P</i>/d<i>x</i> = −<i>β</i><i>P</i> · <i>q</i><sub>mo</sub> = <i>βP</i></span></button><span class="eqr-u" translate="no"><i>P</i></span><input type="checkbox" role="switch" data-m="micro" checked aria-label="Micro-ondas ligadas"></div>
+            <div class="eqr eqr-sub" data-row="acopla"><button type="button" class="eqr-b"><span class="eqr-n">Absorção depende do estado</span><span class="eqr-f m" translate="no"><i>β</i> = <i>β</i>(<i>T</i>, <i>w</i>, fases)</span></button><span class="eqr-u" translate="no"><i>β</i></span><input type="checkbox" role="switch" data-m="acopla" checked aria-label="Absorção dependente do estado"></div>
+            <div class="eqr" data-row="agua"><button type="button" class="eqr-b"><span class="eqr-n">Água</span><span class="eqr-f m" translate="no">∂<i>w</i>/∂<i>t</i> = −<i>ṁ</i><sub>ev</sub></span></button><span class="eqr-u" translate="no"><i>w</i></span><input type="checkbox" role="switch" data-m="secagem" checked aria-label="Secagem ligada"></div>
+            <div class="eqr" data-row="reducao"><button type="button" class="eqr-b"><span class="eqr-n">Redução</span><span class="eqr-f m" translate="no">Fe<sub>2</sub>O<sub>3</sub> → Fe<sub>3</sub>O<sub>4</sub> → FeO → Fe</span></button><span class="eqr-u" translate="no"><i>n</i><sub>h</sub>, <i>n</i><sub>m</sub>, <i>n</i><sub>w</sub>, <i>n</i><sub>Fe</sub></span><input type="checkbox" role="switch" data-m="reacao" checked aria-label="Redução ligada"></div>
+            <div class="eqr" data-row="separacao"><button type="button" class="eqr-b"><span class="eqr-n">Separação magnética</span><span class="eqr-f m" translate="no"><i>m</i><sub>c</sub> = Σ <i>c</i><sub>i</sub><i>m</i><sub>i</sub> + <i>e</i><i>m</i><sub>matriz</sub></span></button><span class="eqr-u"></span><span class="cadeado" title="Calculada sobre o estado atual" aria-label="Calculada sobre o estado atual"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="7" width="9" height="6.5" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span></div>
+          </div>
+          <h3 class="cap">Quem depende de quem</h3>
+          <svg class="grafo" id="grafo" viewBox="0 0 320 200" role="img" aria-label="Acoplamento entre as incógnitas"></svg>
+          <p class="sis-nota" id="sis-nota"></p>
+          <h3 class="cap">Propriedades da amostra</h3>
+          <dl class="props">
+            <div><dt>Densidade do leito</dt><dd translate="no">1.800 kg/m³</dd></div>
+            <div><dt>Calor específico</dt><dd translate="no">850 J/(kg·K)</dd></div>
+            <div><dt>Condutividade</dt><dd translate="no">0,65 W/(m·K)</dd></div>
+            <div><dt>Emissividade das faces</dt><dd translate="no">0,70</dd></div>
+            <div><dt>Calor de vaporização</dt><dd translate="no">2.257 kJ/kg</dd></div>
+            <div><dt>Wüstita estável acima de</dt><dd translate="no">570 °C</dd></div>
+          </dl>
+        </div>
+
+        <div class="rl-p" id="rl-solver" role="tabpanel" hidden>
+          <div class="sis-head">
+            <h2>Como cada passo de tempo é calculado</h2>
+            <p class="sis-tam" id="sv-res"></p>
+          </div>
+          <ol class="pipe" id="pipe"></ol>
+          <div class="sv-acoes"><button type="button" class="ctl ctl-txt prim" id="sv-abrir">Abrir um passo, etapa por etapa</button></div>
+          <div class="sv-passo" id="sv-passo" hidden>
+            <p class="guia-k" id="sv-k"></p>
+            <p class="sv-info" id="sv-info"></p>
+            <div class="sv-nav"><button type="button" class="ctl ctl-txt prim" id="sv-prox">Próxima etapa →</button><button type="button" class="ctl ctl-txt" id="sv-sair">Voltar ao ensaio</button></div>
+          </div>
+          <h3 class="cap">Passo de tempo explícito</h3>
+          <div class="par">
+            <label for="p-fo"><span>Número de Fourier da malha</span><output id="p-fo-v" for="p-fo" translate="no"></output></label>
+            <input type="range" id="p-fo" min="2" max="32" step="1" value="10">
+            <p class="par-sub" id="p-fo-s" translate="no"></p>
+          </div>
+          <p class="sv-sis" id="sv-fo"></p>
+          <h3 class="cap">Fechamento dos balanços</h3>
+          <dl class="audit" id="audit"></dl>
+          <h3 class="cap">Histórico do lote</h3>
+          <canvas class="sv-graf" id="grafico" width="560" height="200" aria-label="Temperatura média e máxima e potência absorvida ao longo do lote"></canvas>
+          <div class="sv-acoes"><button type="button" class="ctl ctl-txt" id="baixar">Baixar dados do ensaio (CSV)</button></div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ===================================================== CONTEXTO -->
+    <section class="sec wrap" id="contexto" aria-labelledby="c-titulo">
+      <div class="sec-head">
+        <div><p class="eyebrow">01 / Contexto</p><h2 id="c-titulo">Resíduo do refino de alumina</h2></div>
+        <p>O refino da bauxita para produzir alumina deixa um resíduo rico em óxidos. O ferro, sobretudo na forma de hematita, é uma das fases com valor potencial. O contexto industrial vem da valorização de resíduos por micro-ondas divulgada pela Wave Aluminium.</p>
+      </div>
+      <div class="ctx">
+        <article class="ctx-c">
+          <span class="ctx-id" translate="no">BR–01 / P&amp;D</span>
+          <h3>A amostra do estúdio</h3>
+          <div class="ctx-bar" role="img" aria-label="Amostra seca com 40% de hematita e 60% de matriz mineral"><span></span><span></span></div>
+          <div class="ctx-leg"><span><i></i><span translate="no">40 % Fe₂O₃</span></span><span>60 % matriz mineral</span></div>
+          <p>Amostra conceitual com 8 % de água sobre o sólido seco. Cenário didático com parâmetros ajustáveis: a cinética, a absorção de micro-ondas e o rendimento exigem calibração experimental.</p>
+        </article>
+        <ol class="ctx-p">
+          <li><b>Aquecer por dentro</b><span>As micro-ondas depositam energia no volume da amostra. Quanto a amostra absorve depende da água, da temperatura e das fases presentes.</span></li>
+          <li><b>Secar</b><span>A água precisa evaporar antes que a temperatura passe de 100 °C. Enquanto há água, a energia vai para a mudança de fase.</span></li>
+          <li><b>Reduzir com CO</b><span>A hematita perde oxigênio em etapas: vira magnetita, depois wüstita e por fim ferro metálico. Cada etapa tem sua velocidade e seu calor de reação.</span></li>
+          <li><b>Separar com ímã</b><span>Magnetita e ferro metálico são atraídos por um campo magnético; a hematita quase não. Converter já é meio caminho para recuperar.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================================================== MÉTODO -->
+    <section class="sec wrap" id="metodo" aria-labelledby="m-titulo">
+      <div class="sec-head">
+        <div><p class="eyebrow">02 / Hipóteses e rastreabilidade</p><h2 id="m-titulo">O que esta bancada representa</h2></div>
+        <p>Um corte de 180 × 100 mm da amostra, discretizado em 90 × 50 volumes finitos de 2 mm. As faces da frente e de trás, a 25 mm de distância, são tratadas como isoladas.</p>
+      </div>
+      <div class="met-g">
+        <article><span class="met-n" translate="no">01</span><h3>Energia em cada volume</h3><p>Cada célula recebe calor das quatro vizinhas pela condução, potência de micro-ondas, calor de reação e perde calor latente quando evapora água. Nas quatro bordas do corte, convecção e radiação trocam calor com o ambiente a 25 °C. O calor atravessa cada face interna uma vez, com sinais opostos, e por isso a energia fecha até o arredondamento.</p></article>
+        <article><span class="met-n" translate="no">02</span><h3>Micro-ondas pela lei de Lambert</h3><p>A potência entra pela face esquerda e decai como dP/dx = −βP em cada linha. O que atravessa a amostra encontra a parede da cavidade, que devolve uma fração e a faz voltar da direita para a esquerda. O coeficiente β soma a matriz, que absorve mais quando aquece, a água e as fases de ferro. Uma solução das equações de Maxwell e propriedades dielétricas medidas seriam necessárias para prever o acoplamento real.</p></article>
+        <article><span class="met-n" translate="no">03</span><h3>Redução em etapas</h3><p>Com CO em excesso, a hematita vira magnetita, a magnetita vira wüstita e a wüstita vira ferro, cada etapa com cinética de primeira ordem e Arrhenius. Abaixo de 570 °C a wüstita não é estável e a magnetita vai direto a ferro. As entalpias vêm das entalpias de formação a 298 K e fecham a lei de Hess pelos dois caminhos.</p></article>
+        <article><span class="met-n" translate="no">04</span><h3>Separação sobre o estado atual</h3><p>O separador magnético captura a fração escolhida do ferro metálico e da magnetita, um quarto disso da wüstita e menos de um décimo da hematita, além de arrastar parte da matriz. Não há escoamento no separador: os fatores se aplicam ao inventário de cada fase.</p></article>
+      </div>
+      <details class="metodo">
+        <summary>Propriedades, estabilidade e limites da interpretação</summary>
+        <div class="metodo-b">
+          <div>
+            <h4>Propriedades e passo de tempo</h4>
+            <p>Calor específico, condutividade e densidade constantes, referidos à massa seca inicial. A secagem consome o calor latente a 100 °C; o vapor sai do domínio e a condensação fica fora do modelo. O passo de tempo é explícito, Δt = Fo·Δx²/α, e estável para Fo ≤ 1/4 em malha quadrada. O ensaio para quando alguma célula chega a 1.200 °C: a fusão está fora deste modelo de leito sólido.</p>
+            <p>A cinética é integrada de forma exata em cada passo, n ← n·e^(−kΔt), o que mantém as frações entre 0 e 1 em qualquer passo de tempo.</p>
+          </div>
+          <div>
+            <h4>Parâmetros ilustrativos</h4>
+            <table class="conf">
+              <thead><tr><th>Etapa</th><th>A [1/s]</th><th>E [kJ/mol]</th><th>ΔH [kJ/mol Fe]</th></tr></thead>
+              <tbody>
+                <tr><td translate="no">Fe₂O₃ → Fe₃O₄</td><td translate="no">60</td><td translate="no">45</td><td translate="no">−7,87</td></tr>
+                <tr><td translate="no">Fe₃O₄ → FeO</td><td translate="no">880</td><td translate="no">80</td><td translate="no">+6,47</td></tr>
+                <tr><td translate="no">Fe₃O₄ → Fe</td><td translate="no">300</td><td translate="no">80</td><td translate="no">−4,53</td></tr>
+                <tr><td translate="no">FeO → Fe</td><td translate="no">750</td><td translate="no">90</td><td translate="no">−11,0</td></tr>
+              </tbody>
+            </table>
+            <p>A cinética, os coeficientes de absorção e os fatores de captura foram escolhidos para mostrar o comportamento qualitativo. Para análise de processo, devem ser substituídos por dados de ensaio.</p>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ===================================================== VANÁDIO -->
+
+
+    <!-- ===================================================== REFERÊNCIAS -->
+    <section class="sec wrap" id="referencias" aria-labelledby="r-titulo">
+      <div class="sec-head">
+        <div><p class="eyebrow">03 / Base pública de pesquisa</p><h2 id="r-titulo">Contexto industrial e fundamentos</h2></div>
+        <p>Fontes abertas sobre o resíduo, a tecnologia de micro-ondas e os dados termodinâmicos usados nos balanços.</p>
+      </div>
+      <div class="lib">
+        <a href="https://newwavegroup.com/company/wave-aluminium/" rel="noopener" target="_blank"><small>Empresa</small><strong>Wave Aluminium / New Wave</strong><span>Valorização de resíduos de bauxita e tecnologia Microwave Energy Transfer.</span></a>
+        <a href="https://www.hydro.com/br/global/imprensa/noticias/2023/hydro-and-wave-aluminium-to-recover-minerals-from-bauxite-residue/" rel="noopener" target="_blank"><small>Notícia</small><strong>Hydro / Recuperação de minerais</strong><span>Contexto da parceria de pesquisa em resíduos de bauxita da Alunorte.</span></a>
+        <a href="https://international-aluminium.org/wp-content/uploads/2024/03/opportunities_for_use_of_bauxite_residue_in_speci.pdf" rel="noopener" target="_blank"><small>Relatório</small><strong>International Aluminium Institute</strong><span>Composição e possibilidades de valorização do resíduo de bauxita.</span></a>
+        <a href="https://webbook.nist.gov/cgi/cbook.cgi?ID=C1317608&amp;Mask=2" rel="noopener" target="_blank"><small>Dados</small><strong>NIST Chemistry WebBook</strong><span>Dados termodinâmicos de hematita, CO e CO₂ usados no balanço.</span></a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="assets/estudio.js?v=20261111-4"></script>
+  <script src="/assets/js/rodape.js?v=20261112-1"></script>
+</body>
+</html>

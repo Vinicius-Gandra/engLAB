@@ -1,0 +1,24 @@
+/* Dica de tela cheia (assets/js/dica-tela-cheia.js) */
+.dtc{--dtc-bg:var(--panel,var(--surface,#122230));--dtc-line:var(--line2,var(--line-strong,#33506a));--dtc-acc:var(--orange,var(--accent,#f5ad69));
+  position:absolute;z-index:80;display:flex;gap:14px;width:min(360px,calc(100vw - 24px));padding:14px 14px 14px 12px;border:1px solid var(--dtc-line);border-radius:14px;background:var(--dtc-bg);color:var(--text,#edf2f2);box-shadow:0 18px 50px rgba(0,0,0,.32);font:400 .86rem/1.5 var(--sans,var(--font-sans,system-ui,sans-serif));opacity:0;transform:translateY(-6px);transition:opacity .25s,transform .25s}
+.dtc.dtc-on{opacity:1;transform:none}
+.dtc[hidden]{display:none}
+.dtc-oculto{visibility:hidden!important}
+.dtc-seta{position:absolute;top:-7px;left:calc(var(--seta,28px) - 7px);width:12px;height:12px;border-top:1px solid var(--dtc-line);border-left:1px solid var(--dtc-line);background:var(--dtc-bg);transform:rotate(45deg)}
+.dtc-fig{flex:none;width:56px;padding-top:2px}
+.dtc-fig svg{display:block;width:56px;height:auto;overflow:visible}
+.dtc-tela{fill:none;stroke:var(--muted,#a9b9c2);stroke-width:1.5;opacity:.5}
+.dtc-jan{fill:color-mix(in srgb,var(--dtc-acc) 22%,transparent);stroke:var(--dtc-acc);stroke-width:1.5;transform-origin:24px 16px;animation:dtc-cresce 2.4s ease-in-out infinite}
+.dtc-cant{fill:none;stroke:var(--dtc-acc);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@keyframes dtc-cresce{0%,15%{transform:scale(1)}45%,80%{transform:scale(2.15,1.95)}100%{transform:scale(1)}}
+.dtc-c{min-width:0}
+.dtc strong{display:block;margin-bottom:3px;font-size:.95rem;font-weight:700;letter-spacing:-.01em}
+.dtc p{margin:0;color:var(--muted,var(--text-2,#a9b9c2))}
+.dtc-bts{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.dtc-bts button{height:34px;padding:0 13px;border:1px solid var(--dtc-line);border-radius:9px;background:transparent;color:var(--text,#edf2f2);font:600 .82rem var(--sans,system-ui,sans-serif);cursor:pointer}
+.dtc-bts .dtc-sim{border-color:var(--dtc-acc);background:var(--dtc-acc);color:var(--orange-ink,var(--accent-ink,#1a1206))}
+.dtc-bts button:hover{filter:brightness(1.07)}
+.dtc-bts button:focus-visible{outline:2px solid var(--dtc-acc);outline-offset:2px}
+.dtc-pulso{animation:dtc-pulso 1.6s ease-out infinite}
+@keyframes dtc-pulso{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--orange,#f5ad69) 70%,transparent)}70%,100%{box-shadow:0 0 0 9px transparent}}
+@media (prefers-reduced-motion:reduce){.dtc{transition:none}.dtc-jan,.dtc-pulso{animation:none}}

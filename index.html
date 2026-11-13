@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-3RUO80RBVz/+lyeg5nra2DclJBmr18AdF/bQ3L+Cm24=' 'sha256-ls5wGMsZiDARMj4sjqscG8Rs0ameKls1aaYB1NWY21o=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.engenhalab.com.br https://engenhalab-calculo.engenhalab.workers.dev http://localhost:8787 http://127.0.0.1:8787 https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <script src="/assets/js/anti-quadro.js"></script>
+  <script src="/assets/js/endereco.js?v=20261111-1"></script>
+  <script src="/assets/js/idioma-cedo.js?v=20261107-2"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="EngenhaLab: central de laboratórios interativos de engenharia. Máquinas elétricas, offshore e fluidos e CFD abertos; estruturas e CAE e automação e CAD em preparação.">
+  <meta name="theme-color" content="#09131f">
+  <meta name="color-scheme" content="dark light">
+  <title>EngenhaLab · Laboratórios de engenharia</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2309131f'/%3E%3Cpath d='M14 18 32 48 50 18' fill='none' stroke='%23f5ad69' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <script>try { var t = localStorage.getItem('vg-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=JetBrains+Mono:wght@400;600&display=swap">
+  <style>
+    /* ==========================================================================
+       EngenhaLab · central dos laboratórios (pensada primeiro para o celular)
+       Abertos: <article class="lab"> com a lista de módulos.
+       Em preparação: <article class="tile-soon"> na faixa de baixo.
+       ========================================================================== */
+    :root {
+      --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      --font-serif: Georgia, "Times New Roman", serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --max: 1180px; --gut: 16px;
+    }
+    :root, html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #09131f; --bg-alt: #0e1b28;
+      --surface: #122230; --surface-2: #172a3a; --surface-3: #1d3346;
+      --line: #24384a; --line-strong: #33506a;
+      --text: #edf2f2; --text-2: #a9b9c2; --text-3: #8195a2;
+      --accent: #f5ad69; --accent-strong: #ffc38c; --accent-ink: #1a1206;
+      --accent-wash: rgba(245, 173, 105, .12); --accent-line: rgba(245, 173, 105, .45);
+      --teal: #89d6d2; --teal-wash: rgba(137, 214, 210, .12);
+      --copper: #d07a3a;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:where(:not([data-theme="dark"])) {
+        color-scheme: light;
+        --bg: #f5f5ef; --bg-alt: #ecefe8;
+        --surface: #ffffff; --surface-2: #f7f8f4; --surface-3: #eef1ec;
+        --line: #d6dfdc; --line-strong: #b8c7c4;
+        --text: #14232c; --text-2: #4b5f6c; --text-3: #586c79;
+        --accent: #b45a22; --accent-strong: #9a4a17; --accent-ink: #ffffff;
+        --accent-wash: rgba(180, 90, 34, .08); --accent-line: rgba(180, 90, 34, .4);
+        --teal: #0f6f6a; --teal-wash: rgba(15, 111, 106, .08);
+        --copper: #b45a22;
+      }
+    }
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f5f5ef; --bg-alt: #ecefe8;
+      --surface: #ffffff; --surface-2: #f7f8f4; --surface-3: #eef1ec;
+      --line: #d6dfdc; --line-strong: #b8c7c4;
+      --text: #14232c; --text-2: #4b5f6c; --text-3: #586c79;
+      --accent: #b45a22; --accent-strong: #9a4a17; --accent-ink: #ffffff;
+      --accent-wash: rgba(180, 90, 34, .08); --accent-line: rgba(180, 90, 34, .4);
+      --teal: #0f6f6a; --teal-wash: rgba(15, 111, 106, .08);
+      --copper: #b45a22;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 72px; }
+    body { margin: 0; min-height: 100dvh; display: flex; flex-direction: column; background: var(--bg); color: var(--text); font: 400 16px/1.55 var(--font-sans); font-feature-settings: "cv11", "ss01"; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    h1, h2, h3, p, ol { margin: 0; }
+    ol { padding: 0; list-style: none; }
+    svg { display: block; }
+    ::selection { background: var(--accent); color: var(--accent-ink); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+    .skip { position: fixed; z-index: 500; top: -60px; left: 16px; padding: 10px 16px; border-radius: 8px; background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+    .skip:focus { top: 12px; }
+    .wrap { width: min(100% - 2 * var(--gut) - env(safe-area-inset-left) - env(safe-area-inset-right), var(--max)); margin-inline: auto; }
+
+    /* ---- Cabeçalho ---------------------------------------------------------- */
+    .top { position: sticky; top: 0; z-index: 50; padding-top: env(safe-area-inset-top); border-bottom: 1px solid transparent; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); transition: border-color .2s; }
+    .top.solid { border-bottom-color: var(--line); }
+    .top .wrap { display: flex; align-items: center; gap: 4px; height: 56px; }
+    .brand { display: inline-flex; align-items: baseline; gap: 8px; min-height: 44px; align-items: center; }
+    .brand-mark { font-size: 1.35rem; font-weight: 850; letter-spacing: -.06em; }
+    .brand-mark b, .brand-name b { color: var(--accent); }
+    .brand-name { font-size: .92rem; font-weight: 700; letter-spacing: -.02em; color: var(--text-2); }
+    .brand-name b { font-weight: 800; }
+    .theme { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 12px; background: transparent; color: var(--text-2); font-size: 1.1rem; }
+    .moon { display: none; }
+    html[data-theme="light"] .sun { display: none; }
+    html[data-theme="light"] .moon { display: inline; }
+    @media (prefers-color-scheme: light) { html:not([data-theme]) .sun { display: none; } html:not([data-theme]) .moon { display: inline; } }
+
+
+    /* ---- Barra de menus ----------------------------------------------------- */
+    .top-bar { gap: 6px; }
+    .brand { margin-right: 10px; }
+    .menu { display: flex; align-items: center; gap: 2px; }
+    .menu-item { position: relative; }
+    .menu-link { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 13px; border: 0; border-radius: 10px; background: transparent; color: var(--text-2); font-size: .875rem; font-weight: 600; letter-spacing: -.005em; white-space: nowrap; transition: color .15s, background .15s; }
+    .menu-link svg { width: 9px; height: 6px; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform .2s; }
+    .menu-drop[aria-expanded="true"] { color: var(--text); background: var(--surface-2); }
+    .menu-drop[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .menu-panel { position: absolute; top: calc(100% + 10px); left: -8px; z-index: 60; display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)) minmax(140px, .8fr); gap: 6px; width: max-content; max-width: min(980px, calc(100vw - 32px)); padding: 10px; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb, var(--surface) 96%, transparent); backdrop-filter: blur(16px); box-shadow: 0 24px 60px -24px rgb(0 0 0 / .45), 0 2px 8px -2px rgb(0 0 0 / .15); }
+    .menu-panel[hidden] { display: none; }
+    .menu-col { padding: 6px; border-radius: 12px; }
+    .menu-lab { display: flex; gap: 12px; padding: 10px; border-radius: 10px; }
+    .menu-lab b { display: block; font-size: .92rem; font-weight: 700; letter-spacing: -.01em; }
+    .menu-lab small { display: block; margin-top: 2px; color: var(--text-3); font-size: .76rem; }
+    .menu-num { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border: 1px solid var(--accent-line); border-radius: 8px; color: var(--accent); font: 700 .72rem var(--font-mono); background: var(--accent-wash); }
+    .menu-mods { margin: 2px 0 0 42px; padding: 0; border-left: 1px solid var(--line); }
+    .menu-mods a { display: block; padding: 6px 10px; border-radius: 0 8px 8px 0; color: var(--text-2); font-size: .82rem; }
+    .menu-col-prep { border-left: 1px solid var(--line); border-radius: 0; padding-left: 16px; }
+    .menu-cap { margin: 10px 0 8px; color: var(--text-3); font: 700 .66rem var(--font-mono); letter-spacing: .14em; text-transform: uppercase; }
+    .menu-prep { margin: 0; padding: 0; list-style: none; }
+    .menu-prep li { display: flex; align-items: center; gap: 8px; padding: 6px 0; color: var(--text-3); font-size: .82rem; }
+    .menu-prep li::before { content: ""; width: 6px; height: 6px; border: 1.5px solid currentColor; border-radius: 50%; }
+    .top-actions { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .top-conta { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); font-size: .84rem; font-weight: 650; white-space: nowrap; transition: border-color .15s, background .15s; }
+    .top-conta.logado { padding: 0 12px 0 4px; }
+    .top-av { display: grid; place-items: center; width: 30px; height: 30px; overflow: hidden; border-radius: 50%; background: var(--accent-wash); color: var(--accent); font: 700 .7rem var(--font-mono); }
+    .top-av img { width: 100%; height: 100%; object-fit: cover; }
+    .top-lang { position: relative; display: inline-flex; align-items: center; gap: 5px; height: 38px; padding: 0 8px 0 10px; border-radius: 10px; color: var(--text-2); cursor: pointer; }
+    .top-lang svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.3; }
+    .top-lang select { appearance: none; -webkit-appearance: none; margin: 0; padding: 0 14px 0 0; border: 0; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238195a2' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right center/9px 6px; color: inherit; font: 700 .74rem var(--font-mono); letter-spacing: .04em; cursor: pointer; }
+    .top-lang select option { color: #111; background: #fff; }
+    .menu-bt { display: none; position: relative; width: 44px; height: 44px; border: 0; border-radius: 12px; background: transparent; }
+    .menu-bt span, .menu-bt span::before, .menu-bt span::after { position: absolute; left: 13px; width: 18px; height: 1.6px; border-radius: 2px; background: var(--text); content: ""; transition: transform .2s, opacity .2s; }
+    .menu-bt span { top: 21px; }
+    .menu-bt span::before { left: 0; top: -6px; }
+    .menu-bt span::after { left: 0; top: 6px; }
+    .menu-bt[aria-expanded="true"] span { background: transparent; }
+    .menu-bt[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+    .menu-bt[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+    @media (hover: hover) {
+      .menu-link:hover { color: var(--text); background: var(--surface-2); }
+      .menu-lab:hover, .menu-mods a:hover { background: var(--surface-2); color: var(--text); }
+      .menu-lab:hover .menu-num { background: var(--accent); color: var(--accent-ink); }
+      .top-conta:hover { border-color: var(--line-strong); background: var(--surface-2); }
+      .top-lang:hover { color: var(--text); background: var(--surface-2); }
+    }
+    /* celular: menu em folha abaixo da barra */
+    @media (max-width: 859px) {
+      .menu-bt { display: block; }
+      .top-conta-t { display: none; }
+      .top-conta:not(.logado) .top-conta-t { display: inline; }
+      .top-conta.logado { padding: 0 4px; border-color: transparent; }
+      .menu { position: fixed; inset: calc(56px + env(safe-area-inset-top)) 0 auto 0; z-index: 55; flex-direction: column; align-items: stretch; gap: 0; max-height: calc(100dvh - 56px - env(safe-area-inset-top)); overflow: auto; padding: 8px var(--gut) 20px; border-bottom: 1px solid var(--line); background: var(--bg); box-shadow: 0 30px 50px -30px rgb(0 0 0 / .5); transform: translateY(-8px); opacity: 0; visibility: hidden; transition: opacity .18s, transform .18s, visibility 0s .18s; }
+      .menu.aberto { transform: none; opacity: 1; visibility: visible; transition: opacity .18s, transform .18s; }
+      .menu-link { justify-content: space-between; height: 50px; padding: 0 4px; border-bottom: 1px solid var(--line); border-radius: 0; font-size: 1rem; color: var(--text); }
+      .menu-drop[aria-expanded="true"] { background: transparent; }
+      .menu-panel { position: static; display: block; width: auto; max-width: none; padding: 4px 0 10px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; box-shadow: none; backdrop-filter: none; }
+      .menu-col-prep { border-left: 0; padding-left: 6px; }
+      .brand { margin-right: auto; }
+      .top-actions { margin-left: 0; }
+    }
+    @media (min-width: 960px) { .top-bar { gap: 10px; } }
+    @media (max-width: 420px) { .top-actions { gap: 0; } .top-lang { padding: 0 6px; } .top-lang svg { display: none; } .top-conta { padding: 0 11px; } .brand { margin-right: 6px; } }
+
+    /* ---- Abertura ---------------------------------------------------------- */
+    main { flex: 1; }
+    .intro { padding-block: 28px 22px; }
+    .intro h1 { font-size: clamp(2.1rem, 9.4vw, 4.2rem); font-weight: 760; line-height: 1.02; letter-spacing: -.045em; }
+    .intro h1 em { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: var(--accent); letter-spacing: -.03em; }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .jump a { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--text-2); font-size: .84rem; font-weight: 620; }
+    .jump a b { font: 600 .78rem var(--font-mono); color: var(--text-3); }
+    .jump a:first-child { border-color: color-mix(in srgb, var(--teal) 45%, transparent); background: var(--teal-wash); color: var(--teal); }
+    .jump a:first-child b { color: inherit; }
+
+    /* ---- Títulos de seção ---------------------------------------------------- */
+    .sec { padding-bottom: 36px; }
+    .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .sec-head h2 { font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-2); }
+    .sec-head span { font: 600 .78rem var(--font-mono); color: var(--text-3); }
+
+    /* ---- Identidade de cada laboratório --------------------------------------- */
+    .lab, .tile-soon { --hue: var(--accent); position: relative; isolation: isolate; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+    [data-lab="maquinas"]   { --hue: #d9873f; }
+    [data-lab="estruturas"] { --hue: #6f9cf0; }
+    [data-lab="fluidos"]    { --hue: #3fb9c4; }
+    [data-lab="offshore"]   { --hue: #3d93d6; }
+    [data-lab="metalurgia"] { --hue: #ec6a3c; }
+    [data-lab="cad"]        { --hue: #a58cf0; }
+    .lab::before, .tile-soon::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(120% 60% at 100% 0%, color-mix(in srgb, var(--hue) 16%, transparent), transparent 60%); }
+    .lab::after { content: ""; position: absolute; left: 22px; right: 22px; top: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--hue), transparent); opacity: .7; }
+    .num { font: 600 .82rem var(--font-mono); color: color-mix(in srgb, var(--hue) 78%, var(--text)); }
+    .status { display: inline-flex; align-items: center; gap: 7px; padding: 3px 10px 3px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--text-3); font-size: .74rem; font-weight: 650; white-space: nowrap; }
+    .status i { width: 7px; height: 7px; border: 1.5px solid currentColor; border-radius: 50%; }
+    .status-open { border-color: color-mix(in srgb, var(--teal) 45%, transparent); background: var(--teal-wash); color: var(--teal); }
+    .status-open i { border-color: var(--teal); background: var(--teal); }
+
+    /* ---- Laboratórios abertos -------------------------------------------------- */
+    .open-list { display: grid; gap: 16px; }
+    .lab { display: flex; flex-direction: column; background: var(--surface); }
+    .lab-main { display: flex; flex: 1; flex-direction: column; padding: 18px 18px 16px; }
+    .lab-main .cta { margin-top: auto; }
+    .lab-main p { margin-bottom: 16px; }
+    .lab-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .lab .tile-fig { aspect-ratio: 16 / 10; margin: 6px -4px 4px; }
+    .lab h3 { font-size: 1.5rem; font-weight: 740; letter-spacing: -.03em; line-height: 1.15; }
+    .lab-main p { margin-top: 6px; color: var(--text-2); font-size: .95rem; line-height: 1.55; }
+    .cta { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; margin-top: 16px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 720; font-size: .98rem; letter-spacing: -.01em; transition: filter .15s, transform .12s; }
+    .cta b { transition: transform .15s; }
+    .lab-main:active .cta { transform: scale(.985); filter: brightness(.95); }
+
+    /* ---- Em preparação --------------------------------------------------------- */
+    .soon-list { display: grid; grid-auto-flow: column; grid-auto-columns: 78%; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut); padding: 2px var(--gut) 6px; margin-inline: calc(-1 * var(--gut)); scrollbar-width: none; }
+    .soon-list::-webkit-scrollbar { display: none; }
+    .tile-soon { scroll-snap-align: start; display: flex; flex-direction: column; padding: 14px 14px 16px; background: color-mix(in srgb, var(--surface) 55%, var(--bg)); cursor: default; }
+    .soon-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .tile-soon .tile-fig { aspect-ratio: 16 / 10; margin: 8px 0 10px; opacity: .9; }
+    .tile-soon h3 { font-size: 1.06rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.25; }
+    .tile-soon p { margin-top: 4px; color: var(--text-3); font-size: .84rem; line-height: 1.5; }
+    .tile-soon .status { transition: color .2s, border-color .2s; }
+    .tile-soon.nudge .status { animation: nudge .32s ease; color: var(--text-2); border-color: var(--line-strong); }
+    @keyframes nudge { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+    .dots { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+    .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); transition: background .2s, width .2s; }
+    .dots i.on { width: 18px; border-radius: 3px; background: var(--text-2); }
+
+    /* ---- Figuras ---------------------------------------------------------------- */
+    .tile-fig { position: relative; }
+    .tile-fig svg { position: absolute; inset: 8px 0; width: 100%; height: calc(100% - 16px); overflow: visible; }
+    .cfd-fig canvas { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--hue) 22%, var(--line)); }
+    .tile-fig::before { content: ""; position: absolute; inset: 0; border-radius: 12px; pointer-events: none; opacity: .55; }
+    [data-lab="maquinas"] .tile-fig::before { background: repeating-radial-gradient(circle at 50% 50%, transparent 0 22px, color-mix(in srgb, var(--hue) 10%, transparent) 22px 23px); mask: radial-gradient(circle, #000 30%, transparent 70%); }
+    [data-lab="metalurgia"] .tile-fig::before { background: radial-gradient(ellipse 45% 40% at 45% 62%, color-mix(in srgb, var(--hue) 22%, transparent), transparent 70%); animation: met-glow 2.4s ease-in-out infinite alternate; }
+    [data-lab="cad"] .tile-fig::before { background: radial-gradient(circle, color-mix(in srgb, var(--hue) 28%, transparent) 1px, transparent 1.4px) 0 0/14px 14px; mask: radial-gradient(ellipse, #000 35%, transparent 75%); }
+    @keyframes met-glow { from { opacity: .35; } to { opacity: .8; } }
+    .m-core { fill: var(--surface-2); stroke: var(--text-3); stroke-width: 1.4; }
+    .m-slot { fill: var(--bg); }
+    .m-cu { fill: var(--copper); }
+    .m-hub, .m-pole { fill: var(--surface-3); stroke: var(--text-2); stroke-width: 1.4; }
+    .m-coil { fill: var(--copper); stroke: color-mix(in srgb, var(--copper) 55%, var(--bg)); stroke-width: 1; }
+    .m-damper { fill: var(--bg); stroke: var(--text-3); stroke-width: 1; }
+    .m-shaft { fill: var(--line-strong); stroke: var(--text-2); stroke-width: 1.4; }
+    .m-key { fill: var(--bg); stroke: var(--text-2); stroke-width: 1.2; }
+    .m-centre, .fg-centre { fill: none; stroke: var(--text-3); stroke-width: 1; stroke-dasharray: 14 4 3 4; }
+    .fg-line { fill: none; stroke: var(--text-2); stroke-width: 1.6; stroke-linejoin: round; }
+    .fg-mesh { fill: none; stroke: var(--text-3); stroke-width: .8; }
+    .fg-hatch { fill: none; stroke: var(--text-3); stroke-width: 1.2; }
+    .fg-solid { fill: var(--surface-3); stroke: var(--text-2); stroke-width: 1.5; }
+    .fg-flow { fill: none; stroke: var(--teal); stroke-width: 1.3; }
+    .fg-water { fill: none; stroke: var(--teal); stroke-width: 1.8; }
+    .fg-dim { fill: none; stroke: var(--text-3); stroke-width: 1; }
+    .fg-acc { fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .fg-acc-dash { fill: var(--accent-wash); stroke: var(--accent); stroke-width: 1.4; stroke-dasharray: 5 4; }
+    .fg-acc-fill, .fg-dot { fill: var(--accent); }
+    .fg-txt { fill: var(--text-2); font: 600 12px var(--font-mono); }
+    .fg-txt.acc { fill: var(--accent); }
+    .fg-txt.mid { text-anchor: middle; }
+    .met-drop { fill: var(--teal); }
+    #fea-cells path { stroke: none; }
+    /* CAD: desenho traçado em ciclo de 9 s */
+    .cad { --cyc: 9s; }
+    .cad-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: cad-draw var(--cyc) ease-in-out infinite; }
+    .cad-fill { opacity: 0; animation: cad-fill var(--cyc) ease infinite; }
+    .cad-fade { opacity: 0; animation: cad-fade var(--cyc) ease infinite; }
+    .cad-hole { transform: scale(0); opacity: 0; animation: cad-hole var(--cyc) cubic-bezier(.3,1.6,.5,1) infinite; animation-delay: calc(var(--i) * .2s); }
+    .cad-dim { opacity: 0; animation: cad-dim var(--cyc) ease infinite; animation-delay: var(--dd, 0s); }
+    .cad-pen { animation: cad-pen var(--cyc) ease-in-out infinite; }
+    .cad-stamp { opacity: 0; animation: cad-stamp var(--cyc) ease infinite; }
+    .cad-draw + .cad-draw { animation-delay: 1s; }
+    @keyframes cad-fade  { 0% { opacity: 0 } 6%, 88% { opacity: 1 } 96%, 100% { opacity: 0 } }
+    @keyframes cad-draw  { 0%, 6% { stroke-dashoffset: 1 } 30%, 88% { stroke-dashoffset: 0; opacity: 1 } 96%, 100% { stroke-dashoffset: 0; opacity: 0 } }
+    @keyframes cad-fill  { 0%, 26% { opacity: 0 } 34%, 88% { opacity: 1 } 96%, 100% { opacity: 0 } }
+    @keyframes cad-pen   { 0%, 6% { transform: rotate(0); opacity: 1 } 30% { transform: rotate(360deg); opacity: 1 } 34%, 100% { transform: rotate(360deg); opacity: 0 } }
+    @keyframes cad-hole  { 0%, 32% { transform: scale(0); opacity: 0 } 38% { transform: scale(1); opacity: 1 } 88% { transform: scale(1); opacity: 1 } 96%, 100% { transform: scale(1); opacity: 0 } }
+    @keyframes cad-dim   { 0%, 50% { opacity: 0; transform: translateY(4px) } 58%, 88% { opacity: 1; transform: none } 96%, 100% { opacity: 0 } }
+    @keyframes cad-stamp { 0%, 64% { opacity: 0 } 70%, 88% { opacity: 1 } 96%, 100% { opacity: 0 } }
+
+    /* ---- Rodapé ------------------------------------------------------------- */
+    .foot { display: flex; flex-direction: column; gap: 6px; padding-block: 22px calc(26px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--text-3); font-size: .84rem; }
+    .foot b { color: var(--text); font-weight: 850; letter-spacing: -.04em; }
+    .foot b span { color: var(--accent); }
+    .foot a { color: var(--text-2); border-bottom: 1px solid var(--line-strong); }
+
+    /* ---- Mouse (computador) ---------------------------------------------------- */
+    @media (hover: hover) {
+      .theme:hover { color: var(--text); background: var(--surface-2); }
+      .jump a:hover { border-color: var(--line-strong); color: var(--text); }
+      .lab { transition: border-color .2s, box-shadow .25s; }
+      .lab:hover { border-color: color-mix(in srgb, var(--hue) 40%, var(--line)); box-shadow: 0 18px 44px -28px color-mix(in srgb, var(--hue) 80%, transparent); }
+      .lab-main:hover .cta { filter: brightness(1.06); }
+      .lab-main:hover .cta b { transform: translateX(3px); }
+      .lab .tile-fig svg { transition: transform .45s cubic-bezier(.2,.7,.3,1); }
+      .lab-main:hover .tile-fig svg { transform: scale(1.03); }
+      .tile-soon:hover .status { color: var(--text-2); border-color: var(--line-strong); }
+      .foot a:hover { color: var(--accent); border-color: var(--accent); }
+    }
+
+    /* ---- Telas maiores ------------------------------------------------------- */
+    @media (min-width: 640px) {
+      :root { --gut: 28px; }
+      .intro { padding-block: 48px 30px; }
+      .soon-list { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; margin: 0; padding: 0; }
+      .dots { display: none; }
+      .foot { flex-direction: row; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+    }
+    @media (min-width: 960px) {
+      :root { --gut: 40px; }
+      .top .wrap { height: 64px; }
+      .intro { padding-block: 64px 36px; }
+      .sec { padding-bottom: 52px; }
+      .open-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+      .lab-main { padding: 22px 24px 20px; }
+      .lab .tile-fig { aspect-ratio: auto; height: 250px; }
+      .soon-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    }
+    @media (max-width: 380px) { .brand-name { display: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+      .cad-draw, .cad-fill, .cad-fade, .cad-hole, .cad-dim, .cad-stamp { animation: none; opacity: 1; stroke-dashoffset: 0; transform: none; }
+      .cad-pen { display: none; } [data-lab="metalurgia"] .tile-fig::before { animation: none; }
+      .tile-soon.nudge .status { animation: none; }
+    }
+  </style>
+  <script defer src="/assets/js/inicio-topo.js?v=20261104-1"></script>
+  <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
+  <script defer src="/assets/js/analytics.js?v=20261110-2"></script>
+  <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
+</head>
+<body>
+  <a class="skip" href="#abertos">Pular para os laboratórios</a>
+
+  <header class="top" id="topo">
+    <div class="wrap top-bar">
+      <a class="brand" href="./" aria-label="EngenhaLab — início"><span class="brand-mark">VG<b>.</b></span><span class="brand-name">Engenha<b>Lab</b></span></a>
+      <nav class="menu" id="menu" aria-label="Navegação principal">
+        <div class="menu-item menu-labs">
+          <button type="button" class="menu-link menu-drop" id="menu-labs-bt" aria-expanded="false" aria-controls="menu-labs">Laboratórios<svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></button>
+          <div class="menu-panel" id="menu-labs" hidden>
+            <div class="menu-col">
+              <a class="menu-lab" href="maquinas-eletricas/"><span class="menu-num">01</span><span><b>Máquinas elétricas</b><small>Geradores e motores síncronos</small></span></a>
+              <ol class="menu-mods">
+                <li><a href="maquinas-eletricas/01-maquinas-sincronas.html">Máquinas síncronas</a></li>
+                <li><a href="maquinas-eletricas/02-mecanica.html">Mecânica</a></li>
+                <li><a href="maquinas-eletricas/03-termica.html">Térmica</a></li>
+                <li><a href="maquinas-eletricas/04-eixos.html">Eixos</a></li>
+              </ol>
+            </div>
+            <div class="menu-col">
+              <a class="menu-lab" href="offshore/"><span class="menu-num">02</span><span><b>Offshore &amp; ancoragem</b><small>Estacas torpedo para FPSO</small></span></a>
+              <ol class="menu-mods">
+                <li><a href="offshore/01-lancamento.html">Lançamento e cravação</a></li>
+                <li><a href="offshore/02-catenaria.html">Catenária</a></li>
+                <li><a href="offshore/03-capacidade-axial.html">Capacidade axial</a></li>
+                <li><a href="offshore/04-carga-lateral.html">Carga lateral</a></li>
+                <li><a href="offshore/05-estaca-3d.html">Torpedo 3D</a></li>
+              </ol>
+            </div>
+            <div class="menu-col"><a class="menu-lab" href="fluidos/"><span class="menu-num">04</span><span><b>Fluidos &amp; CFD</b><small>Escoamento e solver</small></span></a><ol class="menu-mods"><li><a href="fluidos/#bancada">Estúdio de escoamento</a></li><li><a href="fluidos/#fluent">Roteiro no Fluent</a></li></ol></div>
+            <div class="menu-col menu-col-prep">
+              <p class="menu-cap">Em preparação</p>
+              <ul class="menu-prep">
+                <li>Estruturas &amp; FEM</li>
+                <li>Automação &amp; CAD</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <a class="menu-link" href="#preparacao">Em preparação</a>
+        <a class="menu-link" href="sobre.html">Sobre o autor</a>
+      </nav>
+      <div class="top-actions">
+        <a class="top-conta" id="top-conta" href="offshore/conta.html" title="Entrar com a sua conta"><span class="top-conta-t">Entrar</span></a>
+        <label class="top-lang" title="Idioma / Language"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M2.5 10h15M10 2.5c2.2 2.3 3.2 4.8 3.2 7.5s-1 5.2-3.2 7.5c-2.2-2.3-3.2-4.8-3.2-7.5S7.8 4.8 10 2.5z"/></svg><select id="top-lang" aria-label="Idioma / Language"><option value="pt">PT</option><option value="en">EN</option></select></label>
+        <button class="theme" id="theme" type="button" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro"><span class="sun" aria-hidden="true">☼</span><span class="moon" aria-hidden="true">☾</span></button>
+        <button class="menu-bt" id="menu-bt" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><span aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro wrap" aria-labelledby="intro-title">
+      <h1 id="intro-title">Laboratórios de <em>engenharia.</em></h1>
+      <div class="jump">
+        <a href="#abertos">Abertos <b>4</b></a>
+        <a href="#preparacao">Em preparação <b>2</b></a>
+      </div>
+    </section>
+
+    <section class="sec wrap" id="abertos" aria-labelledby="h-abertos">
+      <div class="sec-head"><h2 id="h-abertos">Abertos</h2><span>03</span></div>
+      <div class="open-list">
+      <article class="lab" data-lab="maquinas">
+        <a class="lab-main" href="maquinas-eletricas/">
+          <div class="lab-top"><span class="num">01</span><span class="status status-open"><i aria-hidden="true"></i>Com login</span></div>
+          <div class="tile-fig" aria-hidden="true"><svg id="rotor" viewBox="-240 -240 480 480"><g id="m-stator"></g><g id="m-rotor"></g><path class="m-centre" d="M-232 0H232M0 -232V232"/></svg></div>
+          <h3>Máquinas elétricas</h3>
+          <p>Geradores e motores síncronos: rotor, eixo, mancal e trocador ar–água.</p>
+          <span class="cta">Abrir laboratório <b aria-hidden="true">→</b></span>
+        </a>
+      </article>
+      <article class="lab" data-lab="offshore">
+        <a class="lab-main" href="offshore/">
+          <div class="lab-top"><span class="num">02</span><span class="status status-open"><i aria-hidden="true"></i>Aberto</span></div>
+          <div class="tile-fig" aria-hidden="true"><svg viewBox="0 0 320 200"><defs><clipPath id="fpso-clip"><rect width="320" height="200"/></clipPath></defs><g clip-path="url(#fpso-clip)"><path class="fg-hatch" d="M0 182H320M10 182l-8 10M24 182l-8 10M38 182l-8 10M52 182l-8 10M66 182l-8 10M80 182l-8 10M94 182l-8 10M108 182l-8 10M122 182l-8 10M136 182l-8 10M150 182l-8 10M164 182l-8 10M178 182l-8 10M192 182l-8 10M206 182l-8 10M220 182l-8 10M234 182l-8 10M248 182l-8 10M262 182l-8 10M276 182l-8 10M290 182l-8 10M304 182l-8 10M318 182l-8 10"/><g id="fpso-lines"><path class="fg-acc" id="fpso-moor"/><path class="fg-flow" id="fpso-riser" style="stroke-width:1.8"/></g><path class="fg-acc-fill" d="M14 182l6-7 6 7ZM44 182l6-7 6 7ZM294 182l6-7 6 7Z"/><g id="fpso-ship" transform="translate(120 78)"><path class="fg-solid" d="M-100 -14H90L110 -20L102 12H-92Q-102 12 -102 2Z"/><path class="fg-line" d="M-100 -2H104"/><rect class="fg-solid" x="-66" y="-23" width="22" height="9" rx="1"/><rect class="fg-solid" x="-40" y="-26" width="20" height="12" rx="1"/><rect class="fg-solid" x="-16" y="-22" width="22" height="8" rx="1"/><rect class="fg-solid" x="10" y="-25" width="20" height="11" rx="1"/><rect class="fg-solid" x="34" y="-21" width="18" height="7" rx="1"/><rect class="fg-solid" x="-98" y="-36" width="20" height="22" rx="1"/><path class="fg-line" d="M-102 -38H-74M-94 -30h12M-94 -24h12"/><path class="fg-line" d="M86 -14L100 -50M93 -32h7"/><path class="fg-acc-fill" d="M100 -50q-4 -6 0 -12q4 6 0 12Z"/><circle class="fg-acc" cx="70" cy="-6" r="5"/><path class="fg-acc" d="M70 -1V12"/></g><rect x="0" y="78" width="320" height="104" style="fill:var(--teal-wash)"/><g id="fpso-waves"><path class="fg-water" d="M-40 0q10 -4 20 0t20 0q10 -4 20 0t20 0q10 -4 20 0t20 0q10 -4 20 0t20 0q10 -4 20 0t20 0q10 -4 20 0t20 0q10 -4 20 0t20 0q10 -4 20 0t20 0q10 -4 20 0t20 0q10 -4 20 0t20 0" transform="translate(0 78)"/></g></g></svg></div>
+          <h3>Offshore &amp; ancoragem</h3>
+          <p>Ancoragem de FPSO com estacas torpedo: lançamento, cravação, catenária e capacidade.</p>
+          <span class="cta">Abrir laboratório <b aria-hidden="true">→</b></span>
+        </a>
+      </article>
+      <article class="lab" data-lab="fluidos">
+        <a class="lab-main" href="fluidos/">
+          <div class="lab-top"><span class="num">04</span><span class="status status-open"><i aria-hidden="true"></i>Aberto</span></div>
+          <div class="tile-fig cfd-fig" aria-hidden="true"><canvas id="cfd"></canvas></div>
+          <h3>Fluidos &amp; CFD</h3>
+          <p>Escoamento em torno de um cilindro, com cada equação medida ao vivo e o passo do solver aberto.</p>
+          <span class="cta">Abrir laboratório <b aria-hidden="true">→</b></span>
+        </a>
+      </article>
+      </div>
+    </section>
+
+    <section class="sec wrap" id="preparacao" aria-labelledby="h-prep">
+      <div class="sec-head"><h2 id="h-prep">Em preparação</h2><span>02</span></div>
+      <div class="soon-list" id="soon-list">
+      <article class="tile-soon" data-lab="estruturas">
+        <div class="soon-top"><span class="num">03</span><span class="status"><i aria-hidden="true"></i>Em preparação</span></div>
+        <div class="tile-fig cfd-fig" aria-hidden="true"><canvas id="fem"></canvas></div>
+        <h3>Estruturas &amp; FEM</h3>
+        <p>Análise estrutural por elementos finitos, vasos de pressão e verificação de componentes.</p>
+      </article>
+      <article class="tile-soon" data-lab="cad">
+        <div class="soon-top"><span class="num">06</span><span class="status"><i aria-hidden="true"></i>Em preparação</span></div>
+        <div class="tile-fig" aria-hidden="true"><svg viewBox="0 0 320 200"><g class="cad"><path class="fg-centre cad-fade" style="--d:0s" d="M86 110H234M160 40V180"/><circle class="fg-centre cad-fade" style="--d:.3s" cx="160" cy="110" r="42"/><circle class="fg-solid cad-fill" cx="160" cy="110" r="60"/><circle class="fg-line cad-draw" style="--d:.5s;--len:2.2s" pathLength="1" cx="160" cy="110" r="60" transform="rotate(-90 160 110)"/><circle class="fg-line cad-draw" style="--d:2.4s;--len:.8s" pathLength="1" cx="160" cy="110" r="17" transform="rotate(-90 160 110)"/><circle class="fg-line cad-hole" style="--i:0;transform-origin:196.4px 131px" cx="196.4" cy="131" r="6"/><circle class="fg-line cad-hole" style="--i:1;transform-origin:160px 152px" cx="160" cy="152" r="6"/><circle class="fg-line cad-hole" style="--i:2;transform-origin:123.6px 131px" cx="123.6" cy="131" r="6"/><circle class="fg-line cad-hole" style="--i:3;transform-origin:123.6px 89px" cx="123.6" cy="89" r="6"/><circle class="fg-line cad-hole" style="--i:4;transform-origin:160px 68px" cx="160" cy="68" r="6"/><circle class="fg-line cad-hole" style="--i:5;transform-origin:196.4px 89px" cx="196.4" cy="89" r="6"/><g class="cad-pen" style="transform-origin:160px 110px"><circle class="fg-acc-fill" cx="160" cy="50" r="3"/><path class="fg-acc" style="stroke-width:1" d="M160 41v-12M151 35h18" /></g><g class="cad-dim" style="--dd:0s"><path class="fg-dim" d="M100 104V24M220 104V24M100 30H220"/><path class="fg-acc-fill" d="M100 30l8-3.5v7ZM220 30l-8-3.5v7Z"/><text class="fg-txt acc mid" x="160" y="22" id="cad-od">Ø120</text></g><g class="cad-dim" style="--dd:.4s"><path class="fg-dim" d="M200.4 85L242 58H272"/><text class="fg-txt" x="244" y="53">6× Ø12</text></g><g class="cad-dim" style="--dd:.8s"><path class="fg-dim" d="M145 118L78 162H50"/><text class="fg-txt" x="50" y="157">Ø34</text></g><g class="cad-stamp"><rect x="236" y="166" width="76" height="24" rx="2" class="fg-dim"/><path class="fg-dim" d="M236 176H312M280 166V190"/><text class="fg-txt" x="240" y="174" style="font-size:7px">FLANGE</text><text class="fg-txt" x="240" y="186" style="font-size:7px">A3 · 1:2</text><text class="fg-txt acc" x="284" y="186" style="font-size:7px">REV B</text></g></g></svg></div>
+        <h3>Automação &amp; CAD</h3>
+        <p>Modelos parametrizados, rotinas em Python e geração de desenhos e documentos técnicos.</p>
+      </article>
+      </div>
+      <div class="dots" id="soon-dots" aria-hidden="true"><i class="on"></i><i></i></div>
+    </section>
+  </main>
+
+
+  <script src="/assets/js/idioma.js?v=20261112-3"></script>
+
+  <script>
+  (() => {
+    // Rotor girando no bloco de máquinas elétricas: máquina síncrona de 4 polos, 48 ranhuras.
+    const NS = 'http://www.w3.org/2000/svg';
+    const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+    const f1 = x => Math.round(x * 10) / 10;
+    const pt = (r, a) => [f1(r * Math.cos(a)), f1(r * Math.sin(a))];
+    const svg = document.getElementById('rotor');
+    const gS = document.getElementById('m-stator'), gR = document.getElementById('m-rotor');
+    const RO = 214, RI = 132, SLOTS = 48, RS = 126, RH = 70, P = 4, cu = [];
+    el('path', { class: 'm-core', 'fill-rule': 'evenodd', d: `M${RO} 0A${RO} ${RO} 0 1 1 ${-RO} 0A${RO} ${RO} 0 1 1 ${RO} 0ZM${RI} 0A${RI} ${RI} 0 1 0 ${-RI} 0A${RI} ${RI} 0 1 0 ${RI} 0Z` }, gS);
+    for (let i = 0; i < SLOTS; i++) {
+      const g = el('g', { transform: `rotate(${(360 / SLOTS) * i})` }, gS);
+      el('path', { class: 'm-slot', d: `M${RI - 1} -2.2H${RI + 5}V-4.4H${RI + 33}V4.4H${RI + 5}V2.2H${RI - 1}Z` }, g);
+      cu.push([el('rect', { class: 'm-cu', x: RI + 7, y: -3.4, width: 12, height: 6.8, rx: 1 }, g), (2 * Math.PI / SLOTS) * i]);
+      cu.push([el('rect', { class: 'm-cu', x: RI + 20.5, y: -3.4, width: 11.5, height: 6.8, rx: 1 }, g), (2 * Math.PI / SLOTS) * i]);
+    }
+    const tau = 2 * Math.PI / P, hb = 0.17 * tau * 90, ct = 0.13 * tau * 90, as = 0.36 * tau;
+    const [sx, sy] = pt(RS, -as), [ix, iy] = pt(RS - 8, -as);
+    el('circle', { class: 'm-hub', r: RH }, gR);
+    for (let k = 0; k < P; k++) {
+      const g = el('g', { transform: `rotate(${(360 / P) * k})` }, gR);
+      el('path', { class: 'm-coil', d: `M74 ${f1(hb)}H100V${f1(hb + ct)}H74ZM74 ${f1(-hb)}H100V${f1(-hb - ct)}H74Z` }, g);
+      el('path', { class: 'm-pole', d: `M64 ${f1(-hb)}H110L${ix} ${iy}L${sx} ${sy}A${RS} ${RS} 0 0 1 ${sx} ${-sy}L${ix} ${-iy}L110 ${f1(hb)}H64Z` }, g);
+      for (let j = 0; j < 5; j++) {
+        const [dx, dy] = pt(RS - 7, -as * 0.78 + 2 * as * 0.78 * j / 4);
+        el('circle', { class: 'm-damper', cx: dx, cy: dy, r: 2.6 }, g);
+      }
+    }
+    el('circle', { class: 'm-shaft', r: 34 }, gR);
+    el('rect', { class: 'm-key', x: -5, y: -34, width: 10, height: 8 }, gR);
+
+    // Campo girante: as bobinas do estator acendem acompanhando os polos (2 pares de polos).
+    function glow(a) { const r = a * Math.PI / 180; for (const [e, th] of cu) e.style.opacity = (0.32 + 0.68 * Math.abs(Math.cos(2 * (th - r)))).toFixed(2); }
+    glow(0);
+    // Uma volta a cada 10 s; para fora da tela e com movimento reduzido.
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    let angle = 0, last = 0, raf = 0, visible = true;
+    function frame(t) {
+      if (last) angle = (angle + (t - last) / 1000 * 36) % 360;
+      last = t; gR.setAttribute('transform', `rotate(${angle.toFixed(2)})`);
+      glow(angle);
+      raf = requestAnimationFrame(frame);
+    }
+    function run() { cancelAnimationFrame(raf); last = 0; if (visible && !reduce.matches && !document.hidden) raf = requestAnimationFrame(frame); }
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; run(); }).observe(svg);
+    document.addEventListener('visibilitychange', run);
+    reduce.addEventListener?.('change', run);
+    run();
+
+    // FPSO no bloco offshore: arfagem e jogo suaves, ondas correndo e linhas acompanhando a torre.
+    const fpso = document.getElementById('fpso-ship');
+    if (fpso) {
+      const moor = document.getElementById('fpso-moor'), riser = document.getElementById('fpso-riser'), waves = document.getElementById('fpso-waves');
+      const fsvg = fpso.ownerSVGElement;
+      function place(t) {
+        const ang = 1.6 * Math.sin(t * 0.7), heave = 2.2 * Math.sin(t * 0.55 + 1), r = ang * Math.PI / 180;
+        fpso.setAttribute('transform', `translate(120 ${(78 + heave).toFixed(2)}) rotate(${ang.toFixed(2)})`);
+        const fx = 120 + 70 * Math.cos(r) - 12 * Math.sin(r), fy = 78 + heave + 70 * Math.sin(r) + 12 * Math.cos(r);
+        const F = `${fx.toFixed(1)} ${fy.toFixed(1)}`;
+        moor.setAttribute('d', `M20 182H72Q${(fx - 42).toFixed(1)} 180 ${F}M50 182H100Q${(fx - 26).toFixed(1)} 180 ${F}M300 182H262Q${(fx + 22).toFixed(1)} 180 ${F}`);
+        riser.setAttribute('d', `M${F}C${(fx + 6).toFixed(1)} ${(fy + 42).toFixed(1)} 226 102 238 124S250 182 270 182H284`);
+        waves.setAttribute('transform', `translate(${(-(t * 10) % 40).toFixed(2)} 0)`);
+      }
+      let fraf = 0, fvis = true, t0 = 0;
+      function fstep(ts) { if (!t0) t0 = ts; place((ts - t0) / 1000); fraf = requestAnimationFrame(fstep); }
+      function frun() { cancelAnimationFrame(fraf); if (fvis && !reduce.matches && !document.hidden) fraf = requestAnimationFrame(fstep); }
+      place(0);
+      if ('IntersectionObserver' in window) new IntersectionObserver(es => { fvis = es[0].isIntersecting; frun(); }).observe(fsvg);
+      document.addEventListener('visibilitychange', frun);
+      reduce.addEventListener?.('change', frun);
+      frun();
+    }
+
+    // Metalurgia: forno basculado vazando sem parar; as lingoteiras passam em fluxo contínuo e enchem sob o jato.
+    const furnace = document.getElementById('met-furnace');
+    if (furnace) {
+      const molds = [...document.querySelectorAll('.met-mold')], car = document.getElementById('met-car');
+      const stream = document.getElementById('met-stream'), cyl = document.getElementById('met-cyl');
+      const sparks = [...document.querySelectorAll('#met-sparks circle')], msvg = furnace.ownerSVGElement;
+      const X0 = 152, GAP = 34, V = 8;
+      function fillPath(level) {
+        if (level <= 0) return 'M0 0Z';
+        const y = 42 - 40 * level, hw = 7 + (y - 2) / 40;
+        return `M${(-hw).toFixed(2)} ${y.toFixed(2)}H${hw.toFixed(2)}L8 42H-8Z`;
+      }
+      stream.setAttribute('d', `M136 46Q${X0 - 2} 54 ${X0} 122`);
+      function cast(t) {
+        const ang = 50 + 1.5 * Math.sin(t * 1.3), r = ang * Math.PI / 180;
+        furnace.setAttribute('transform', `translate(131 48) rotate(${ang.toFixed(2)})`);
+        const px = 131 - 58 * Math.cos(r) - 56 * Math.sin(r), py = 48 - 58 * Math.sin(r) + 56 * Math.cos(r);
+        cyl.setAttribute('d', `M78 182L${px.toFixed(1)} ${py.toFixed(1)}`);
+        stream.style.strokeDashoffset = (-t * 40).toFixed(1);
+        const shift = (t * V) % GAP;
+        car.setAttribute('transform', `translate(${(-((t * V) % 48)).toFixed(2)} 0)`);
+        molds.forEach((m, i) => {
+          const x = X0 + (i - 5) * GAP - shift;
+          m.setAttribute('transform', `translate(${x.toFixed(2)} 120)`);
+          m.querySelector('.met-fill').setAttribute('d', fillPath(Math.max(0, Math.min(1, (X0 + 9 - x) / 18))));
+        });
+        sparks.forEach((s, i) => {
+          const k = (t * 1.8 + i / 3) % 1;
+          s.setAttribute('cx', (X0 + (i - 1) * 8 * k).toFixed(1)); s.setAttribute('cy', (120 - 10 * k + 8 * k * k).toFixed(1));
+          s.style.opacity = (1 - k).toFixed(2);
+        });
+      }
+      let mraf = 0, mvis = true, m0 = 0;
+      function mstep(ts) { if (!m0) m0 = ts; cast((ts - m0) / 1000 + 2); mraf = requestAnimationFrame(mstep); }
+      function mrun() { cancelAnimationFrame(mraf); if (mvis && !reduce.matches && !document.hidden) mraf = requestAnimationFrame(mstep); }
+      cast(2);
+      if ('IntersectionObserver' in window) new IntersectionObserver(es => { mvis = es[0].isIntersecting; mrun(); }).observe(msvg);
+      document.addEventListener('visibilitychange', mrun);
+      reduce.addEventListener?.('change', mrun);
+      mrun();
+    }
+
+
+    // Laço compartilhado: anima só o que está visível e respeita o movimento reduzido.
+    function loop(svgEl, draw) {
+      let raf = 0, vis = true, t0 = 0;
+      const step = ts => { if (!t0) t0 = ts; draw((ts - t0) / 1000); raf = requestAnimationFrame(step); };
+      const go = () => { cancelAnimationFrame(raf); t0 = 0; if (vis && !reduce.matches && !document.hidden) raf = requestAnimationFrame(step); };
+      draw(0.9);
+      if ('IntersectionObserver' in window) new IntersectionObserver(es => { vis = es[0].isIntersecting; go(); }).observe(svgEl);
+      document.addEventListener('visibilitychange', go); reduce.addEventListener?.('change', go); go();
+    }
+
+    // Estruturas: viga em balanço afunilada vibrando no 1º modo; malha deformada e tensão de flexão em cores.
+    const feaCells = document.getElementById('fea-cells');
+    if (feaCells) {
+      const x0 = 52, x1 = 262, L = x1 - x0, NX = 14, NY = 6;
+      const top = x => 52 + (x - x0) / L * 34, bot = x => 148 - (x - x0) / L * 34;
+      const phi = x => { const k = (x - x0) / L; return k * k * (3 - k) / 2; };
+      const P = (x, j, d) => { const y = top(x) + (bot(x) - top(x)) * j / NY; return [x, y + d * phi(x)]; };
+      const cells = [];
+      for (let i = 0; i < NX; i++) for (let j = 0; j < NY; j++) cells.push([i, j, el('path', {}, feaCells)]);
+      const mesh = document.getElementById('fea-mesh'), outline = document.getElementById('fea-outline'), load = document.getElementById('fea-load');
+      document.getElementById('fea-ghost').setAttribute('d', `M${x0} ${top(x0)}L${x1} ${top(x1)}L${x1} ${bot(x1)}L${x0} ${bot(x0)}Z`);
+      const q = ([x, y]) => `${f1(x)} ${f1(y)}`;
+      loop(feaCells.ownerSVGElement, t => {
+        const d = 24 * Math.sin(t * 2.2) * (0.75 + 0.25 * Math.sin(t * 0.37)), xs = i => x0 + L * i / NX;
+        for (const [i, j, e] of cells) {
+          const xa = xs(i), xb = xs(i + 1), xm = (xa + xb) / 2;
+          e.setAttribute('d', `M${q(P(xa, j, d))}L${q(P(xb, j, d))}L${q(P(xb, j + 1, d))}L${q(P(xa, j + 1, d))}Z`);
+          // σ ∝ M(x)·η / h(x)²: máximo no engaste, nulo na linha neutra
+          const eta = (j + 0.5) / NY - 0.5, h = (bot(xm) - top(xm)) / 96, sig = (1 - (xm - x0) / L) * eta * 2 / (h * h) * d / 24;
+          const a = Math.min(1, Math.abs(sig) / 1.1);
+          e.style.fill = sig < 0 ? 'var(--accent)' : 'var(--teal)'; e.style.opacity = (0.08 + 0.72 * a).toFixed(2);
+        }
+        let m = '';
+        for (let i = 0; i <= NX; i++) { const x = xs(i); m += `M${q(P(x, 0, d))}L${q(P(x, NY, d))}`; }
+        for (let j = 1; j < NY; j++) m += 'M' + Array.from({ length: NX + 1 }, (_, i) => q(P(xs(i), j, d))).join('L');
+        mesh.setAttribute('d', m);
+        const up = Array.from({ length: NX + 1 }, (_, i) => q(P(xs(i), 0, d))), dn = Array.from({ length: NX + 1 }, (_, i) => q(P(xs(NX - i), NY, d)));
+        outline.setAttribute('d', 'M' + up.join('L') + 'L' + dn.join('L') + 'Z');
+        const tip = P(x1, 0, d);
+        load.setAttribute('transform', `translate(${f1(x1 + 16)} ${f1(tip[1] + 4)})`);
+      });
+    }
+
+    // Fluidos: simulação real em Lattice Boltzmann (D2Q9) do escoamento em torno de um cilindro.
+    // A esteira de von Kármán aparece sozinha; cores = vorticidade, traços = partículas levadas pelo fluido.
+    function makeLBM(NX, NY, opt = {}) {
+      const N = NX * NY, u0 = opt.u0 ?? 0.1, nu = opt.nu ?? 0.015, om = 1 / (3 * nu + 0.5);
+      const A = () => new Float32Array(N);
+      const n0 = A(), nE = A(), nW = A(), nN = A(), nS = A(), nNE = A(), nSE = A(), nNW = A(), nSW = A();
+      const rho = A(), ux = A(), uy = A(), curl = A(), bar = new Uint8Array(N);
+      const cx = opt.cx ?? NX * 0.2, cy = opt.cy ?? NY / 2 - 0.5, R = opt.r ?? NY * 0.085;
+      for (let y = 0; y < NY; y++) for (let x = 0; x < NX; x++) if ((x - cx) ** 2 + (y - cy) ** 2 <= R * R) bar[y * NX + x] = 1;
+      const f9 = 4 / 9, f1 = 1 / 9, f36 = 1 / 36;
+      function eq(i, r, vx, vy) {
+        const vx3 = 3 * vx, vy3 = 3 * vy, vx2 = vx * vx, vy2 = vy * vy, vxy2 = 2 * vx * vy, v2 = vx2 + vy2, v215 = 1.5 * v2;
+        n0[i] = f9 * r * (1 - v215);
+        nE[i] = f1 * r * (1 + vx3 + 4.5 * vx2 - v215); nW[i] = f1 * r * (1 - vx3 + 4.5 * vx2 - v215);
+        nN[i] = f1 * r * (1 + vy3 + 4.5 * vy2 - v215); nS[i] = f1 * r * (1 - vy3 + 4.5 * vy2 - v215);
+        nNE[i] = f36 * r * (1 + vx3 + vy3 + 4.5 * (v2 + vxy2) - v215); nSE[i] = f36 * r * (1 + vx3 - vy3 + 4.5 * (v2 - vxy2) - v215);
+        nNW[i] = f36 * r * (1 - vx3 + vy3 + 4.5 * (v2 - vxy2) - v215); nSW[i] = f36 * r * (1 - vx3 - vy3 + 4.5 * (v2 + vxy2) - v215);
+        rho[i] = r; ux[i] = vx; uy[i] = vy;
+      }
+      for (let y = 0; y < NY; y++) for (let x = 0; x < NX; x++) eq(y * NX + x, 1, u0, (opt.seed ?? 0.06) * Math.exp(-((x - cx - 3 * R) ** 2 + (y - cy) ** 2) / (2 * R * R)));
+      function collide() {
+        for (let y = 1; y < NY - 1; y++) for (let x = 1; x < NX - 1; x++) {
+          const i = x + y * NX;
+          const r = n0[i] + nN[i] + nS[i] + nE[i] + nW[i] + nNW[i] + nNE[i] + nSW[i] + nSE[i];
+          rho[i] = r;
+          const vx = (nE[i] + nNE[i] + nSE[i] - nW[i] - nNW[i] - nSW[i]) / r, vy = (nN[i] + nNE[i] + nNW[i] - nS[i] - nSE[i] - nSW[i]) / r;
+          ux[i] = vx; uy[i] = vy;
+          const r9 = f9 * r, r1 = f1 * r, r36 = f36 * r, vx3 = 3 * vx, vy3 = 3 * vy, vx2 = vx * vx, vy2 = vy * vy, vxy2 = 2 * vx * vy, v2 = vx2 + vy2, v215 = 1.5 * v2;
+          n0[i] += om * (r9 * (1 - v215) - n0[i]);
+          nE[i] += om * (r1 * (1 + vx3 + 4.5 * vx2 - v215) - nE[i]); nW[i] += om * (r1 * (1 - vx3 + 4.5 * vx2 - v215) - nW[i]);
+          nN[i] += om * (r1 * (1 + vy3 + 4.5 * vy2 - v215) - nN[i]); nS[i] += om * (r1 * (1 - vy3 + 4.5 * vy2 - v215) - nS[i]);
+          nNE[i] += om * (r36 * (1 + vx3 + vy3 + 4.5 * (v2 + vxy2) - v215) - nNE[i]); nSE[i] += om * (r36 * (1 + vx3 - vy3 + 4.5 * (v2 - vxy2) - v215) - nSE[i]);
+          nNW[i] += om * (r36 * (1 - vx3 + vy3 + 4.5 * (v2 - vxy2) - v215) - nNW[i]); nSW[i] += om * (r36 * (1 - vx3 - vy3 + 4.5 * (v2 + vxy2) - v215) - nSW[i]);
+        }
+        for (let y = 1; y < NY - 2; y++) { nW[NX - 1 + y * NX] = nW[NX - 2 + y * NX]; nNW[NX - 1 + y * NX] = nNW[NX - 2 + y * NX]; nSW[NX - 1 + y * NX] = nSW[NX - 2 + y * NX]; }
+      }
+      function stream() {
+        for (let y = NY - 2; y > 0; y--) for (let x = 1; x < NX - 1; x++) { const i = x + y * NX; nN[i] = nN[i - NX]; nNW[i] = nNW[i + 1 - NX]; }
+        for (let y = NY - 2; y > 0; y--) for (let x = NX - 2; x > 0; x--) { const i = x + y * NX; nE[i] = nE[i - 1]; nNE[i] = nNE[i - 1 - NX]; }
+        for (let y = 1; y < NY - 1; y++) for (let x = NX - 2; x > 0; x--) { const i = x + y * NX; nS[i] = nS[i + NX]; nSE[i] = nSE[i - 1 + NX]; }
+        for (let y = 1; y < NY - 1; y++) for (let x = 1; x < NX - 1; x++) { const i = x + y * NX; nW[i] = nW[i + 1]; nSW[i] = nSW[i + 1 + NX]; }
+        for (let y = 1; y < NY - 1; y++) for (let x = 1; x < NX - 1; x++) {
+          const i = x + y * NX; if (!bar[i]) continue;
+          nE[i + 1] = nW[i]; nW[i - 1] = nE[i]; nN[i + NX] = nS[i]; nS[i - NX] = nN[i];
+          nNE[i + NX + 1] = nSW[i]; nNW[i + NX - 1] = nSE[i]; nSE[i - NX + 1] = nNW[i]; nSW[i - NX - 1] = nNE[i];
+        }
+      }
+      function bounds() {
+        for (let x = 0; x < NX; x++) { eq(x, 1, u0, 0); eq(x + (NY - 1) * NX, 1, u0, 0); }
+        for (let y = 1; y < NY - 1; y++) { eq(y * NX, 1, u0, 0); eq(NX - 1 + y * NX, 1, u0, 0); }
+      }
+      function step() { bounds(); collide(); stream(); }
+      function vorticity() {
+        for (let y = 1; y < NY - 1; y++) for (let x = 1; x < NX - 1; x++) { const i = y * NX + x; curl[i] = bar[i] ? 0 : (uy[i + 1] - uy[i - 1]) - (ux[i + NX] - ux[i - NX]); }
+        return curl;
+      }
+      return { NX, NY, N, step, vorticity, ux, uy, rho, bar, cx, cy, R, u0, Re: u0 * 2 * R / nu };
+    }
+    const cfdCanvas = document.getElementById('cfd');
+    if (cfdCanvas) {
+      const NX = 180, NY = 100, sim = makeLBM(NX, NY, { nu: 0.012, seed: 0.1, cx: 36 }), SC = 0.035;
+      const ctx = cfdCanvas.getContext('2d'), off = document.createElement('canvas'); off.width = NX; off.height = NY;
+      const octx = off.getContext('2d'), img = octx.createImageData(NX, NY), px = img.data;
+      const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+      const rgb = c => { probe.clearRect(0, 0, 1, 1); probe.fillStyle = '#000'; probe.fillStyle = c; probe.fillRect(0, 0, 1, 1); return [...probe.getImageData(0, 0, 1, 1).data.slice(0, 3)]; };
+      const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      let C = null;
+      const palette = () => { const tile = cfdCanvas.closest('.tile-soon, .lab'); C = { bg: rgb(getComputedStyle(tile).backgroundColor), pos: rgb(css('--accent')), neg: rgb(css('--teal')), ink: css('--text'), ink2: css('--text-2'), ink3: css('--text-3'), solid: css('--surface-3'), acc: css('--accent'), light: document.documentElement.getAttribute('data-theme') === 'light' || (!document.documentElement.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: light)').matches) }; C.neg2 = C.light ? [40, 104, 190] : [96, 150, 240]; };
+      palette();
+      new MutationObserver(palette).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', palette);
+
+      // partículas traçadoras
+      // partículas soltas em "ancinhos" na entrada; cada uma deixa um rastro curto que esmaece
+      const P = [], NP = 165, HL = 22, RAKE = 13, rnd = Math.random;
+      const spawn = (p, anywhere) => { p.x = anywhere ? 2 + rnd() * (NX - 4) : 1 + rnd() * 1.5; p.y = anywhere ? 2 + rnd() * (NY - 4) : 3 + (NY - 6) * ((rnd() * RAKE | 0) + 0.5) / RAKE + (rnd() - 0.5) * 1.2; p.hx = new Float32Array(HL).fill(p.x); p.hy = new Float32Array(HL).fill(p.y); p.h = 0; p.n = 0; };
+      for (let k = 0; k < NP; k++) { const p = {}; spawn(p, true); P.push(p); }
+      const vel = (x, y) => { const i0 = Math.max(0, Math.min(NX - 2, x | 0)), j0 = Math.max(0, Math.min(NY - 2, y | 0)), fx = x - i0, fy = y - j0, i = j0 * NX + i0;
+        const b = (a) => a[i] * (1 - fx) * (1 - fy) + a[i + 1] * fx * (1 - fy) + a[i + NX] * (1 - fx) * fy + a[i + NX + 1] * fx * fy; return [b(sim.ux), b(sim.uy)]; };
+      const inside = (x, y) => (x - sim.cx) ** 2 + (y - sim.cy) ** 2 < (sim.R + 0.6) ** 2;
+
+      let W = 0, H = 0, dpr = 1, S = 1, ox = 0, oy = 0;
+      function cfdFit() { const r = cfdCanvas.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1); W = Math.max(1, Math.round(r.width * dpr)); H = Math.max(1, Math.round(r.height * dpr)); cfdCanvas.width = W; cfdCanvas.height = H; S = Math.max(W / NX, H / NY); ox = (W - NX * S) / 2; oy = (H - NY * S) / 2; }
+      if ('ResizeObserver' in window) new ResizeObserver(cfdFit).observe(cfdCanvas); cfdFit();
+
+      function cfdPaint() {
+        const w = sim.vorticity(), { bg, pos, neg2 } = C, u0 = sim.u0;
+        for (let i = 0; i < NX * NY; i++) {
+          const k = i * 4;
+          if (sim.bar[i]) { px[k] = bg[0]; px[k + 1] = bg[1]; px[k + 2] = bg[2]; px[k + 3] = 255; continue; }
+          // fundo: velocidade (esteira lenta mais escura/clara), cor: vorticidade
+          const sp = Math.hypot(sim.ux[i], sim.uy[i]) / u0, sh = (1 - Math.min(1.4, sp)) * (C.light ? -14 : 14);
+          let r = bg[0] - sh, g = bg[1] - sh, b = bg[2] - sh;
+          const v = Math.max(-1, Math.min(1, w[i] / SC)), a = Math.pow(Math.abs(v), 0.75) * 0.92, c = v > 0 ? pos : neg2;
+          px[k] = r + (c[0] - r) * a; px[k + 1] = g + (c[1] - g) * a; px[k + 2] = b + (c[2] - b) * a; px[k + 3] = 255;
+        }
+        octx.putImageData(img, 0, 0);
+        ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(off, 0, 0, NX, NY, ox, oy, NX * S, NY * S);
+      }
+      function cfdDraw(move, steps) {
+        cfdPaint();
+        const X = x => ox + x * S, Y = y => oy + y * S;
+        // partículas com rastro: o desenho do rastro mostra a trajetória (e o enrolar nos vórtices)
+        if (move) for (const p of P) {
+          for (let sub = 0; sub < 2; sub++) { const [u, v] = vel(p.x, p.y); p.x += u * steps / 2; p.y += v * steps / 2; }
+          if (p.x > NX - 2 || p.y < 1 || p.y > NY - 2 || inside(p.x, p.y)) { spawn(p, false); continue; }
+          p.h = (p.h + 1) % HL; p.hx[p.h] = p.x; p.hy[p.h] = p.y; p.n = Math.min(HL - 1, p.n + 1);
+        }
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = C.ink;
+        const B = 4, base = C.light ? 0.62 : 0.78;
+        for (let bk = 0; bk < B; bk++) {
+          const a0 = Math.floor(bk * (HL - 1) / B), a1 = Math.floor((bk + 1) * (HL - 1) / B);
+          ctx.globalAlpha = base * (bk + 1) / B; ctx.lineWidth = (0.7 + 0.7 * (bk + 1) / B) * dpr; ctx.beginPath();
+          for (const p of P) {
+            const lo = HL - 1 - Math.min(p.n, HL - 1); if (a1 <= lo) continue;
+            for (let a = Math.max(a0, lo); a < a1; a++) { const i0 = (p.h + 1 + a) % HL, i1 = (p.h + 2 + a) % HL; ctx.moveTo(X(p.hx[i0]), Y(p.hy[i0])); ctx.lineTo(X(p.hx[i1]), Y(p.hy[i1])); }
+          }
+          ctx.stroke();
+        }
+        ctx.globalAlpha = base; ctx.fillStyle = C.ink; ctx.beginPath();
+        for (const p of P) { ctx.moveTo(X(p.x) + 1.3 * dpr, Y(p.y)); ctx.arc(X(p.x), Y(p.y), 1.3 * dpr, 0, 2 * Math.PI); }
+        ctx.fill(); ctx.globalAlpha = 1;
+        // cilindro
+        ctx.beginPath(); ctx.arc(X(sim.cx), Y(sim.cy), sim.R * S, 0, 2 * Math.PI); ctx.fillStyle = C.solid; ctx.fill(); ctx.lineWidth = 1.5 * dpr; ctx.strokeStyle = C.ink2; ctx.stroke();
+        ctx.beginPath(); ctx.setLineDash([6 * dpr, 3 * dpr, 1.5 * dpr, 3 * dpr]); ctx.lineWidth = dpr; ctx.strokeStyle = C.ink3;
+        ctx.moveTo(X(sim.cx - sim.R * 1.5), Y(sim.cy)); ctx.lineTo(X(sim.cx + sim.R * 1.5), Y(sim.cy)); ctx.moveTo(X(sim.cx), Y(sim.cy - sim.R * 1.5)); ctx.lineTo(X(sim.cx), Y(sim.cy + sim.R * 1.5)); ctx.stroke(); ctx.setLineDash([]);
+        // entrada U∞
+        const ax = 8 * dpr; ctx.strokeStyle = C.acc; ctx.fillStyle = C.acc; ctx.lineWidth = 1.8 * dpr;
+        for (const fy of [0.18, 0.34, 0.66, 0.82]) { const y = H * fy; ctx.beginPath(); ctx.moveTo(ax, y); ctx.lineTo(ax + 16 * dpr, y); ctx.moveTo(ax + 11 * dpr, y - 4 * dpr); ctx.lineTo(ax + 16 * dpr, y); ctx.lineTo(ax + 11 * dpr, y + 4 * dpr); ctx.stroke(); }
+        ctx.font = `600 ${11 * dpr}px "JetBrains Mono", ui-monospace, monospace`; ctx.textBaseline = 'middle'; const halo = (t, x, y) => { ctx.save(); ctx.lineWidth = 4 * dpr; ctx.lineJoin = 'round'; ctx.strokeStyle = `rgba(${C.bg},.85)`; ctx.strokeText(t, x, y); ctx.restore(); ctx.fillText(t, x, y); };
+        halo('U∞', ax, H * 0.5);
+        // legenda: Re e escala de vorticidade
+        ctx.fillStyle = C.ink2; ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'right'; ctx.font = `600 ${10 * dpr}px "JetBrains Mono", ui-monospace, monospace`; halo(`esteira de von Kármán · Re ≈ ${Math.round(sim.Re)}`, W - 10 * dpr, 16 * dpr); ctx.textAlign = 'left';
+        const bw = 62 * dpr, bx = W - bw - 10 * dpr, by = H - 14 * dpr, gr = ctx.createLinearGradient(bx, 0, bx + bw, 0);
+        gr.addColorStop(0, `rgb(${C.neg2})`); gr.addColorStop(0.5, `rgb(${C.bg})`); gr.addColorStop(1, `rgb(${C.pos})`);
+        ctx.fillStyle = gr; ctx.fillRect(bx, by, bw, 5 * dpr); ctx.strokeStyle = C.ink3; ctx.lineWidth = dpr; ctx.strokeRect(bx, by, bw, 5 * dpr);
+        ctx.fillStyle = C.ink3; ctx.font = `600 ${9 * dpr}px "JetBrains Mono", ui-monospace, monospace`; halo('vorticidade', bx - 66 * dpr, by + 6 * dpr); halo('−', bx, by - 4 * dpr); halo('+', bx + bw - 6 * dpr, by - 4 * dpr);
+      }
+      // aquecimento: deixa a esteira se formar antes de aparecer em movimento
+      let warm = 0, raf = 0, vis = true, steps = 5;
+      const WARM = reduce.matches ? 1700 : 650;
+      function cfdWarm() { const t = performance.now(); while (warm < WARM && performance.now() - t < 12) { sim.step(); warm++; } cfdDraw(warm > WARM - 90, 1); if (warm < WARM) setTimeout(cfdWarm, 0); else cfdGo(); }
+      function cfdFrame() { const t = performance.now(); for (let k = 0; k < steps; k++) sim.step(); const dt = performance.now() - t; if (dt > 14 && steps > 2) steps--; else if (dt < 7 && steps < 6) steps++; cfdDraw(true, steps); raf = requestAnimationFrame(cfdFrame); }
+      function cfdGo() { cancelAnimationFrame(raf); if (warm < WARM) return; if (vis && !reduce.matches && !document.hidden) raf = requestAnimationFrame(cfdFrame); else cfdDraw(false, 0); }
+      if ('IntersectionObserver' in window) new IntersectionObserver(es => { vis = es[0].isIntersecting; cfdGo(); }).observe(cfdCanvas);
+      document.addEventListener('visibilitychange', cfdGo); reduce.addEventListener?.('change', cfdGo);
+      new MutationObserver(() => cfdDraw(false, 0)).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      cfdWarm();
+    }
+
+    // Estruturas & FEM: viga caixão 3D em malha de hexaedros, vibrando, com mapa de tensão de von Mises.
+    (() => {
+      const cv = document.getElementById('fem');
+      if (!cv) return;
+      const g = cv.getContext('2d');
+      const NXe = 18, NYe = 4, NZe = 3, LEN = 10, HT = 1.6, WD = 1.1;
+      const STOPS = [[43, 76, 201], [33, 163, 217], [60, 196, 138], [232, 213, 59], [232, 87, 46]];
+      const cmap = v => { v = Math.max(0, Math.min(1, v)) * (STOPS.length - 1); const i = Math.min(STOPS.length - 2, v | 0), f = v - i, a = STOPS[i], b = STOPS[i + 1]; return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f]; };
+      const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      let W = 0, H = 0, dpr = 1;
+      const fitFem = () => { const r = cv.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1); W = cv.width = Math.max(1, Math.round(r.width * dpr)); H = cv.height = Math.max(1, Math.round(r.height * dpr)); };
+      if ('ResizeObserver' in window) new ResizeObserver(() => { fitFem(); paintFem(lastT); }).observe(cv); fitFem();
+      // faces externas da malha: [i,j,k] dos 4 nós
+      const faces = [];
+      const q = (a, b, c, d, n, sx, sy) => faces.push({ v: [a, b, c, d], n, sx, sy });
+      for (let i = 0; i < NXe; i++) for (let k = 0; k < NZe; k++) { q([i, NYe, k], [i + 1, NYe, k], [i + 1, NYe, k + 1], [i, NYe, k + 1], [0, 1, 0], i + .5, NYe); q([i, 0, k], [i + 1, 0, k], [i + 1, 0, k + 1], [i, 0, k + 1], [0, -1, 0], i + .5, 0); }
+      for (let i = 0; i < NXe; i++) for (let j = 0; j < NYe; j++) { q([i, j, NZe], [i + 1, j, NZe], [i + 1, j + 1, NZe], [i, j + 1, NZe], [0, 0, 1], i + .5, j + .5); q([i, j, 0], [i + 1, j, 0], [i + 1, j + 1, 0], [i, j + 1, 0], [0, 0, -1], i + .5, j + .5); }
+      for (let j = 0; j < NYe; j++) for (let k = 0; k < NZe; k++) q([NXe, j, k], [NXe, j + 1, k], [NXe, j + 1, k + 1], [NXe, j, k + 1], [1, 0, 0], NXe, j + .5);
+      let lastT = 0;
+      function paintFem(t) {
+        lastT = t; if (!W) return;
+        const amp = 1.05 * Math.sin(t * 1.4);
+        const phi = x => { const k = x / LEN; return k * k * (3 - k) / 2; }, slope = x => { const k = x / LEN; return 3 * k * (2 - k) / (2 * LEN); };
+        const node = ([i, j, k], d) => { const x = LEN * i / NXe, y = HT * (j / NYe - 0.5), z = WD * (k / NZe - 0.5), th = Math.atan(d * slope(x));
+          return [x - y * Math.sin(th), d * phi(x) + y * Math.cos(th), z]; };
+        const yaw = -0.16, pitch = 0.14, cy_ = Math.cos(yaw), sy_ = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+        const view = ([x, y, z]) => { x -= LEN / 2; const X = x * cy_ + z * sy_, Z = -x * sy_ + z * cy_; return [X, y * cp - Z * sp, y * sp + Z * cp]; };
+        const S = Math.min(W / 12, H / 5.8), CX = W * 0.47, CY = H * 0.52;
+        const proj = ([X, Y, Z]) => { const k = 1 / (1 - Z * 0.035); return [CX + X * S * k, CY - Y * S * k, Z]; };
+        const light = cssv('--text'), bg = cssv('--surface-3'), ink3 = cssv('--text-3'), isLight = document.documentElement.getAttribute('data-theme') === 'light' || (!document.documentElement.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: light)').matches);
+        g.clearRect(0, 0, W, H);
+        // engaste hachurado
+        const wallX = proj(view([0, 0, 0]));
+        g.save(); g.strokeStyle = ink3; g.lineWidth = dpr;
+        const w0 = proj(view([0, -1.6, -1])), w1 = proj(view([0, 1.6, -1])), w2 = proj(view([0, 1.6, 1])), w3 = proj(view([0, -1.6, 1]));
+        g.fillStyle = isLight ? 'rgba(20,35,44,.06)' : 'rgba(237,242,242,.05)'; g.beginPath(); g.moveTo(w0[0], w0[1]); g.lineTo(w1[0], w1[1]); g.lineTo(w2[0], w2[1]); g.lineTo(w3[0], w3[1]); g.closePath(); g.fill(); g.stroke();
+        for (let k = 0; k <= 8; k++) { const a = proj(view([0, -1.6 + 3.2 * k / 8, -1])), b = proj(view([-0.35, -1.6 + 3.2 * k / 8 - 0.35, -1])); g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); }
+        g.restore();
+        // contorno indeformado (fantasma)
+        g.save(); g.setLineDash([4 * dpr, 4 * dpr]); g.strokeStyle = ink3; g.lineWidth = dpr; g.beginPath();
+        for (const c of [[0, 0, 0], [0, NYe, 0], [0, NYe, NZe], [0, 0, NZe]]) { const a = proj(view(node(c, 0))), b = proj(view(node([NXe, c[1], c[2]], 0))); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); }
+        g.stroke(); g.restore();
+        // faces deformadas, ordenadas por profundidade; cor = tensão de flexão |σ| ∝ M(x)·|y|
+        const L3 = [0.35, 0.8, 0.5], ln = Math.hypot(...L3), Ld = L3.map(v => v / ln);
+        const list = [];
+        for (const f of faces) {
+          const P = f.v.map(c => view(node(c, amp)));
+          const e1 = [P[1][0] - P[0][0], P[1][1] - P[0][1], P[1][2] - P[0][2]], e2 = [P[3][0] - P[0][0], P[3][1] - P[0][1], P[3][2] - P[0][2]];
+          let nx = e1[1] * e2[2] - e1[2] * e2[1], ny = e1[2] * e2[0] - e1[0] * e2[2], nz = e1[0] * e2[1] - e1[1] * e2[0];
+          const nl = Math.hypot(nx, ny, nz) || 1; nx /= nl; ny /= nl; nz /= nl;
+          const nv = view(f.n.map((v, i) => v + [LEN / 2, 0, 0][i])), n0 = view([LEN / 2, 0, 0]), want = [nv[0] - n0[0], nv[1] - n0[1], nv[2] - n0[2]];
+          if (nx * want[0] + ny * want[1] + nz * want[2] < 0) { nx = -nx; ny = -ny; nz = -nz; }
+          if (nz < -0.02) continue;
+          const xm = LEN * f.sx / NXe, yr = Math.abs(f.sy / NYe - 0.5) * 2, sig = Math.pow((1 - xm / LEN) * (0.2 + 0.8 * yr) * Math.abs(amp) / 0.9, 0.7) * 1.1;
+          const sh = 0.55 + 0.45 * Math.max(0, nx * Ld[0] + ny * Ld[1] + nz * Ld[2]);
+          list.push({ P: P.map(proj), z: (P[0][2] + P[1][2] + P[2][2] + P[3][2]) / 4, c: cmap(sig).map(v => Math.round(v * sh)) });
+        }
+        list.sort((a, b) => a.z - b.z);
+        g.lineJoin = 'round'; g.lineWidth = 0.7 * dpr; g.strokeStyle = isLight ? 'rgba(10,20,30,.45)' : 'rgba(5,10,18,.55)';
+        for (const f of list) { g.beginPath(); g.moveTo(f.P[0][0], f.P[0][1]); for (let i = 1; i < 4; i++) g.lineTo(f.P[i][0], f.P[i][1]); g.closePath(); g.fillStyle = `rgb(${f.c})`; g.fill(); g.stroke(); }
+        // carga na ponta
+        const tip = proj(view(node([NXe, NYe, NZe / 2], amp))), acc = cssv('--accent');
+        g.strokeStyle = acc; g.fillStyle = acc; g.lineWidth = 2 * dpr; g.beginPath(); g.moveTo(tip[0], tip[1] - 34 * dpr); g.lineTo(tip[0], tip[1] - 6 * dpr); g.stroke();
+        g.beginPath(); g.moveTo(tip[0] - 5 * dpr, tip[1] - 11 * dpr); g.lineTo(tip[0], tip[1] - 2 * dpr); g.lineTo(tip[0] + 5 * dpr, tip[1] - 11 * dpr); g.fill();
+        g.font = `600 ${11 * dpr}px "JetBrains Mono", ui-monospace, monospace`; g.fillText('F', tip[0] + 7 * dpr, tip[1] - 26 * dpr);
+        // escala de cores
+        const bw = 70 * dpr, bx = W - bw - 10 * dpr, by = H - 14 * dpr, gr = g.createLinearGradient(bx, 0, bx + bw, 0);
+        STOPS.forEach((c, i) => gr.addColorStop(i / (STOPS.length - 1), `rgb(${c})`));
+        g.fillStyle = gr; g.fillRect(bx, by, bw, 5 * dpr); g.fillStyle = cssv('--text-2'); g.font = `600 ${9 * dpr}px "JetBrains Mono", ui-monospace, monospace`;
+        g.textAlign = 'right'; g.fillText('σ von Mises', bx - 6 * dpr, by + 6 * dpr); g.fillText(`${NXe * NYe * NZe} elementos hexa · modo 1`, W - 10 * dpr, 16 * dpr); g.textAlign = 'left';
+      }
+      const rm = matchMedia('(prefers-reduced-motion: reduce)');
+      let femRaf = 0, femVis = true, femT0 = 0;
+      const femStep = ts => { if (!femT0) femT0 = ts; paintFem((ts - femT0) / 1000 + 0.9); femRaf = requestAnimationFrame(femStep); };
+      const femGo = () => { cancelAnimationFrame(femRaf); femT0 = 0; if (femVis && !rm.matches && !document.hidden) femRaf = requestAnimationFrame(femStep); else paintFem(0.9); };
+      if ('IntersectionObserver' in window) new IntersectionObserver(es => { femVis = es[0].isIntersecting; femGo(); }).observe(cv);
+      document.addEventListener('visibilitychange', femGo); rm.addEventListener?.('change', femGo);
+      new MutationObserver(() => paintFem(lastT)).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+      paintFem(0.9); femGo();
+    })();
+
+    // Blocos ainda fechados: clique dá só um leve aviso no selo "Em preparação".
+    document.querySelectorAll('.tile-soon').forEach(t => {
+      t.title = 'Em preparação';
+      t.addEventListener('click', () => { t.classList.remove('nudge'); void t.offsetWidth; t.classList.add('nudge'); });
+      t.addEventListener('animationend', () => t.classList.remove('nudge'));
+    });
+
+    // Cabeçalho com linha só depois de rolar.
+    (() => {
+      const top = document.getElementById('topo');
+      const upd = () => top.classList.toggle('solid', scrollY > 8);
+      addEventListener('scroll', upd, { passive: true }); upd();
+    })();
+
+    // Faixa "em preparação" no celular: indicador da posição.
+    (() => {
+      const list = document.getElementById('soon-list'), dots = [...document.querySelectorAll('#soon-dots i')];
+      const cards = [...list.children];
+      let raf = 0;
+      list.addEventListener('scroll', () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const x = list.scrollLeft, max = list.scrollWidth - list.clientWidth;
+          let k = 0, best = Infinity;
+          cards.forEach((c, i) => { const d = Math.abs(c.offsetLeft - list.offsetLeft - x); if (d < best) { best = d; k = i; } });
+          if (max > 0 && x >= max - 4) k = cards.length - 1;
+          dots.forEach((d, i) => d.classList.toggle('on', i === k));
+        });
+      }, { passive: true });
+    })();
+
+    // Tema compartilhado com os laboratórios e a página do autor.
+    document.getElementById('theme').addEventListener('click', () => {
+      const root = document.documentElement, attr = root.getAttribute('data-theme');
+      const dark = attr === 'dark' || (!attr && !matchMedia('(prefers-color-scheme: light)').matches);
+      const next = dark ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('vg-theme', next); } catch (_) {}
+    });
+  })();
+  </script>
+  <script src="/assets/js/rodape.js?v=20261112-1"></script>
+</body>
+</html>

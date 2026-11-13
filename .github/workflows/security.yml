@@ -1,0 +1,34 @@
+name: Segurança da publicação
+
+on:
+  push:
+    branches: [main, 'security/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seguranca-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publicacao-segura:
+    name: publicacao-segura
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Obter arquivos
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Validar a proteção com casos de regressão
+        run: python3 -m unittest discover -s tests/security -v
+      - name: Validar a edição de campos
+        run: node --test tests/security/*.cjs tests/metalurgia/*.mjs
+      - name: Verificar os arquivos que serão publicados
+        run: python3 scripts/security/check_publication.py
+      - name: Conferir a política de conteúdo das páginas
+        run: python3 scripts/security/csp.py --verificar

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.engenhalab.com.br https://engenhalab-calculo.engenhalab.workers.dev http://localhost:8787 http://127.0.0.1:8787 https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <script src="/assets/js/anti-quadro.js"></script>
+  <script src="/assets/js/endereco.js?v=20261111-1"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Privacidade · EngenhaLab</title>
+  <meta name="description" content="Como o EngenhaLab trata estatísticas de navegação, cálculos, contas, projetos, memoriais e registros de acesso.">
+  <style>
+    :root{color-scheme:dark;--bg:#09131f;--surface:#142432;--text:#e7edf0;--text-2:#a9bac7;--line:#344959;--accent:#f5ad69}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 system-ui,sans-serif}main{max-width:800px;margin:auto;padding:50px 24px}.indice{margin:0 0 30px;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.indice ol{margin:6px 0 0;padding-left:20px}table{width:100%;border-collapse:collapse;margin:12px 0 4px;font-size:14px}th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--text);font-weight:650}td{color:var(--text-2)}.rolar{overflow-x:auto}.data{color:var(--text-2);font-size:14px}h2{scroll-margin-top:20px}a{color:var(--accent)}h1{font-size:36px;line-height:1.15;letter-spacing:-1px;margin:28px 0 36px}h2{font-size:21px;margin:36px 0 10px}h3{font-size:16px;margin:22px 0 6px;color:var(--text)}p,li{color:var(--text-2)}footer{max-width:800px;margin:auto;padding:20px 24px 40px;border-top:1px solid var(--line)}@media(prefers-color-scheme:light){:root{color-scheme:light;--bg:#f5f5ef;--surface:#fff;--text:#172b39;--text-2:#465c6a;--line:#c9d3d7;--accent:#a44c1a}}
+  </style>
+  <script defer src="/assets/js/analytics-config.js?v=20261110-1"></script>
+  <script defer src="/assets/js/analytics.js?v=20261110-1"></script>
+  <link rel="stylesheet" href="/assets/css/rodape.css?v=20261107-1">
+</head>
+<body>
+  <main>
+    <a href="/">← Voltar ao EngenhaLab</a>
+    <h1>Privacidade</h1>
+    <p class="data">Atualizada em 27 de outubro de 2026.</p>
+    <p>Esta página explica o que o EngenhaLab registra, onde fica, por quanto tempo e como pedir cópia ou exclusão. Os laboratórios funcionam sem conta; as contas do laboratório offshore existem só por convite.</p>
+    <nav class="indice" aria-label="Nesta página"><b>Nesta página</b><ol>
+      <li><a href="#calculos">Cálculos sem conta</a></li>
+      <li><a href="#navegador">O que fica no seu navegador</a></li>
+      <li><a href="#contas">Contas do laboratório offshore</a></li>
+      <li><a href="#pedido-acesso">Pedido de acesso</a></li>
+      <li><a href="#projetos">Projetos e memoriais</a></li>
+      <li><a href="#registros">Sessões e histórico de acesso</a></li>
+      <li><a href="#prazos">Por quanto tempo</a></li>
+      <li><a href="#pedidos">Cópia, correção e exclusão</a></li>
+      <li><a href="#onde">Onde os dados são tratados</a></li>
+      <li><a href="#estatisticas">Estatísticas de navegação</a></li>
+    </ol></nav>
+
+    <h2 id="calculos">Cálculos sem conta</h2>
+    <p>Os parâmetros que você digita são enviados ao servidor de cálculo, processados e devolvidos com o resultado. O EngenhaLab não grava esses parâmetros nem os resultados no servidor. O mesmo vale para os arquivos de registro de acelerômetro enviados para leitura: são processados e descartados.</p>
+    <p>Para limitar abusos, o servidor conta pedidos por endereço IP durante um minuto. A Cloudflare, que hospeda o servidor, mantém registros técnicos de cada pedido (endereço chamado, horário, resposta e dados de rede) por 7 dias. Esses registros não incluem os valores digitados.</p>
+
+    <h2 id="navegador">O que fica no seu navegador</h2>
+    <p>As páginas guardam no próprio navegador (armazenamento local) os parâmetros do estudo, para você continuar de onde parou, e preferências como o tema e a escolha sobre estatísticas. Esses dados não saem do aparelho, exceto quando enviados para cálculo ou salvos num projeto da sua conta.</p>
+    <ul>
+      <li>Ao sair da conta, você escolhe entre apagar os parâmetros do estudo deste navegador ou mantê-los. Apagar é a opção indicada em computador compartilhado.</li>
+      <li>Quando a sessão vence ou é encerrada pelo servidor, os parâmetros do estudo dessa conta são apagados do navegador.</li>
+      <li>Quando outra conta entra no mesmo navegador, o que sobrou da conta anterior é apagado antes.</li>
+      <li>Sem conta, os dados ficam até você limpar os dados do site no navegador.</li>
+    </ul>
+
+    <h2 id="contas">Contas do laboratório offshore</h2>
+    <p>As contas são criadas por convite do administrador. Para cada conta ficam guardados:</p>
+    <ul>
+      <li>nome, e-mail, empresa (se informada), foto ou ícone do perfil e papel (profissional ou administrador);</li>
+      <li>a senha, apenas na forma de uma derivação protegida (PBKDF2), da qual não é possível recuperar a senha original;</li>
+      <li>o segredo do segundo fator (aplicativo autenticador), cifrado;</li>
+      <li>situação da conta, data do último acesso e contagem de tentativas erradas, usada para travar o acesso por 15 minutos após repetidos erros.</li>
+    </ul>
+    <p>A sessão é identificada por um código aleatório que o navegador envia ao servidor a cada pedido. No servidor fica só uma derivação desse código. Ele é necessário para a conta funcionar e não é usado para estatísticas.</p>
+
+    <h2 id="pedido-acesso">Pedido de acesso</h2>
+    <p>Quem ainda não tem conta pode pedir acesso na tela de login. O pedido guarda nome, e-mail, WhatsApp e empresa (se informados), os laboratórios escolhidos, o texto sobre o uso pretendido, o idioma da página, o IP e o navegador. Esses dados são usados só para o administrador analisar o pedido e entrar em contato; não entram em listas de envio. Um mesmo e-mail com pedido em aberto atualiza o pedido anterior em vez de criar outro.</p>
+
+    <h2 id="projetos">Projetos e memoriais</h2>
+    <p>Um projeto guarda os parâmetros de estudo das páginas do laboratório offshore, o nome que você deu e a versão. Excluir um projeto o retira da sua lista; a cópia permanece guardada porque memoriais emitidos a partir dele dependem dela.</p>
+    <p>Um memorial guarda o conteúdo calculado, o número, a data de emissão e um código de verificação. Ele fica guardado para que você possa reabri-lo e conferir o código de verificação.</p>
+    <p>Projetos e memoriais só são abertos pela própria conta. O painel do administrador não mostra o conteúdo deles.</p>
+
+    <h2 id="registros">Sessões e histórico de acesso</h2>
+    <p>Cada entrada na conta cria uma sessão com data e hora, endereço IP e identificação do navegador. Uma sessão de profissional termina após 2 horas sem uso ou 12 horas no total; a de administrador, após 30 minutos sem uso ou 4 horas. Você vê e encerra as suas sessões em “Minha conta”.</p>
+    <p>O histórico registra, com data, hora e endereço IP: entradas e saídas, tentativas recusadas, ativação e redefinição de acesso, criação, alteração e exclusão de projetos, emissão e abertura de memoriais, e ações do administrador (convites, bloqueios e encerramento de sessões). O administrador consulta esse histórico, a lista de contas e as sessões abertas.</p>
+
+    <h2 id="copia-automatizada">Proteção contra cópia automatizada</h2>
+    <p>Para perceber quem tenta reproduzir os métodos com scripts ou agentes de IA, o servidor compara cada pedido de cálculo com os anteriores da mesma conta ou, sem login, do mesmo endereço IP. Para isso guarda os números de entrada dos 40 pedidos mais recentes de cada ferramenta, a hora de cada um e dois sinais técnicos do navegador: se ele se declara controlado por automação e se houve toques ou teclas reais na página. Nas contas, o histórico também registra quantos caracteres de texto foram copiados de uma página, nunca o texto.</p>
+    <p>Quando o padrão parece automatizado, como um parâmetro variado sempre com o mesmo passo ou pedidos em ritmo constante, o administrador recebe um alerta com os sinais encontrados. Nada é bloqueado automaticamente, e o administrador pode liberar uma conta dessa verificação.</p>
+
+    <h2 id="prazos">Por quanto tempo</h2>
+    <div class="rolar"><table>
+      <thead><tr><th>Dado</th><th>Prazo</th></tr></thead>
+      <tbody>
+        <tr><td>Parâmetros enviados para cálculo</td><td>Só os números dos 40 pedidos mais recentes de cada ferramenta, para a proteção contra cópia automatizada; apagados 2 dias depois do último pedido</td></tr>
+        <tr><td>Alertas de uso</td><td>Enquanto a conta existir; de visitantes sem login, 90 dias</td></tr>
+        <tr><td>Registros técnicos da hospedagem do servidor</td><td>7 dias</td></tr>
+        <tr><td>Etapa do código do segundo fator</td><td>5 minutos</td></tr>
+        <tr><td>Pedidos de acesso</td><td>Até serem respondidos; depois de convidados ou arquivados, 180 dias</td></tr>
+        <tr><td>Convites</td><td>Válidos por 72 horas; o registro do convite permanece com a conta</td></tr>
+        <tr><td>Conta, sessões e histórico</td><td>Enquanto a conta existir</td></tr>
+        <tr><td>Projetos, inclusive os excluídos da lista, e memoriais</td><td>Enquanto a conta existir</td></tr>
+        <tr><td>Dados no navegador</td><td>Até você sair apagando, a sessão vencer ou os dados do site serem limpos</td></tr>
+        <tr><td>Escolha sobre estatísticas</td><td>180 dias</td></tr>
+      </tbody>
+    </table></div>
+    <p>Bloquear uma conta impede o acesso, mas não apaga os dados. A exclusão é feita a pedido, como descrito abaixo.</p>
+
+    <h2 id="pedidos">Cópia, correção e exclusão</h2>
+    <p>Nome, empresa e foto podem ser alterados em “Minha conta”. Para receber uma cópia dos seus dados, corrigir o e-mail ou excluir a conta com projetos, memoriais, sessões e histórico, escreva para <a href="mailto:viniciusgandra2016@gmail.com">viniciusgandra2016@gmail.com</a> a partir do e-mail cadastrado. A exclusão é definitiva; memoriais excluídos não podem mais ser reabertos.</p>
+
+    <h2 id="onde">Onde os dados são tratados</h2>
+    <p>As páginas são publicadas pelo GitHub Pages. O servidor de cálculo e o banco das contas ficam na Cloudflare (Workers e D1). Esses serviços podem processar dados fora do Brasil e recebem o endereço IP de quem acessa, como qualquer hospedagem.</p>
+
+    <h2 id="estatisticas">Estatísticas de navegação</h2>
+    <p>A medição de visitas é opcional. Você pode recusá-la e continuar usando o site.</p>
+    <h3>O que é medido</h3>
+    <p>Quando você permite, o Google Analytics recebe informações sobre páginas públicas visitadas, origem da visita, dispositivo, navegador, localização aproximada e tempo de uso com a página em foco. Identificadores de navegador ajudam a estimar visitas novas e recorrentes. Esses números não correspondem a uma identificação exata de pessoas.</p>
+    <h3>O que fica fora dessa coleta</h3>
+    <p>A integração de estatísticas não lê valores das calculadoras, campos de formulários, senhas ou conteúdo de documentos. Páginas de acesso e relatórios não recebem a integração. Endereços enviados ao Analytics não incluem parâmetros de consulta nem fragmentos. Recursos de publicidade e personalização de anúncios ficam desativados.</p>
+    <h3>Sua escolha</h3>
+    <p>A medição começa somente após sua permissão. A escolha é lembrada neste navegador por até 180 dias. O link “Preferências de estatísticas”, no rodapé de qualquer página, permite revê-la. Ao recusar depois de ter permitido, a integração interrompe novas medições e tenta remover os cookies do Analytics deste domínio. Isso não apaga automaticamente dados já enviados.</p>
+    <h3>Onde as estatísticas são tratadas</h3>
+    <p>As estatísticas são processadas pelo Google e ficam disponíveis ao administrador da conta Analytics do EngenhaLab. O Google usa o endereço IP no recebimento para estimar localização e informa que não armazena esse endereço no Analytics. O serviço pode processar dados fora do seu país.</p>
+    <p><a href="https://support.google.com/analytics/answer/11598602" rel="noopener noreferrer">Coleta regional de dados do Google Analytics</a> · <a href="https://policies.google.com/privacy" rel="noopener noreferrer">Política de privacidade do Google</a></p>
+    <h3>Limites dos números</h3>
+    <p>Bloqueadores, recusas e limitações dos navegadores podem impedir a medição. Uma pessoa pode usar vários dispositivos; várias pessoas podem compartilhar um dispositivo ou um endereço IP. Os relatórios apresentam estimativas de uso, e não uma lista completa de pessoas que visitaram o site.</p>
+  </main>
+  <script src="/assets/js/rodape.js?v=20261112-1"></script>
+</body>
+</html>

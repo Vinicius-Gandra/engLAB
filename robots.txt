@@ -1,0 +1,34 @@
+# Buscadores podem indexar o site. Robôs de treino de IA e agentes automatizados, não.
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: Meta-ExternalAgent
+User-agent: meta-externalfetcher
+User-agent: Amazonbot
+User-agent: cohere-ai
+User-agent: cohere-training-data-crawler
+User-agent: Diffbot
+User-agent: Omgilibot
+User-agent: Timpibot
+User-agent: ImagesiftBot
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+Disallow: /
+
+User-agent: *
+Disallow: /offshore/admin.html
+Disallow: /offshore/conta.html
+Disallow: /offshore/documento.html
+Allow: /
+
+Sitemap: https://engenhalab.com.br/sitemap.xml

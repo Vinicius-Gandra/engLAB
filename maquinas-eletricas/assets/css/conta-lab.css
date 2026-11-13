@@ -1,0 +1,38 @@
+/* Conta compartilhada dos laboratórios: botão do cabeçalho e avatar (o mesmo do offshore) */
+.el-conta { gap: 7px; }
+.el-conta .av.el-av { width: 24px; height: 24px; font-size: 10px; }
+.el-conta .el-sem { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--warn, #d9822b); color: #fff; font: 800 10px/1 var(--font-sans, system-ui); }
+@media (max-width: 720px) { .el-conta:has(.av) .el-conta-t { display: none; } .el-conta .el-conta-t { font-size: .82rem; } }
+@media print { .el-conta { display: none !important; } }
+/* Avatares: emblemas vetoriais; as mesmas artes no perfil, topo e relatório. */
+.av {
+  --av-fundo: #482a22; --av-luz: #945638; --av-acento: #ffb878; --av-claro: #fff0dc; --av-escuro: #48281e;
+  position: relative; isolation: isolate; display: inline-grid; place-items: center; flex: none;
+  width: 32px; height: 32px; vertical-align: middle; border-radius: 50%; overflow: hidden;
+  background: radial-gradient(ellipse at 30% 12%, var(--av-luz), transparent 72%), var(--av-fundo);
+  color: var(--av-claro); font: 650 13px/1 var(--sans, Inter, sans-serif); letter-spacing: -.03em;
+  box-shadow: inset 0 0 0 1px #ffffff24, inset 0 -3px 8px #00000024, 0 3px 8px #020b1426;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.av::before { content: ''; position: absolute; inset: 5%; border: 1px solid #ffffff16; border-radius: inherit; pointer-events: none; z-index: -1; }
+.av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.av.av-foto { background: var(--panel, #142534); }
+.av.av-foto::before { display: none; }
+.av svg.av-arte { width: 87%; height: 87%; overflow: visible; filter: drop-shadow(0 2px 1px #00000026); }
+.av-arte .av-metal { fill: var(--av-claro); stroke: var(--av-escuro); }
+.av-arte .av-cor { fill: var(--av-acento); stroke: var(--av-escuro); }
+.av-arte .av-sombra { fill: var(--av-escuro); stroke: var(--av-acento); }
+.av-arte .av-detalhe { stroke: var(--av-claro); opacity: .8; }
+.av-arte .av-agua { stroke: var(--av-acento); stroke-width: 2; }
+.av-plataforma { --av-fundo: #102c44; --av-luz: #32617c; --av-acento: #75d8ed; --av-claro: #e2f6ff; --av-escuro: #173b55; }
+.av-torpedo { --av-fundo: #46281f; --av-luz: #945339; --av-acento: #ffb078; --av-claro: #fff0da; --av-escuro: #653c2e; }
+.av-navio { --av-fundo: #123c40; --av-luz: #337c79; --av-acento: #7ee2cf; --av-claro: #e1fff4; --av-escuro: #1a4d50; }
+.av-capacete { --av-fundo: #45361a; --av-luz: #8b7031; --av-acento: #ffd46c; --av-claro: #fff1be; --av-escuro: #6c501e; }
+.av-ancora { --av-fundo: #252c50; --av-luz: #535e93; --av-acento: #a9baff; --av-claro: #edf0ff; --av-escuro: #3a4571; }
+.av-sonda { --av-fundo: #482932; --av-luz: #935060; --av-acento: #ff9d9b; --av-claro: #ffe7dc; --av-escuro: #643742; }
+.av-duto { --av-fundo: #273b46; --av-luz: #587480; --av-acento: #b1dce3; --av-claro: #ecf6f8; --av-escuro: #3d5864; }
+.av-onda { --av-fundo: #10355c; --av-luz: #2c7b9c; --av-acento: #6dc9f0; --av-claro: #e0faff; --av-escuro: #1b4e77; }
+.av-helice { --av-fundo: #36264d; --av-luz: #79578e; --av-acento: #d6b0f7; --av-claro: #f9eaff; --av-escuro: #563c70; }
+.av-valvula { --av-fundo: #1c3e34; --av-luz: #4b8066; --av-acento: #a2e4b5; --av-claro: #eaffdc; --av-escuro: #305d4b; }
+.av-boia { --av-fundo: #502934; --av-luz: #a45660; --av-acento: #ff9d9e; --av-claro: #fff1db; --av-escuro: #783c4a; }
+.av-engrenagem { --av-fundo: #2b3443; --av-luz: #606f83; --av-acento: #b9c8e0; --av-claro: #edf4ff; --av-escuro: #46556c; }

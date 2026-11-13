@@ -1,0 +1,8 @@
+# Mudanças de publicação e segurança devem ser revisadas pelo mantenedor.
+/.github/ @Vinicius-Gandra
+/scripts/security/ @Vinicius-Gandra
+/tests/security/ @Vinicius-Gandra
+/SECURITY.md @Vinicius-Gandra
+/Acesso.html @Vinicius-Gandra
+/maquinas-eletricas/assets/js/report-access.js @Vinicius-Gandra
+/maquinas-eletricas/assets/js/vg-calc.js @Vinicius-Gandra

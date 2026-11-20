@@ -26,7 +26,7 @@ SERVIDOR = ("https://api.engenhalab.com.br", "https://engenhalab-calculo.engenha
             "http://localhost:8787", "http://127.0.0.1:8787")
 ANALYTICS_SCRIPT = ("https://www.googletagmanager.com",)
 # páginas de conta: sem estilos embutidos, como já eram
-ESTILO_ESTRITO = {"offshore/conta.html", "offshore/documento.html", "offshore/admin.html"}
+ESTILO_ESTRITO = {"offshore/conta.html", "index.html", "404.html", "porta.html"}
 ANALYTICS_CONEXAO = ("https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com")
 
 

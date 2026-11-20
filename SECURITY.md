@@ -11,7 +11,9 @@ mínima que permita reproduzir o problema sem causar danos.
 
 ## Publicação do site
 
-Este repositório é público e contém o site, suas configurações e verificações.
+Este repositório é público e contém só a porta de entrada do site, a tela de
+login e as verificações. As páginas, os arquivos e os modelos ficam no servidor
+de cálculo e só são entregues com uma sessão válida.
 Os motores privados de cálculo, verificadores de credenciais e chaves de
 assinatura devem permanecer fora dele. Alterações entram por pull request e
 passam pelas verificações de publicação e pela análise de código.

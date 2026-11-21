@@ -359,3 +359,7 @@ body[data-page="lancamento"] .lx-results{display:grid;grid-template-columns:minm
 .lx-caso-onde{display:block;margin-top:8px;font-size:.66rem;color:var(--soft)}
 @media (max-width:640px){.lx-caso-b{padding:9px 12px;font-size:.8rem}.lx-caso-nome input{font-size:16px;padding:10px}.lx-caso-lista li{padding:11px 10px}}
 [data-theme="light"] .lx-caso-b.prim,[data-theme="light"] .lx-caso-b.prim:hover:not(:disabled){color:#fff}
+/* HUD da queda: números com largura fixa e legenda da velocidade com duas linhas reservadas na coluna lateral (acima de 860 px),
+   para o painel não pular quando o texto quebra ou desquebra (ex.: 19 % → 20 %) */
+.lx-hud{font-variant-numeric:tabular-nums}
+@media(min-width:861px){.lx-hud-main .lx-hud-cap{display:block;min-height:calc(2em * 1.35)}}

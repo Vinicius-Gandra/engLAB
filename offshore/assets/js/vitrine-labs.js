@@ -277,11 +277,11 @@
   }
 
   const LABS = [
-    { id: 'maquinas', c: ['Máquinas', 'Machines'], n: '01', aberto: true, t: 'Máquinas elétricas', d: 'Geradores e motores síncronos: rotor, eixo, mancal e trocador ar–água.', fig: rotor },
-    { id: 'offshore', c: ['Offshore', 'Offshore'], n: '02', aberto: true, t: 'Offshore & ancoragem', d: 'Ancoragem de FPSO com estacas torpedo: lançamento, cravação, catenária e capacidade.', fig: fpso },
-    { id: 'estruturas', c: ['Estruturas', 'Structures'], n: '03', aberto: false, t: 'Estruturas & FEM', d: 'Análise estrutural por elementos finitos, vasos de pressão e verificação de componentes.', fig: fem },
-    { id: 'fluidos', c: ['Fluidos', 'Fluids'], n: '04', aberto: false, t: 'Fluidos & CFD', d: 'Escoamentos, turbomáquinas e troca térmica por simulação fluidodinâmica.', fig: cfd },
-    { id: 'cad', c: ['CAD', 'CAD'], n: '06', aberto: false, t: 'Automação & CAD', d: 'Modelos parametrizados, rotinas em Python e geração de desenhos e documentos técnicos.', fig: cad }
+    { id: 'offshore', c: ['Offshore', 'Offshore'], n: '01', aberto: true, t: 'Offshore & ancoragem', d: 'Ancoragem de FPSO com estacas torpedo: lançamento, cravação, catenária e capacidade.', fig: fpso },
+    { id: 'fluidos', c: ['Fluidos', 'Fluids'], n: '02', aberto: true, t: 'Fluidos & CFD', d: 'Escoamentos, turbomáquinas e troca térmica por simulação fluidodinâmica.', fig: cfd },
+    { id: 'maquinas', c: ['Máquinas', 'Machines'], n: '03', aberto: true, t: 'Máquinas elétricas', d: 'Geradores e motores síncronos: rotor, eixo, mancal e trocador ar–água.', fig: rotor },
+    { id: 'estruturas', c: ['Estruturas', 'Structures'], n: '04', aberto: false, t: 'Estruturas & FEM', d: 'Análise estrutural por elementos finitos, vasos de pressão e verificação de componentes.', fig: fem },
+    { id: 'cad', c: ['CAD', 'CAD'], n: '05', aberto: false, t: 'Automação & CAD', d: 'Modelos parametrizados, rotinas em Python e geração de desenhos e documentos técnicos.', fig: cad }
   ];
   window.VitrineLabs = { LABS, montar: (box, i) => LABS[i].fig(box) };
 })();

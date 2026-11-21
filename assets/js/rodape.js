@@ -45,7 +45,7 @@
         '<p class="eg-r-autor">' + T.autor + '</p>' +
       '</div>' +
       '<nav class="eg-r-col" aria-label="' + T.labs + '"><h2>' + T.labs + '</h2>' +
-        a('/offshore/', T.off) + a('/maquinas-eletricas/', T.maq) + a('/fluidos/', T.flu) + '</nav>' +
+        a('/offshore/', T.off) + a('/fluidos/', T.flu) + a('/maquinas-eletricas/', T.maq) + '</nav>' +
       '<nav class="eg-r-col" aria-label="' + T.site + '"><h2>' + T.site + '</h2>' +
         a('/', T.inicio) + a('/sobre.html', T.sobre) + a('/offshore/conta.html', T.acesso) + '</nav>' +
       '<nav class="eg-r-col" aria-label="' + T.legal + '"><h2>' + T.legal + '</h2>' +

@@ -180,3 +180,5 @@ html[data-theme="light"] .lx-card{--pa-hi:#ffffff;--pa-mid:#aebfc6;--pa-dark:#5d
   .workspace[data-view] .results{display:block!important}
   .results{max-width:none;padding:0}
 }
+/* com a barra Dados/Resultados no celular, a janela de mensagens sobe para não cobrir os botões */
+@media(max-width:1030px){body:has(.mobilebar) .ch-raiz{bottom:calc(60px + env(safe-area-inset-bottom))}}

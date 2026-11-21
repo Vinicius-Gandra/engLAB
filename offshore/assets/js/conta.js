@@ -358,7 +358,7 @@
 
   /* ------------------------------------------------------------- minha conta (painel no padrão do laboratório) */
   const SECOES = [['perfil', 'Perfil', 'Identidade e assinatura'], ['projetos', 'Projetos', 'Estudos salvos'], ['memoriais', 'Memoriais', 'Documentos emitidos'], ['seguranca', 'Segurança', 'Acesso e dispositivos']];
-  const ETAPAS = [['./', '00', 'Visão geral'], ['01-lancamento.html', '01', 'Lançamento e cravação'], ['02-catenaria.html', '02', 'Catenária'], ['03-capacidade-axial.html', '03', 'Capacidade axial'], ['04-carga-lateral.html', '04', 'Carga lateral'], ['05-estaca-3d.html', '05', 'Torpedo 3D']];
+  const ETAPAS = [['./', '00', 'Visão geral'], ['01-lancamento.html', '01', 'Lançamento e cravação'], ['02-catenaria.html', '02', 'Catenária'], ['03-capacidade-axial.html', '03', 'Capacidade axial'], ['04-carga-lateral.html', '04', 'Carga lateral'], ['05-estaca-3d.html', '05', 'Torpedo 3D'], ['acelerometro-dc.html', '06', 'Acelerômetro DC'], ['ensaio-escala.html', '07', 'Ensaio em escala']];
   const cache = {};
   function aparelho(ua) {
     ua = String(ua || '');

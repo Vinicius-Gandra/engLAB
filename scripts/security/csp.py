@@ -17,7 +17,7 @@ import re
 import sys
 
 RAIZ = Path(__file__).resolve().parents[2]
-IGNORAR = {"node_modules", ".git", "tests", "servidor-calculo"}
+IGNORAR = {"node_modules", ".git", "tests", "servidor-calculo", "fonte"}
 META = re.compile(r'[ \t]*<meta http-equiv="Content-Security-Policy"[^>]*>\n?', re.I)
 SCRIPT = re.compile(r"<script(?![^>]*\bsrc\s*=)([^>]*)>(.*?)</script>", re.S | re.I)
 HANDLER = re.compile(r"<[a-z][^>]*\son[a-z]+\s*=", re.I)
@@ -26,7 +26,7 @@ SERVIDOR = ("https://api.engenhalab.com.br", "https://engenhalab-calculo.engenha
             "http://localhost:8787", "http://127.0.0.1:8787")
 ANALYTICS_SCRIPT = ("https://www.googletagmanager.com",)
 # páginas de conta: sem estilos embutidos, como já eram
-ESTILO_ESTRITO = {"offshore/conta.html", "index.html", "404.html", "porta.html"}
+ESTILO_ESTRITO = {"offshore/conta.html", "offshore/documento.html", "offshore/admin.html", "index.html", "404.html", "porta.html"}
 ANALYTICS_CONEXAO = ("https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com")
 
 
@@ -52,6 +52,8 @@ def politica(html, rel=""):
     script = ["'self'", *hashes(html)]
     if "cdn.jsdelivr.net" in html:
         script.append("https://cdn.jsdelivr.net")
+    if "protegido.js" in html:
+        script.extend(SERVIDOR)  # scripts das etapas restritas: endereços assinados do servidor
     if analytics:
         script.extend(ANALYTICS_SCRIPT)
     conexao = ["'self'", *SERVIDOR, *(ANALYTICS_CONEXAO if analytics else ())]

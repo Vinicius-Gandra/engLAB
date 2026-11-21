@@ -1,7 +1,6 @@
 /* EngenhaLab · porta de entrada
-   O site publicado tem só esta porta e a tela de login. As páginas vêm do servidor de cálculo,
-   pedidas pelo service worker (sw.js) com a sessão de quem entrou. Aqui a sessão do login é
-   entregue ao service worker; sem sessão, vai para o login e volta para a página pedida. */
+   Parte do site vem do servidor de cálculo, pedida pelo service worker (sw.js). Aqui o service worker
+   é instalado e recebe a sessão do login, se houver; sem sessão, o servidor decide se a página pede login. */
 (function () {
   'use strict';
   var pt = false;
@@ -32,10 +31,10 @@
     return;
   }
   var s = sessao();
-  if (!s) { entrar(); return; }
   dizer('Opening…', 'Abrindo…');
-  caches.open(CACHE)
-    .then(function (c) { return c.put(CHAVE, new Response(JSON.stringify({ t: s.sessao, expira: s.expira }), { headers: { 'Content-Type': 'application/json' } })); })
+  // com sessão, entrega o token ao service worker; sem ela, o servidor decide se a página precisa de login
+  (s ? caches.open(CACHE).then(function (c) { return c.put(CHAVE, new Response(JSON.stringify({ t: s.sessao, expira: s.expira }), { headers: { 'Content-Type': 'application/json' } })); })
+     : caches.delete(CACHE))
     .then(function () { return navigator.serviceWorker.register('/sw.js', { scope: '/' }); })
     .then(function () { return navigator.serviceWorker.ready; })
     .then(function () { location.replace(volta); })

@@ -1,0 +1,10 @@
+[
+ {"n": "00", "href": "./", "pt": "Visão geral", "en": "Overview"},
+ {"n": "01", "href": "01-lancamento.html", "pt": "Lançamento e cravação", "en": "Launch and embedment"},
+ {"n": "02", "href": "02-catenaria.html", "pt": "Catenária", "en": "Catenary"},
+ {"n": "03", "href": "03-capacidade-axial.html", "pt": "Capacidade axial", "en": "Axial capacity"},
+ {"n": "04", "href": "04-carga-lateral.html", "pt": "Carga lateral", "en": "Lateral load"},
+ {"n": "05", "href": "05-estaca-3d.html", "pt": "Torpedo 3D", "en": "Torpedo 3D"},
+ {"n": "06", "href": "acelerometro-dc.html", "pt": "Acelerômetro DC", "en": "DC accelerometer", "conta": true},
+ {"n": "07", "href": "ensaio-escala.html", "pt": "Ensaio em escala", "en": "Scale-model test", "conta": true}
+]

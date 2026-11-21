@@ -1,0 +1,100 @@
+/* Laboratório offshore · lançamento e cravação: ajustes para celular e toque.
+   Carregado depois de lancamento.css. */
+
+/* chave liga/desliga da animação */
+.lx-anim { display: inline-flex; flex: none; align-items: center; gap: 8px; height: 32px; padding: 0 12px 0 8px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel2); color: var(--muted); font: 600 .72rem var(--sans); white-space: nowrap; }
+.lx-anim i { position: relative; width: 26px; height: 15px; border-radius: 999px; background: var(--line2); transition: background .15s; }
+.lx-anim i::after { content: ""; position: absolute; top: 2px; left: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--text); transition: transform .15s; }
+.lx-anim[aria-pressed="true"] { color: var(--text); }
+.lx-anim[aria-pressed="true"] i { background: var(--orange); }
+.lx-anim[aria-pressed="true"] i::after { transform: translateX(11px); background: var(--orange-ink); }
+@media (prefers-reduced-motion: reduce) { .lx-anim i, .lx-anim i::after { transition: none; } }
+body[data-page="lancamento"] { -webkit-tap-highlight-color: transparent; }
+
+@media (max-width: 640px) {
+  body[data-page="lancamento"] .container { padding: 14px 14px calc(24px + env(safe-area-inset-bottom)); }
+
+  /* abertura: título, fases numa linha e ações em grade */
+  body[data-page="lancamento"] .lx-head { gap: 16px; margin-bottom: 14px; }
+  body[data-page="lancamento"] .lx-head h1 { margin-bottom: 8px; font-size: 1.95rem; line-height: 1.06; }
+  body[data-page="lancamento"] .lx-head p { font-size: .92rem; line-height: 1.55; }
+  body[data-page="lancamento"] .lx-flow { flex-wrap: nowrap; overflow-x: auto; margin-inline: -14px; padding: 2px 14px; scrollbar-width: none; }
+  body[data-page="lancamento"] .lx-flow::-webkit-scrollbar { display: none; }
+  body[data-page="lancamento"] .lx-flow li { flex: none; }
+  body[data-page="lancamento"] .lx-head-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+  body[data-page="lancamento"] .lx-head-actions .button { min-height: 46px; border-radius: 12px; font-size: .84rem; white-space: nowrap; }
+  body[data-page="lancamento"] .lx-head-actions .button.primary { grid-column: 1 / -1; order: -1; font-size: .9rem; }
+
+  /* parâmetros: campos grandes (16 px evita o zoom do iPhone) e barras fáceis de arrastar */
+  body[data-page="lancamento"] .lx-side { gap: 12px; }
+  body[data-page="lancamento"] .lx-card { padding: 16px 14px; }
+  body[data-page="lancamento"] .lx-lineup button { height: 136px; }
+  body[data-page="lancamento"] .lx-field { padding: 12px 0; }
+  body[data-page="lancamento"] .lx-fh label { font-size: .92rem; }
+  body[data-page="lancamento"] .lx-fh input { width: 96px; height: 42px; font-size: 16px; border-radius: 10px; }
+  body[data-page="lancamento"] .lx-fh small { min-width: 40px; font-size: .78rem; }
+  body[data-page="lancamento"] .lx-field input[type=range] { height: 32px; margin: 4px 0 0; }
+  body[data-page="lancamento"] .lx-field p { font-size: .78rem; }
+  body[data-page="lancamento"] .lx-adv summary { min-height: 48px; justify-content: center; font-size: .92rem; }
+  body[data-page="lancamento"] .lx-adv summary span { font-size: .78rem; }
+  body[data-page="lancamento"] .lx-adv-grid { gap: 10px; }
+  body[data-page="lancamento"] .lx-adv-grid label { font-size: .78rem; }
+  body[data-page="lancamento"] .lx-adv-grid input { height: 42px; font-size: 16px; border-radius: 10px; }
+
+  /* simulação de ponta a ponta */
+  body[data-page="lancamento"] .lx-stage { margin-inline: -14px; border-width: 1px 0; border-radius: 0; }
+  body[data-page="lancamento"] #lx-scene .ax { font-size: 15px; }
+  body[data-page="lancamento"] #lx-scene .ax2 { font-size: 13.5px; }
+  body[data-page="lancamento"] #lx-scene .lab { font-size: 16px; }
+  body[data-page="lancamento"] #lx-scene .cap { font-size: 13px; letter-spacing: .08em; }
+  body[data-page="lancamento"] .lx-hud { grid-template-columns: 1fr; gap: 8px; padding: 14px 16px; }
+  body[data-page="lancamento"] .lx-hud-big strong { font-size: 2.4rem; }
+  body[data-page="lancamento"] .lx-hud-kv { grid-template-columns: 1fr 1fr; column-gap: 18px; }
+  body[data-page="lancamento"] .lx-hud-kv div { font-size: .76rem; }
+  body[data-page="lancamento"] .lx-hud-kv dd { white-space: nowrap; font-size: .78rem; }
+  body[data-page="lancamento"] .lx-timeline { flex-wrap: wrap; gap: 10px 12px; padding: 12px 16px 14px; }
+  body[data-page="lancamento"] .lx-play { width: 48px; height: 48px; font-size: .95rem; }
+  body[data-page="lancamento"] .lx-track { flex: 1 1 calc(100% - 64px); padding-bottom: 0; }
+  body[data-page="lancamento"] .lx-track input { height: 32px; margin: 0; }
+  body[data-page="lancamento"] .lx-marks { display: none; }
+  body[data-page="lancamento"] .lx-speed { flex: 1; }
+  body[data-page="lancamento"] .lx-anim { height: 46px; font-size: .8rem; }
+  body[data-page="lancamento"] .lx-speed button { flex: 1; min-height: 38px; font-size: .8rem; }
+
+  /* resultados */
+  body[data-page="lancamento"] .lx-results { gap: 8px; }
+  body[data-page="lancamento"] .lx-r { padding: 12px; }
+  body[data-page="lancamento"] .lx-r span { font-size: .72rem; }
+  body[data-page="lancamento"] .lx-r strong { font-size: 1.3rem; }
+  body[data-page="lancamento"] .lx-r em { font-size: .7rem; }
+
+  /* painéis: título em cima, botões embaixo */
+  body[data-page="lancamento"] .panel { padding: 18px 16px; border-radius: 14px; }
+  body[data-page="lancamento"] .panel-title { flex-direction: column; align-items: stretch; gap: 12px; }
+  body[data-page="lancamento"] .panel-title h2 { font-size: 1.3rem; line-height: 1.2; }
+  body[data-page="lancamento"] .panel-title p { font-size: .86rem; }
+  body[data-page="lancamento"] .panel-title .action-row, body[data-page="lancamento"] .modebar { display: flex; gap: 8px; width: 100%; }
+  body[data-page="lancamento"] .panel-title .action-row .button, body[data-page="lancamento"] .modebar button { flex: 1; min-height: 44px; border-radius: 10px; font-size: .82rem; }
+
+  /* dados de campo: tabela compacta com rolagem lateral */
+  body[data-page="lancamento"] .lx-campo-tab { margin-inline: -16px; padding-inline: 16px; }
+  body[data-page="lancamento"] .lx-campo-tab table { font-size: 12.5px; }
+  body[data-page="lancamento"] .lx-campo-tab th { font-size: 10.5px; white-space: nowrap; }
+  body[data-page="lancamento"] .lx-campo-tab th, body[data-page="lancamento"] .lx-campo-tab td { padding: 8px 8px; white-space: nowrap; }
+
+  /* gráficos e legendas */
+  body[data-page="lancamento"] .lx-chart .ax { font-size: 13px; }
+  body[data-page="lancamento"] .legend { gap: 6px 14px; font-size: .76rem; }
+  body[data-page="lancamento"] .lx-cmp-row { min-height: 56px; }
+
+  /* seção do solo */
+  body[data-page="lancamento"] .soil-plot { overflow: hidden; }
+  body[data-page="lancamento"] .soil-plot svg { min-width: 0; min-height: 0; }
+  body[data-page="lancamento"] .soil-side input { height: 46px; font-size: 16px; }
+}
+
+@media (max-width: 640px) {
+  body[data-page="lancamento"] #soil-section .ax { font-size: 17px; }
+  body[data-page="lancamento"] #soil-section .ax2 { font-size: 15px; }
+  body[data-page="lancamento"] #soil-section .lbl { font-size: 17px; }
+}

@@ -34,3 +34,5 @@
 }
 @media print{.lg{display:none!important}
 }
+/* tela estreita: a dica abre alinhada à direita do botão e não passa da borda da página */
+@media(max-width:820px){.lg-tip{left:auto;right:0;transform:translateY(-4px)}.lg-tip::before{left:auto;right:14px;transform:rotate(45deg)}.lg:hover .lg-tip,.lg:focus-visible .lg-tip{transform:none}}

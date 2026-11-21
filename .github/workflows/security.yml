@@ -28,5 +28,9 @@ jobs:
         run: python3 -m unittest discover -s tests/security -v
       - name: Verificar os arquivos que serão publicados
         run: python3 scripts/security/check_publication.py
+      - name: Conferir as páginas do offshore montadas a partir de fonte/
+        run: python3 scripts/montar_offshore.py --verificar
+      - name: Conferir a lista pública do service worker
+        run: python3 scripts/montar_porta.py --verificar
       - name: Conferir a política de conteúdo das páginas
         run: python3 scripts/security/csp.py --verificar

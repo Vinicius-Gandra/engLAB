@@ -14,15 +14,16 @@
     'capacidade-axial': ['innerDiameter', 'finThickness', 'coneLength', 'nc', 'ncTop', 'ncFin', 'alphaMode', 'alphaFixed', 'steelDensity', 'fluidDensity', 'submergedVolume', '#segment-inputs'],
     'carga-lateral': ['thickness', 'E', 'gamma', 'epsilon50']
   };
-  // T-66 e T-98: dados do catálogo; T-24, T-35 e T-120 vêm dos modelos 3D (modelos-estacas.js)
+  // T-98: dados do catálogo; T-24, T-35 e T-120 vêm dos modelos 3D e T-43 e T-66 dos modelos reconstruídos (modelos-estacas.js)
   var BASE = {
     24: { name: 'T-24', mass: 24175.5, diameter: 0.762, length: 13.5503, coneLength: 1.5503, eye: -1.275, fins: 4 },
-    35: { name: 'T-35', mass: 35077.8, diameter: 0.762, length: 13.3503, coneLength: 1.3503, eye: 0.306, fins: 4 },
-    66: { name: 'T-66', mass: 66463, diameter: 1.1755, length: 14, coneLength: 2.4, fins: 4, finProfile: [[2.9, 0.658], [11.9, 0.658], [11.95, 0]] },
+    35: { name: 'T-35', mass: 34896.0, diameter: 0.762, length: 13.3503, coneLength: 1.3503, eye: 0.306, fins: 4 },
+    43: { name: 'T-43', mass: 42990.4, diameter: 0.762, length: 13.3503, coneLength: 1.3503, eye: 0.306, fins: 4, finProfile: [[3.9223, 0.45], [12.9223, 0.45]] },
+    66: { name: 'T-66', mass: 66718.2, diameter: 1.067, length: 14.37, coneLength: 2.15, eye: 0.28, fins: 4, finProfile: [[5.04, 0], [5.94, 0.9], [12.3, 0.9], [13.86, 0]] },
     98: { name: 'T-98', mass: 98000, diameter: 1.067, length: 17, coneLength: 2.1, fins: 4, finProfile: [[5.6, 0.15], [7.0, 0.9], [15.3, 0.9], [16.7, 0.15], [16.75, 0]] },
     120: { name: 'T-120', mass: 119759.5, diameter: 1.219, length: 23.103, coneLength: 2.453, eye: 0.541, fins: 4 }
   };
-  var IDS = [24, 35, 66, 98, 120], VITRINE = [24, 35, 120];
+  var IDS = [24, 35, 43, 66, 98, 120], VITRINE = [24, 35, 120];
   var novos = window.EstacasNovas && window.EstacasNovas.MODELOS;
   if (novos) Object.keys(novos).forEach(function (k) { BASE[k] = Object.assign({}, BASE[k], novos[k]); });
 

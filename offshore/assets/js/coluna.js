@@ -164,9 +164,52 @@
     aplicar(salvo === 'avancado' ? 'avancado' : 'essencial');
   }
 
+  /* ---------- etapa 01: mesma vitrine das etapas 02 a 04 ----------
+     A 01 desenha a própria fileira de modelos (lancamento.js) e a refaz a cada troca. Aqui as miniaturas
+     passam a ser as mesmas das outras etapas, entram os modelos que faltam e, sem acesso, os que não
+     estão na vitrine ficam desligados. O clique continua com a 01 (ela ignora botões desligados). */
+  function botaoModelo(id, m, livre) {
+    var B = BASE[id], bloqueado = !livre && VITRINE.indexOf(id) < 0, b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('role', 'radio'); b.dataset.model = id; b.setAttribute('aria-checked', String(id === m));
+    if (bloqueado) { b.disabled = true; b.title = 'Entre com a sua conta para usar o ' + B.name; }
+    b.innerHTML = '<span class="lx-art"></span><b>' + esc(B.name) + '</b><small>' + fmt(B.mass / 1000, 0) + ' t</small>';
+    return b;
+  }
+  function ajustarFileira(fila) {
+    var livre = comAcesso(), marcado = fila.querySelector('[aria-checked="true"]'), m = marcado ? Number(marcado.dataset.model) : atual();
+    IDS.forEach(function (id, i) {
+      var b = fila.querySelector('button[data-model="' + id + '"]');
+      if (!b) {
+        b = botaoModelo(id, m, livre);
+        var depois = null;
+        for (var j = i + 1; j < IDS.length && !depois; j++) depois = fila.querySelector('button[data-model="' + IDS[j] + '"]');
+        fila.insertBefore(b, depois);
+      } else if (!livre && VITRINE.indexOf(id) < 0 && id !== m) {
+        b.disabled = true; b.title = 'Entre com a sua conta para usar o ' + BASE[id].name;
+      }
+      var s = b.querySelector('.em-breve, .lx-soon'); if (s) s.remove();
+      var a = b.querySelector('.lx-art'); if (a) a.innerHTML = arte(id);
+      b.dataset.colunaArte = '1';
+    });
+    var ficha = document.getElementById('lx-model-specs'), i = IDS.indexOf(m);
+    if (ficha && i >= 0) ficha.style.setProperty('--caret', ((i + 0.5) / IDS.length * 100) + '%');
+  }
+  function fileiraDaEtapa01() {
+    var fila = document.getElementById('lx-lineup');
+    if (!fila) return;
+    var o = new MutationObserver(function () {
+      if (!fila.querySelector('button[data-model]:not([data-coluna-arte])')) return;
+      o.disconnect(); ajustarFileira(fila); o.observe(fila, { childList: true });
+    });
+    if (fila.querySelector('button[data-model]')) ajustarFileira(fila);
+    o.observe(fila, { childList: true });
+    document.addEventListener('engenha-sessao', function () { fila.querySelectorAll('button').forEach(function (b) { delete b.dataset.colunaArte; }); o.disconnect(); ajustarFileira(fila); o.observe(fila, { childList: true }); });
+  }
+
   function iniciar() {
     var caixa = document.getElementById('coluna-modelo');
     if (caixa) montarModelo(caixa); else vincularQuandoExistir();
+    if (pagina === 'lancamento') fileiraDaEtapa01();
     var card = document.querySelector('.lx-params[data-coluna]');
     if (card) ligarModo(card);
   }

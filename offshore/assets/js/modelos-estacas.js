@@ -15,6 +15,8 @@
       if (k === '120') m.fallPar = Object.assign({ cdTop: 0, ca: 0.6 }, m.fallPar || {}, { cdBottom: CD_120 });
       L.MODELS[k] = m;
     });
+    // T-98: fica como está (catálogo), mas entra na lista para a fileira de modelos ser a mesma em todas as etapas
+    if (!L.MODELS[98]) L.MODELS[98] = { name: 'T-98', eye: 0, mass: 98000, volume: 11.1, diameter: 1.067, length: 17, coneLength: 2.1, fins: 4, finProfile: [[5.6, 0.15], [7, 0.9], [15.3, 0.9], [16.7, 0.15]], fallArea: 1.182, fallPar: { cdBottom: 1.87, cdTop: 0, ca: 0.6 }, geometry: 'arquivo local' };
   }
   window.EstacasNovas = { MODELOS: NOVOS, EXTRA: EXTRA, aplicar: aplicar };
   if (window.Lab) { aplicar(window.Lab); return; }

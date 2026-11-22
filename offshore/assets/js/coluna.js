@@ -120,10 +120,10 @@
     var local = PL.ativo, d = document.createElement('div');
     d.className = 'coluna-vinculo' + (local ? ' local' : '');
     d.innerHTML = '<p>' + (local
-      ? 'Esta aba está separada: o modelo e os cálculos daqui não mudam as outras abas.'
+      ? (PL.aba === '01' ? 'Esta aba está separada: o modelo e os cálculos daqui não mudam as outras abas.' : 'Esta aba está separada: o modelo e os dados que vinham do lançamento são editados aqui e não mudam as outras abas.')
       : 'O modelo e os dados do projeto valem para todas as abas: trocar aqui muda em todas.') + '</p>'
       + '<label><input type="checkbox"' + (local ? ' checked' : '') + '><span>Só nesta aba<small>'
-      + (local ? 'Desmarque para voltar aos dados comuns (as mudanças desta aba são descartadas).' : 'O modelo e os cálculos ficam presos a esta aba.')
+      + (local ? 'Desmarque para voltar aos dados comuns (as mudanças desta aba são descartadas).' : (PL.aba === '01' ? 'O modelo e os cálculos ficam presos a esta aba.' : 'O modelo e os dados que vêm do lançamento passam a ser editados aqui, sem mudar as outras abas.'))
       + '</small></span></label>';
     d.querySelector('input').addEventListener('change', function (e) { if (e.target.checked) PL.ligar(); else PL.desligar(); });
     card.appendChild(d);

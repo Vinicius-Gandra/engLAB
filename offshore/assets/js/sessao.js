@@ -174,6 +174,42 @@
   const sinais = () => 'w' + (navigator.webdriver ? 1 : 0) + 'c' + Math.min(9999, toques.c) + 's' + Math.min(9999, toques.s) + 'h' + (/Headless/i.test(navigator.userAgent) ? 1 : 0);
   // texto copiado: só a quantidade de caracteres vai para o histórico, nunca o conteúdo
   document.addEventListener('copy', () => { try { const n = String(window.getSelection ? window.getSelection() : '').length; if (n >= 200) registrarUso('copia', { caracteres: n }); } catch (_) { /* sem seleção */ } }, true);
+  // quem calcula sem conta tem uma cota diária de testes: este número aleatório identifica o navegador
+  // para o servidor (não guarda nada sobre a pessoa); acabada a cota, a página convida a pedir acesso
+  const K_VIS = 'engenhalab.visitante.v1';
+  function visitante() {
+    try {
+      let v = localStorage.getItem(K_VIS);
+      if (!/^[a-z0-9]{16,40}$/.test(v || '')) { v = Array.from(crypto.getRandomValues(new Uint8Array(12)), b => b.toString(36).padStart(2, '0')).join(''); localStorage.setItem(K_VIS, v); }
+      return v;
+    } catch (_) { return ''; }
+  }
+  let avisoCota = null, ultimoRestam = null;
+  function mostrarCota(texto, fim) {
+    if (sessao()) return;
+    if (!avisoCota) {
+      avisoCota = document.createElement('div');
+      avisoCota.className = 'cota-aviso'; avisoCota.setAttribute('role', 'status');
+      avisoCota.style.cssText = 'position:fixed;left:12px;right:12px;bottom:max(16px,env(safe-area-inset-bottom));margin:0 auto;z-index:9000;max-width:560px;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:12px 14px 12px 16px;border-radius:12px;background:var(--panel,#fff);color:var(--text,#1d232b);border:1px solid var(--line,#d5dae0);font-family:var(--sans,inherit);box-shadow:0 10px 30px rgba(15,23,30,.18);font-size:14px;line-height:1.45';
+      avisoCota.innerHTML = '<p style="margin:0;flex:1 1 240px"></p><a href="conta.html#pedir" style="white-space:nowrap;font-weight:600;padding:8px 12px;border-radius:8px;background:var(--orange,#b4532a);color:#fff;text-decoration:none">Pedir acesso</a><button type="button" aria-label="Fechar aviso" style="border:0;background:none;color:inherit;font-size:20px;line-height:1;cursor:pointer;padding:2px 4px;opacity:.6">×</button>';
+      avisoCota.querySelector('button').addEventListener('click', () => { avisoCota.hidden = true; });
+      document.body.appendChild(avisoCota);
+    }
+    avisoCota.querySelector('p').textContent = texto;
+    avisoCota.classList.toggle('fim', !!fim);
+    avisoCota.hidden = false;
+  }
+  function conferirResposta(r) {
+    try {
+      if (!r || sessao()) return;
+      const h = r.headers.get('X-Engenha-Restam');
+      if (h != null && h !== '') {
+        const n = Number(h);
+        if (n <= 3 && n !== ultimoRestam) { ultimoRestam = n; mostrarCota(n === 0 ? 'Este foi o último teste de hoje sem conta. Peça seu acesso para continuar calculando.' : n === 1 ? 'Resta 1 teste hoje sem conta.' : 'Restam ' + n + ' testes hoje sem conta.', false); }
+      }
+      if (r.status === 429) r.clone().json().then(d => { if (d && d.cota) mostrarCota(d.erro, true); }).catch(() => {});
+    } catch (_) { /* segue sem aviso */ }
+  }
   // cálculos: o servidor anota a página de origem no histórico de quem entrou
   if (BASE && window.fetch) {
     const buscar = window.fetch;
@@ -182,15 +218,16 @@
       const original = op;
       try {
         if (typeof url === 'string' && url.startsWith(BASE + '/v1/') && !/\/v1\/conta\//.test(url)) {
-          op = { ...(op || {}) }; const h = new Headers(op.headers || {}); if (sessao()) h.set('X-Engenha-Pagina', location.pathname.slice(0, 118)); if (!semSinais) h.set('X-Engenha-Sinais', sinais()); op.headers = h;
+          op = { ...(op || {}) }; const h = new Headers(op.headers || {}); if (sessao()) h.set('X-Engenha-Pagina', location.pathname.slice(0, 118)); if (!semSinais) { h.set('X-Engenha-Sinais', sinais()); if (!sessao()) { const v = visitante(); if (v) h.set('X-Engenha-Visitante', v); } } op.headers = h;
         }
       } catch (_) { /* segue sem o cabeçalho */ }
-      if (op === original || semSinais) return buscar.call(this, url, op);
-      // servidor ainda sem o cabeçalho de sinais liberado: repete o pedido sem ele
+      if (op === original) return buscar.call(this, url, op);
+      if (semSinais) return buscar.call(this, url, op).then(r => { conferirResposta(r); return r; });
+      // servidor ainda sem os cabeçalhos de sinais liberados: repete o pedido sem eles
       return buscar.call(this, url, op).catch(err => {
         semSinais = true;
-        try { const h = new Headers(op.headers); h.delete('X-Engenha-Sinais'); return buscar.call(window, url, { ...op, headers: h }); } catch (_) { throw err; }
-      });
+        try { const h = new Headers(op.headers); h.delete('X-Engenha-Sinais'); h.delete('X-Engenha-Visitante'); return buscar.call(window, url, { ...op, headers: h }); } catch (_) { throw err; }
+      }).then(r => { conferirResposta(r); return r; });
     };
   }
   // laboratórios liberados para a conta (o administrador usa todos); sessões antigas sem a lista valem para o offshore

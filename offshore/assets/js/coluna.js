@@ -16,7 +16,7 @@
   };
   // T-66 e T-98: dados do catálogo; T-24, T-35 e T-120 vêm dos modelos 3D (modelos-estacas.js)
   var BASE = {
-    24: { name: 'T-24', mass: 24047.1, diameter: 0.762, length: 13.5503, coneLength: 1.5503, eye: -1.275, fins: 4 },
+    24: { name: 'T-24', mass: 24175.5, diameter: 0.762, length: 13.5503, coneLength: 1.5503, eye: -1.275, fins: 4 },
     35: { name: 'T-35', mass: 35077.8, diameter: 0.762, length: 13.3503, coneLength: 1.3503, eye: 0.306, fins: 4 },
     66: { name: 'T-66', mass: 66463, diameter: 1.1755, length: 14, coneLength: 2.4, fins: 4, finProfile: [[2.9, 0.658], [11.9, 0.658], [11.95, 0]] },
     98: { name: 'T-98', mass: 98000, diameter: 1.067, length: 17, coneLength: 2.1, fins: 4, finProfile: [[5.6, 0.15], [7.0, 0.9], [15.3, 0.9], [16.7, 0.15], [16.75, 0]] },

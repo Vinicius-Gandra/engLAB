@@ -66,6 +66,7 @@ def montar(pagina):
     portao = ''
     if d.get('portao'):
         portao = '  <script src="assets/js/portao.js"%s></script>\n' % (' data-publico' if d['portao'] == 'publico' else '')
+    cedo = ''.join(f'  <script src="{c}"></script>\n' for c in d.get('cedo', []))
     meta = ''
     if d.get('referrer'): meta += '  <meta name="referrer" content="no-referrer">\n'
     if d.get('robots'): meta += '  <meta name="robots" content="noindex, nofollow">\n'
@@ -89,7 +90,7 @@ def montar(pagina):
         abas = f'  <nav class="s-areas" aria-label="{t["t_abas"]}">{itens}</nav>\n'
     scripts = ''.join(f'  {s}\n' for s in d.get('scripts', []))
     corpo = (' ' + d['body']) if d.get('body') else ''
-    saida = molde.format(lang=d.get('lang', 'pt-BR'), portao=portao, meta_extra=meta, descricao=d['descricao'], titulo=d['titulo'],
+    saida = molde.format(lang=d.get('lang', 'pt-BR'), portao=portao, cedo=cedo, meta_extra=meta, descricao=d['descricao'], titulo=d['titulo'],
                          icone=d.get('icone') or ICONE, estilos=estilos, analytics=analytics, importmap=importmap, body=corpo,
                          pular=pular, cabecalho=cab, abas=abas, conteudo=conteudo, scripts=scripts)
     return versionar(saida)

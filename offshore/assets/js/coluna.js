@@ -1,7 +1,9 @@
 /* Laboratório offshore · coluna lateral das etapas 02 a 04 (mesmo formato da 01)
    - Cartão do modelo: escolha do torpedo com as miniaturas e a ficha (massa, comprimento, diâmetro, aletas).
      Trocar o modelo grava no projeto, recalcula a profundidade do olhal pelo servidor e recarrega a etapa.
-   - Parâmetros em Essencial / Avançado: o essencial mostra só o que mais pesa no resultado. */
+   - Parâmetros em Essencial / Avançado: o essencial mostra só o que mais pesa no resultado.
+   - Em todas as etapas (01 a 04): aviso de que o modelo vale para todas as abas e a opção "Só nesta aba"
+     (projeto-local.js). */
 (function () {
   'use strict';
   var PROJETO = 'offshore-project-v8', MODO = 'offshore-coluna-modo';
@@ -14,8 +16,8 @@
   };
   // T-66 e T-98: dados do catálogo; T-24, T-35 e T-120 vêm dos modelos 3D (modelos-estacas.js)
   var BASE = {
-    24: { name: 'T-24', mass: 25892.8, diameter: 0.762, length: 13.5503, coneLength: 1.5503, eye: -1.275, fins: 4 },
-    35: { name: 'T-35', mass: 35947, diameter: 0.762, length: 13.3503, coneLength: 1.3503, eye: 0.306, fins: 4 },
+    24: { name: 'T-24', mass: 24047.1, diameter: 0.762, length: 13.5503, coneLength: 1.5503, eye: -1.275, fins: 4 },
+    35: { name: 'T-35', mass: 35077.8, diameter: 0.762, length: 13.3503, coneLength: 1.3503, eye: 0.306, fins: 4 },
     66: { name: 'T-66', mass: 66463, diameter: 1.1755, length: 14, coneLength: 2.4, fins: 4, finProfile: [[2.9, 0.658], [11.9, 0.658], [11.95, 0]] },
     98: { name: 'T-98', mass: 98000, diameter: 1.067, length: 17, coneLength: 2.1, fins: 4, finProfile: [[5.6, 0.15], [7.0, 0.9], [15.3, 0.9], [16.7, 0.15], [16.75, 0]] },
     120: { name: 'T-120', mass: 119759.5, diameter: 1.219, length: 23.103, coneLength: 2.453, eye: 0.541, fins: 4 }
@@ -76,6 +78,7 @@
       + [['Massa', fmt(M.mass / 1000, 0), 't'], ['Compr.', fmt(M.length + (M.eye || 0), 2), 'm'], ['Diâmetro', fmt(M.diameter, 2), 'm'], ['Aletas', M.fins ? String(M.fins) : '—', '']]
         .map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + (r[2] ? '<small>' + r[2] + '</small>' : '') + '</dd></div>'; }).join('')
       + '</dl></div><p class="coluna-aviso" role="status" hidden></p>';
+    vinculo(caixa);
     caixa.querySelector('.lx-lineup').addEventListener('click', function (e) {
       var b = e.target.closest('button[data-model]');
       if (b && !b.disabled) trocar(Number(b.dataset.model), caixa);
@@ -108,6 +111,33 @@
     });
   }
 
+  /* ---------- vínculo entre as abas ---------- */
+  // o modelo e os dados do projeto valem para todas as abas; "Só nesta aba" separa esta aba das outras
+  function vinculo(card) {
+    var PL = window.ProjetoLocal;
+    if (!card || !PL || card.querySelector('.coluna-vinculo')) return;
+    var local = PL.ativo, d = document.createElement('div');
+    d.className = 'coluna-vinculo' + (local ? ' local' : '');
+    d.innerHTML = '<p>' + (local
+      ? 'Esta aba está separada: o modelo e os cálculos daqui não mudam as outras abas.'
+      : 'O modelo e os dados do projeto valem para todas as abas: trocar aqui muda em todas.') + '</p>'
+      + '<label><input type="checkbox"' + (local ? ' checked' : '') + '><span>Só nesta aba<small>'
+      + (local ? 'Desmarque para voltar aos dados comuns (as mudanças desta aba são descartadas).' : 'O modelo e os cálculos ficam presos a esta aba.')
+      + '</small></span></label>';
+    d.querySelector('input').addEventListener('change', function (e) { if (e.target.checked) PL.ligar(); else PL.desligar(); });
+    card.appendChild(d);
+  }
+  function vincularQuandoExistir() {
+    var c = document.querySelector('.lx-card-modelo');
+    if (c && (c.id !== 'coluna-modelo' || c.querySelector('.lx-lineup'))) return vinculo(c);
+    var o = new MutationObserver(function () {
+      var c2 = document.querySelector('.lx-card-modelo');
+      if (c2 && (c2.id !== 'coluna-modelo' || c2.querySelector('.lx-lineup'))) { o.disconnect(); vinculo(c2); }
+    });
+    o.observe(document.documentElement, { childList: true, subtree: true });
+    setTimeout(function () { o.disconnect(); }, 20000);
+  }
+
   /* ---------- Essencial / Avançado ---------- */
   function ligarModo(card) {
     var lista = AVANCADOS[pagina] || [];
@@ -136,7 +166,7 @@
 
   function iniciar() {
     var caixa = document.getElementById('coluna-modelo');
-    if (caixa) montarModelo(caixa);
+    if (caixa) montarModelo(caixa); else vincularQuandoExistir();
     var card = document.querySelector('.lx-params[data-coluna]');
     if (card) ligarModo(card);
   }
